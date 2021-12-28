@@ -16,6 +16,17 @@ class UserTest {
             .build();
 
     @Test
+    void 유저_객체_생성() {
+        User user = new User();
+        assertNull(user.getEmail());
+        assertNull(user.getName());
+        assertNull(user.getContactEmail());
+        assertNull(user.getContactTel());
+        assertNull(user.getMobileDeviceToken());
+        assertNull(user.getWebDeviceToken());
+    }
+
+    @Test
     void 유저_이름_가져오기() {
         assertEquals(name, user.getName());
     }
