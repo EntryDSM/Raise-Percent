@@ -1,5 +1,6 @@
 package kr.hs.entrydsm.raisepercent.domain.notification.domain;
 
+import kr.hs.entrydsm.raisepercent.domain.notification.domain.types.Type;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -39,8 +40,9 @@ public class Notification {
     @Column(length = 20, nullable = false)
     private String icon;
 
+    @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false)
-    private String type;
+    private Type type;
 
     @Column(length = 60, nullable = false)
     private String value;
@@ -55,7 +57,7 @@ public class Notification {
 
     @Builder
     public Notification(String title, String content, boolean isWatch,
-                        String icon, String type, String value, User sender, User receiver) {
+                        String icon, Type type, String value, User sender, User receiver) {
         this.title = title;
         this.content = content;
         this.isWatch = isWatch;
