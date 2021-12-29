@@ -40,7 +40,7 @@ class NotificationTest {
     @Test
     void 알림_객체_생성() {
         Notification notification = new Notification();
-        assertNull(notification.getUuid());
+        assertNull(notification.getId());
         assertNull(notification.getTitle());
         assertNull(notification.getContent());
         assertFalse(notification.isWatch());
