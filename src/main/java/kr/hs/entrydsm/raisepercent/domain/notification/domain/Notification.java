@@ -3,6 +3,7 @@ package kr.hs.entrydsm.raisepercent.domain.notification.domain;
 import kr.hs.entrydsm.raisepercent.domain.notification.domain.types.Type;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
 import kr.hs.entrydsm.raisepercent.global.entity.BaseTimeEntity;
+import kr.hs.entrydsm.raisepercent.global.entity.BaseUUIDTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,13 +18,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "tbl_notification")
-public class Notification extends BaseTimeEntity {
-
-    @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID uuid;
+public class Notification extends BaseUUIDTimeEntity {
 
     @Column(length = 20, nullable = false)
     private String title;
