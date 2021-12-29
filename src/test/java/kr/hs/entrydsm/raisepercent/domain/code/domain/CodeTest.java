@@ -1,9 +1,13 @@
 package kr.hs.entrydsm.raisepercent.domain.code.domain;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CodeTest {
 
     private static final String id = "Test id";
@@ -28,6 +32,7 @@ class CodeTest {
     }
 
     @Test
+    @Order(0)
     void 코드_값_가져오기() {
         assertEquals(value, code.getValue());
     }
