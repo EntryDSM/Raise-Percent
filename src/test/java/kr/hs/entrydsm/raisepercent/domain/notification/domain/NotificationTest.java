@@ -1,5 +1,6 @@
 package kr.hs.entrydsm.raisepercent.domain.notification.domain;
 
+import kr.hs.entrydsm.raisepercent.domain.notification.domain.types.Type;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +16,7 @@ class NotificationTest {
 
     private static final String icon = "Test icon";
 
-    private static final String type = "Test type";
+    private static final Type type = Type.DOCUMENT;
 
     private static final String value = "Test value";
 
