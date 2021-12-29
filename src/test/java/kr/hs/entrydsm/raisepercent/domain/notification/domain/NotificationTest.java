@@ -49,6 +49,7 @@ class NotificationTest {
         assertNull(notification.getValue());
         assertNull(notification.getSender());
         assertNull(notification.getReceiver());
+        assertNull(notification.getCreatedAt());
     }
 
     @Test

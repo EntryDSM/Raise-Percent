@@ -2,6 +2,7 @@ package kr.hs.entrydsm.raisepercent.domain.notification.domain;
 
 import kr.hs.entrydsm.raisepercent.domain.notification.domain.types.Type;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
+import kr.hs.entrydsm.raisepercent.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "tbl_notification")
-public class Notification {
+public class Notification extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -29,10 +30,6 @@ public class Notification {
 
     @Column(nullable = false)
     private String content;
-
-    @CreatedDate
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
 
     @Column(columnDefinition = "BIT(1)", nullable = false)
     private boolean isWatch;
