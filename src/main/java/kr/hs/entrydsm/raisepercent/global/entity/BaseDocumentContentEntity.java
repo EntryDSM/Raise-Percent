@@ -12,7 +12,7 @@ import javax.persistence.MappedSuperclass;
 @SuperBuilder
 @NoArgsConstructor
 @MappedSuperclass
-public abstract class BaseDocumentContentEntity {
+public class BaseDocumentContentEntity {
 
     @EmbeddedId
     private DocumentContentId id;
