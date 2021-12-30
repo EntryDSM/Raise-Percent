@@ -28,7 +28,7 @@ public class Document extends BaseUUIDEntity {
     private LocalDateTime lastModifiedAt;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "email")
+    @JoinColumn(name = "student_email")
     private Student student;
 
     @Builder
