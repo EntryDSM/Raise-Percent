@@ -37,6 +37,7 @@ class TeacherTest {
     }
 
     @Test
+    @Order(0)
     void 권한_가져오기() {
         assertEquals(role, teacher.getRole());
     }
