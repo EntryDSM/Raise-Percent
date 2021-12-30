@@ -16,7 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "tbl_hr")
 @Entity
-public class Hr {
+public class Hr extends Person {
 
     @Id
     @Column(length = 60)
