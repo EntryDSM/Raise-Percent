@@ -1,6 +1,7 @@
 package kr.hs.entrydsm.raisepercent.domain.student.domain;
 
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
+import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,6 +50,11 @@ class StudentTest {
         String position = "Backend";
         student.updatePosition(position);
         assertEquals(position, student.getPosition());
+    }
+
+    @Test
+    void 학생_권한_변환() {
+        assertEquals(Type.STUDENT, student.queryType());
     }
 
 }
