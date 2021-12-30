@@ -18,6 +18,7 @@ public class Hr {
     @Column(length = 60)
     private String email;
 
+    @MapsId
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "email")
     private User user;
