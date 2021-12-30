@@ -12,7 +12,8 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "tbl_feedback")
+@Table(name = "tbl_feedback")
+@Entity
 public class Feedback extends BaseTimeEntity {
 
     @Id

@@ -17,7 +17,8 @@ import java.util.UUID;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "tbl_notification")
+@Table(name = "tbl_notification")
+@Entity
 public class Notification extends BaseUUIDTimeEntity {
 
     @Column(length = 20, nullable = false)

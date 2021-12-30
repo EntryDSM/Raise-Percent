@@ -8,10 +8,12 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "tbl_tag")
+@Table(name = "tbl_tag")
+@Entity
 public class Tag extends BaseUUIDEntity {
 
     @Column(length = 20)

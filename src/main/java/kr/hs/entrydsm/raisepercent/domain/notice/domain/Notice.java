@@ -12,7 +12,8 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "tbl_notice")
+@Table(name = "tbl_notice")
+@Entity
 public class Notice extends BaseUUIDTimeEntity {
 
     @Column(length = 20, nullable = false)

@@ -7,11 +7,13 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
-@Entity(name = "tbl_stay_document")
+@Table(name = "tbl_stay_document")
+@Entity
 public class StayDocument extends BaseDocumentContentEntity {
 
 }

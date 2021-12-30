@@ -9,10 +9,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "tbl_submitted_document")
+@Table(name = "tbl_submitted_document")
+@Entity
 public class SubmittedDocument extends BaseUUIDEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
