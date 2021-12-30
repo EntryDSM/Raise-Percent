@@ -25,6 +25,11 @@ class LocalDocumentTest {
     }
 
     @Test
+    void 로컬문서_아이디_가져오기() {
+        assertEquals(contentId, localDocument.getId());
+    }
+
+    @Test
     void 로컬문서_내용_가져오기() {
         assertEquals(content, localDocument.getContent());
     }
