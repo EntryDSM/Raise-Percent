@@ -17,11 +17,11 @@ import javax.persistence.Enumerated;
 @Entity(name = "tbl_company")
 public class Company extends BaseUUIDEntity {
 
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 6)
+    @Column(length = 6, nullable = false)
     private Rank rank;
 
     @Builder

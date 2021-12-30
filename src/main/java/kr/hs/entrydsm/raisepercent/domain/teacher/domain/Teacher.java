@@ -19,12 +19,12 @@ public class Teacher {
     private String email;
 
     @MapsId
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "email")
     private User user;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 7)
+    @Column(length = 7, nullable = false)
     private Role role;
 
     @Builder

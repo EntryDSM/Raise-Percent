@@ -17,11 +17,11 @@ import javax.persistence.ManyToOne;
 @Entity(name = "tbl_registered_tag")
 public class RegisteredTag extends BaseUUIDEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tag_id")
     private Tag tag;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "email")
     private Student student;
 

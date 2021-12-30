@@ -18,7 +18,7 @@ public class Student {
     private String email;
 
     @MapsId
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "email")
     private User user;
 

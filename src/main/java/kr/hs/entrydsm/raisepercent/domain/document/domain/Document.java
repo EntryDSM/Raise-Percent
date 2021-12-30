@@ -20,13 +20,14 @@ import java.time.LocalDateTime;
 public class Document extends BaseUUIDEntity {
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 9)
+    @Column(length = 9, nullable = false)
     private Type type;
 
+    @Column(nullable = false)
     @LastModifiedDate
     private LocalDateTime lastModifiedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "email")
     private Student student;
 
