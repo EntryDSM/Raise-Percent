@@ -18,19 +18,19 @@ class StayDocumentTest {
             .build();
 
     @Test
-    void 로컬문서_객체_생성() {
+    void 대기문서_객체_생성() {
         StayDocument stayDocument = new StayDocument();
         assertNull(stayDocument.getId());
         assertNull(stayDocument.getContent());
     }
 
     @Test
-    void 로컬문서_아이디_가져오기() {
+    void 대기문서_아이디_가져오기() {
         assertEquals(contentId, stayDocument.getId());
     }
 
     @Test
-    void 로컬문서_내용_가져오기() {
+    void 대기문서_내용_가져오기() {
         assertEquals(content, stayDocument.getContent());
     }
 
