@@ -10,6 +10,7 @@ class SubmittedDocumentTest {
             .build();
 
     private static final SubmittedDocument submittedDocument = SubmittedDocument.builder()
+            .document(document)
             .build();
 
     @Test
