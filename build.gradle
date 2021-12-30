@@ -50,6 +50,16 @@ jacocoTestReport {
     }
 }
 
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            enabled = true
+            element = 'CLASS'
+            excludes = ["**/config/*"]
+        }
+    }
+}
+
 jar {
     enabled = false
 }
