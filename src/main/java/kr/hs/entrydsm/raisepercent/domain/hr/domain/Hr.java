@@ -1,7 +1,10 @@
 package kr.hs.entrydsm.raisepercent.domain.hr.domain;
 
 import kr.hs.entrydsm.raisepercent.domain.company.domain.Company;
+import kr.hs.entrydsm.raisepercent.domain.company.domain.types.Rank;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
+import kr.hs.entrydsm.raisepercent.global.entity.Person;
+import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,6 +35,18 @@ public class Hr {
     public Hr(User user, Company company) {
         this.user = user;
         this.company = company;
+    }
+
+    @Override
+    public Type queryType() {
+        if (getRank() == Rank.JUNIOR) {
+            return Type.JUNIOR;
+        }
+        return Type.SENIOR;
+    }
+
+    private Rank getRank() {
+        return company.getRank();
     }
 
 }

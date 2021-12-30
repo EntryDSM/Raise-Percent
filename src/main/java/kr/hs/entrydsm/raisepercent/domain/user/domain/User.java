@@ -1,5 +1,7 @@
 package kr.hs.entrydsm.raisepercent.domain.user.domain;
 
+import kr.hs.entrydsm.raisepercent.global.entity.Person;
+import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -52,4 +54,8 @@ public class User {
         this.webDeviceToken = webDeviceToken;
     }
 
+    @Override
+    public Type queryType() {
+        return null;
+    }
 }

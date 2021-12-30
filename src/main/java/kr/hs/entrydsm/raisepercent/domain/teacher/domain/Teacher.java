@@ -2,6 +2,8 @@ package kr.hs.entrydsm.raisepercent.domain.teacher.domain;
 
 import kr.hs.entrydsm.raisepercent.domain.teacher.domain.types.Role;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
+import kr.hs.entrydsm.raisepercent.global.entity.Person;
+import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,6 +38,18 @@ public class Teacher {
 
     public void updateRole(Role role) {
         this.role = role;
+    }
+
+    @Override
+    public Type queryType() {
+        switch (role) {
+            case ROOT:
+                return Type.ROOT;
+            case TEACHER:
+                return Type.TEACHER;
+            default:
+                return Type.DEFAULT;
+        }
     }
 
 }
