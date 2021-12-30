@@ -5,10 +5,12 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "tbl_user")
+@Table(name = "tbl_user")
+@Entity
 public class User {
 
     @Id

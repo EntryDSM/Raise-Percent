@@ -7,10 +7,12 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
-@Entity(name = "tbl_public_document")
+@Table(name = "tbl_public_document")
+@Entity
 public class PublicDocument extends BaseDocumentContentEntity {
 }

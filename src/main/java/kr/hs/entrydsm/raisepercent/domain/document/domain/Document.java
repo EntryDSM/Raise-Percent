@@ -16,7 +16,8 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-@Entity(name = "tbl_document")
+@Table(name = "tbl_document")
+@Entity
 public class Document extends BaseUUIDEntity {
 
     @Enumerated(EnumType.STRING)

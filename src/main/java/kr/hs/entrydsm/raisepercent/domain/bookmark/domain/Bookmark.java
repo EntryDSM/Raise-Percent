@@ -12,7 +12,8 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "tbl_bookmark")
+@Table(name = "tbl_bookmark")
+@Entity
 public class Bookmark extends BaseUUIDTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
