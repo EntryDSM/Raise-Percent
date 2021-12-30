@@ -22,7 +22,7 @@ public class RegisteredTag extends BaseUUIDEntity {
     private Tag tag;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "email")
+    @JoinColumn(name = "student_email")
     private Student student;
 
     @Builder

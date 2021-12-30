@@ -30,7 +30,7 @@ public class Feedback extends BaseTimeEntity {
     private Document document;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "email")
+    @JoinColumn(name = "teacher_email")
     private Teacher teacher;
 
     @Builder
