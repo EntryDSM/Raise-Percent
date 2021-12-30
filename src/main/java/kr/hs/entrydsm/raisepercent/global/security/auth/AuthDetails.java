@@ -13,12 +13,12 @@ import java.util.List;
 public class AuthDetails implements UserDetails {
 
     private final String email;
-    private final String role;
+    private final Type role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(role));
+        authorities.add(new SimpleGrantedAuthority(role.name()));
         return authorities;
     }
 
