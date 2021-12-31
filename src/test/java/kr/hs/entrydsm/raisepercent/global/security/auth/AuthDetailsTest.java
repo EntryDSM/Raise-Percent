@@ -9,7 +9,7 @@ class AuthDetailsTest {
 
     private static final String email = "test@gmail.com";
 
-    private static final String role = "Test role";
+    private static final Type role = Type.ROOT;
 
     private static final AuthDetails authDetails = new AuthDetails(email, role);
 
@@ -17,7 +17,7 @@ class AuthDetailsTest {
     @Test
     void 인증객체_권한_가져오기() {
         for(GrantedAuthority authority : authDetails.getAuthorities()) {
-            assertEquals(role, authority.getAuthority());
+            assertEquals(role.name(), authority.getAuthority());
         }
     }
 

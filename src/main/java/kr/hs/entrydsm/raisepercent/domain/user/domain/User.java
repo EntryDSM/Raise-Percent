@@ -1,5 +1,7 @@
 package kr.hs.entrydsm.raisepercent.domain.user.domain;
 
+import kr.hs.entrydsm.raisepercent.global.entity.Person;
+import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -11,7 +13,7 @@ import javax.persistence.Table;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "tbl_user")
 @Entity
-public class User {
+public class User extends Person {
 
     @Id
     @Column(length = 60)
@@ -52,4 +54,8 @@ public class User {
         this.webDeviceToken = webDeviceToken;
     }
 
+    @Override
+    public Type queryType() {
+        return null;
+    }
 }

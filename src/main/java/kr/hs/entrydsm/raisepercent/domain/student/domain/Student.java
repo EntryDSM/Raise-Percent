@@ -1,6 +1,8 @@
 package kr.hs.entrydsm.raisepercent.domain.student.domain;
 
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
+import kr.hs.entrydsm.raisepercent.global.entity.Person;
+import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "tbl_student")
 @Entity
-public class Student {
+public class Student extends Person {
 
     @Id
     @Column(length = 60)
@@ -43,4 +45,8 @@ public class Student {
         this.position = position;
     }
 
+    @Override
+    public Type queryType() {
+        return Type.STUDENT;
+    }
 }

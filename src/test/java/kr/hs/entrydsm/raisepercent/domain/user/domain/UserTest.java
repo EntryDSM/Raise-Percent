@@ -64,4 +64,9 @@ class UserTest {
         assertEquals(webDeviceToken, user.getWebDeviceToken());
     }
 
+    @Test
+    void 유저_권한_변환() {
+        assertNull(user.queryType());
+    }
+
 }
