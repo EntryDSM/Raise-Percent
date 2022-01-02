@@ -3,7 +3,7 @@ package kr.hs.entrydsm.raisepercent.global.error;
 import kr.hs.entrydsm.raisepercent.global.error.exception.ErrorCode;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ErrorResponseTest {
 

@@ -4,7 +4,6 @@ import kr.hs.entrydsm.raisepercent.global.error.exception.ErrorCode;
 import kr.hs.entrydsm.raisepercent.global.error.exception.RaiseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -12,7 +11,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 

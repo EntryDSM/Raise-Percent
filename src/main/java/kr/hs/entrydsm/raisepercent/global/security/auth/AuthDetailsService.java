@@ -1,8 +1,5 @@
 package kr.hs.entrydsm.raisepercent.global.security.auth;
 
-import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
-import kr.hs.entrydsm.raisepercent.domain.user.domain.repositories.UserRepository;
-import kr.hs.entrydsm.raisepercent.global.exception.UserNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.security.auth.facade.AuthFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

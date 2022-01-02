@@ -3,7 +3,8 @@ package kr.hs.entrydsm.raisepercent.global.entity;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.Document;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class DocumentContentIdTest {
 
