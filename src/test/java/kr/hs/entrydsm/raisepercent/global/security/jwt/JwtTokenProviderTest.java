@@ -123,7 +123,21 @@ class JwtTokenProviderTest {
     }
 
     @Test
-    void 토큰_분리_실패() {
+    void 토큰_분리_실패_접두사() {
+        토큰_분리_실패("TEST");
+    }
+
+    @Test
+    void 토큰_분리_실패_널() {
+        토큰_분리_실패(null);
+    }
+
+    @Test
+    void 토큰_분리_실패_접두사동일() {
+        토큰_분리_실패("Bearer");
+    }
+
+    private void 토큰_분리_실패(String token) {
         HttpServletRequest request = mock(HttpServletRequest.class);
 
         String header = "Authorization";
@@ -135,7 +149,7 @@ class JwtTokenProviderTest {
                 .thenReturn(prefix);
 
         when(request.getHeader(header))
-                .thenReturn("TEST");
+                .thenReturn(token);
 
         assertNull(jwtTokenProvider.resolveToken(request));
     }
