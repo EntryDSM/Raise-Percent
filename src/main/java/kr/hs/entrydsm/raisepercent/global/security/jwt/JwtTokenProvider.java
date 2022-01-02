@@ -1,9 +1,6 @@
 package kr.hs.entrydsm.raisepercent.global.security.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import kr.hs.entrydsm.raisepercent.global.exception.ExpiredTokenException;
 import kr.hs.entrydsm.raisepercent.global.exception.InvalidTokenException;
 import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetailsService;
@@ -48,13 +45,24 @@ public class JwtTokenProvider {
     }
 
     public boolean isRefreshToken(String token) {
-        return JwtProperties.REFRESH_TYPE.equals(getClaims(token).get("typ", String.class));
+        return JwtProperties.REFRESH_TYPE.equals(getHeader(token).get("typ").toString());
     }
 
     private Claims getClaims(String token) {
         try {
             return Jwts.parser().setSigningKey(jwtProperties.getSecretKey())
                     .parseClaimsJws(token).getBody();
+        } catch (ExpiredJwtException e) {
+            throw ExpiredTokenException.EXCEPTION;
+        } catch (Exception e) {
+            throw InvalidTokenException.EXCEPTION;
+        }
+    }
+
+    private JwsHeader getHeader(String token) {
+        try {
+            return Jwts.parser().setSigningKey(jwtProperties.getSecretKey())
+                    .parseClaimsJws(token).getHeader();
         } catch (ExpiredJwtException e) {
             throw ExpiredTokenException.EXCEPTION;
         } catch (Exception e) {
