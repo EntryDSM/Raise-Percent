@@ -122,4 +122,22 @@ class JwtTokenProviderTest {
         assertThrows(InvalidTokenException.class, () -> jwtTokenProvider.getAuthentication(accessToken));
     }
 
+    @Test
+    void 토큰_분리_실패() {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+
+        String header = "Authorization";
+        String prefix = "Bearer";
+
+        when(jwtProperties.getHeader())
+                .thenReturn(header);
+        when(jwtProperties.getPrefix())
+                .thenReturn(prefix);
+
+        when(request.getHeader(header))
+                .thenReturn("TEST");
+
+        assertNull(jwtTokenProvider.resolveToken(request));
+    }
+
 }
