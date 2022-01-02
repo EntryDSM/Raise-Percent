@@ -38,31 +38,20 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        Claims claims = getClaims(token);
+        Claims claims = getJws(token).getBody();
         UserDetails userDetails = authDetailsService
                 .loadUserByUsername(claims.getSubject(), claims.get("role", String.class));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     public boolean isRefreshToken(String token) {
-        return JwtProperties.REFRESH_TYPE.equals(getHeader(token).get("typ").toString());
+        return JwtProperties.REFRESH_TYPE.equals(getJws(token).getHeader().get("typ").toString());
     }
 
-    private Claims getClaims(String token) {
+    private Jws<Claims> getJws(String token) {
         try {
             return Jwts.parser().setSigningKey(jwtProperties.getSecretKey())
-                    .parseClaimsJws(token).getBody();
-        } catch (ExpiredJwtException e) {
-            throw ExpiredTokenException.EXCEPTION;
-        } catch (Exception e) {
-            throw InvalidTokenException.EXCEPTION;
-        }
-    }
-
-    private JwsHeader getHeader(String token) {
-        try {
-            return Jwts.parser().setSigningKey(jwtProperties.getSecretKey())
-                    .parseClaimsJws(token).getHeader();
+                    .parseClaimsJws(token);
         } catch (ExpiredJwtException e) {
             throw ExpiredTokenException.EXCEPTION;
         } catch (Exception e) {
