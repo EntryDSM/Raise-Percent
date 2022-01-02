@@ -65,8 +65,8 @@ public class JwtTokenProvider {
     private String generateToken(String email, String role, Long exp, String type) {
         return Jwts.builder()
                 .setSubject(email)
+                .setHeaderParam("typ", type)
                 .claim("role", role)
-                .claim("typ", type)
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + exp))
