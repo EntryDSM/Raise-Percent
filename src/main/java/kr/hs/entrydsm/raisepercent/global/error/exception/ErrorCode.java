@@ -11,6 +11,9 @@ public enum ErrorCode {
 
     BAD_REQUEST(400, "GLOBAL-400-1", "Bad request."),
 
+    EXPIRED_TOKEN(401, "GLOBAL-401-1", "Expired token."),
+    INVALID_TOKEN(401, "GLOBAL-401-2", "Invalid token."),
+
     USER_NOT_FOUND(404, "GLOBAL-404-1", "User not found."),
     STUDENT_NOT_FOUND(404, "GLOBAL-404-2", "Student not found."),
     TEACHER_NOT_FOUND(404, "GLOBAL-404-3", "Teacher not found."),
