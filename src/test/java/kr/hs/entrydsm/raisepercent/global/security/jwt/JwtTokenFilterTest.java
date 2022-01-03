@@ -24,6 +24,7 @@ class JwtTokenFilterTest {
 
     @Test
     void 잘못된_토큰() throws ServletException, IOException {
+        SecurityContextHolder.getContext().setAuthentication(null);
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         FilterChain filterChain = mock(FilterChain.class);
@@ -38,6 +39,7 @@ class JwtTokenFilterTest {
 
     @Test
     void 올바른_토큰() throws ServletException, IOException {
+        SecurityContextHolder.getContext().setAuthentication(null);
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         FilterChain filterChain = mock(FilterChain.class);
