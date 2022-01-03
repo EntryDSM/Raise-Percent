@@ -4,7 +4,8 @@ import kr.hs.entrydsm.raisepercent.domain.hr.domain.Hr;
 import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class BookmarkTest {
 

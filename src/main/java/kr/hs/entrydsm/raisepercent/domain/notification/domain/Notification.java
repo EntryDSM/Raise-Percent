@@ -2,18 +2,13 @@ package kr.hs.entrydsm.raisepercent.domain.notification.domain;
 
 import kr.hs.entrydsm.raisepercent.domain.notification.domain.types.Type;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
-import kr.hs.entrydsm.raisepercent.global.entity.BaseTimeEntity;
 import kr.hs.entrydsm.raisepercent.global.entity.BaseUUIDTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

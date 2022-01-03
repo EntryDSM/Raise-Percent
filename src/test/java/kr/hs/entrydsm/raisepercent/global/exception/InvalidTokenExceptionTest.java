@@ -5,11 +5,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class HrNotFoundExceptionTest {
+class InvalidTokenExceptionTest {
 
     @Test
-    void 인사담당자_존재하지않음_예외() {
-        assertEquals(ErrorCode.HR_NOT_FOUND, HrNotFoundException.EXCEPTION.getErrorCode());
+    void 잘못된토큰_예외() {
+        assertEquals(ErrorCode.INVALID_TOKEN, InvalidTokenException.EXCEPTION.getErrorCode());
     }
 
 }

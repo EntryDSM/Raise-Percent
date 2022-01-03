@@ -2,7 +2,10 @@ package kr.hs.entrydsm.raisepercent.domain.user.domain;
 
 import kr.hs.entrydsm.raisepercent.global.entity.Person;
 import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
