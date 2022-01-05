@@ -38,7 +38,7 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-    testImplementation 'org.mockito:mockito-inline:2.13.0'
+    testImplementation 'org.mockito:mockito-inline:4.2.0'
 }
 
 test {
