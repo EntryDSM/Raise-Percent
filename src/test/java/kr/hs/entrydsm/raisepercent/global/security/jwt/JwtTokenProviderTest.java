@@ -63,14 +63,25 @@ class JwtTokenProviderTest {
 
         String refreshToken = jwtTokenProvider.generateRefreshToken(email, role);
 
-        Authentication authentication = jwtTokenProvider.getAuthentication(refreshToken);
+        assertNotNull(refreshToken);
+    }
 
-        assertEquals(email, authentication.getName());
-        for(GrantedAuthority authority : authentication.getAuthorities()) {
-            assertEquals(role, authority.getAuthority());
-        }
+    @Test
+    void 리프레시토큰_예외() {
+        String email = "test@gmail.com";
+        String role = "STUDENT";
 
-        assertTrue(jwtTokenProvider.isRefreshToken(refreshToken));
+        when(jwtProperties.getSecretKey())
+                .thenReturn("SECRETKEY");
+        when(jwtProperties.getAccessExp())
+                .thenReturn(100000000L);
+        when(authDetailsService.loadUserByUsername(email, role))
+                .thenReturn(new AuthDetails(email, Type.STUDENT));
+
+
+        String refreshToken = jwtTokenProvider.generateRefreshToken(email, role);
+
+        assertThrows(InvalidTokenException.class, () -> jwtTokenProvider.getAuthentication(refreshToken));
     }
 
     @Test
