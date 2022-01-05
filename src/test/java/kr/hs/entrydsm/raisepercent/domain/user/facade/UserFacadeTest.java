@@ -26,7 +26,7 @@ class UserFacadeTest {
 
     private static final AuthFacade authFacade = new AuthFacade();
 
-    private static final UserFacade userFacade = new UserFacade(authFacade, userRepository);
+    private static final UserFacade userFacade = new UserFacade(userRepository, authFacade);
 
     @BeforeEach
     void securityContextConfig() {
