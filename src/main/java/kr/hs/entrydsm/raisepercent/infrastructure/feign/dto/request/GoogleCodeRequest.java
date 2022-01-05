@@ -1,4 +1,4 @@
-package kr.hs.entrydsm.raisepercent.global.feign.dto.request;
+package kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;

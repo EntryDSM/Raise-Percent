@@ -1,4 +1,4 @@
-package kr.hs.entrydsm.raisepercent.global.feign;
+package kr.hs.entrydsm.raisepercent.infrastructure.feign;
 
 import feign.codec.ErrorDecoder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-@EnableFeignClients(basePackages = "kr.hs.entrydsm.raisepercent.global.feign")
+@EnableFeignClients(basePackages = "kr.hs.entrydsm.raisepercent.infrastructure.feign")
 @Import(FeignClientErrorDecoder.class)
 @Configuration
 public class FeignConfig {

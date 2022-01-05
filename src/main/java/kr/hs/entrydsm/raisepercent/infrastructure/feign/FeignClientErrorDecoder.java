@@ -1,12 +1,12 @@
-package kr.hs.entrydsm.raisepercent.global.feign;
+package kr.hs.entrydsm.raisepercent.infrastructure.feign;
 
 import feign.FeignException;
 import feign.Response;
 import feign.codec.ErrorDecoder;
-import kr.hs.entrydsm.raisepercent.global.feign.exception.OtherBadRequestException;
-import kr.hs.entrydsm.raisepercent.global.feign.exception.OtherExpiredTokenException;
-import kr.hs.entrydsm.raisepercent.global.feign.exception.OtherForbiddenException;
-import kr.hs.entrydsm.raisepercent.global.feign.exception.OtherUnAuthorizedException;
+import kr.hs.entrydsm.raisepercent.infrastructure.feign.exception.OtherBadRequestException;
+import kr.hs.entrydsm.raisepercent.infrastructure.feign.exception.OtherExpiredTokenException;
+import kr.hs.entrydsm.raisepercent.infrastructure.feign.exception.OtherForbiddenException;
+import kr.hs.entrydsm.raisepercent.infrastructure.feign.exception.OtherUnAuthorizedException;
 
 public class FeignClientErrorDecoder implements ErrorDecoder {
 

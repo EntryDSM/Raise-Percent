@@ -1,7 +1,7 @@
-package kr.hs.entrydsm.raisepercent.global.feign.client;
+package kr.hs.entrydsm.raisepercent.infrastructure.feign.client;
 
-import kr.hs.entrydsm.raisepercent.global.feign.dto.request.GoogleCodeRequest;
-import kr.hs.entrydsm.raisepercent.global.feign.dto.response.TokenResponse;
+import kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.request.GoogleCodeRequest;
+import kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.response.TokenResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 
