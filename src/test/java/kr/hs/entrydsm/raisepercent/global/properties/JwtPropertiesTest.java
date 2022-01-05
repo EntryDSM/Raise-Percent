@@ -1,4 +1,4 @@
-package kr.hs.entrydsm.raisepercent.global.security.jwt;
+package kr.hs.entrydsm.raisepercent.global.properties;
 
 import kr.hs.entrydsm.raisepercent.global.properties.JwtProperties;
 import org.junit.jupiter.api.Test;
