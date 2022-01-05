@@ -11,7 +11,7 @@ import kr.hs.entrydsm.raisepercent.infrastructure.feign.exception.OtherUnAuthori
 public class FeignClientErrorDecoder implements ErrorDecoder {
 
     @Override
-    public Exception decode(String methodKey, Response response) {
+    public Exception decode(String methodKey, Response response) throws FeignException {
 
         if(response.status() >= 400) {
             switch (response.status()){
