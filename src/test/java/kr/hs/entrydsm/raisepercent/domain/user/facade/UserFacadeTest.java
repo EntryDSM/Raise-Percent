@@ -2,6 +2,7 @@ package kr.hs.entrydsm.raisepercent.domain.user.facade;
 
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.repositories.UserRepository;
+import kr.hs.entrydsm.raisepercent.global.exception.CredentialsNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,8 +28,7 @@ class UserFacadeTest {
     @BeforeEach
     void securityContextConfig() {
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        when(authentication.getPrincipal())
-                .thenReturn(authDetails);
+
     }
 
     @Test
@@ -43,8 +43,28 @@ class UserFacadeTest {
                 .thenReturn(email);
         when(userRepository.findById(email))
                 .thenReturn(Optional.of(user));
+        when(authentication.getPrincipal())
+                .thenReturn(authDetails);
 
         assertEquals(email, userFacade.getCurrentUser().getEmail());
+    }
+
+    @Test
+    void 인증객체_존재하지않음() {
+        String email = "test@gmail.com";
+
+        User user = User.builder()
+                .email(email)
+                .build();
+
+        when(authDetails.getUsername())
+                .thenReturn(email);
+        when(userRepository.findById(email))
+                .thenReturn(Optional.of(user));
+        when(authentication.getPrincipal())
+                .thenReturn(null);
+
+        assertThrows(CredentialsNotFoundException.class, userFacade::getCurrentUser);
     }
 
 }
