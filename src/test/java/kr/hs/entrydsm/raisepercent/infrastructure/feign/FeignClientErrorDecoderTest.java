@@ -8,8 +8,7 @@ import kr.hs.entrydsm.raisepercent.infrastructure.feign.exception.OtherUnAuthori
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class FeignClientErrorDecoderTest {
 
@@ -24,7 +23,8 @@ class FeignClientErrorDecoderTest {
         int status = 400;
 
         when(response.status())
-                .thenReturn(status);
+                .thenReturn(status)
+                .thenThrow(errorDecoder.decode(methodKey, response));
 
         assertThrows(OtherBadRequestException.class, () -> errorDecoder.decode(methodKey, response));
     }
@@ -34,7 +34,8 @@ class FeignClientErrorDecoderTest {
         int status = 401;
 
         when(response.status())
-                .thenReturn(status);
+                .thenReturn(status)
+                .thenThrow(errorDecoder.decode(methodKey, response));
 
         assertThrows(OtherUnAuthorizedException.class, () -> errorDecoder.decode(methodKey, response));
     }
@@ -44,7 +45,8 @@ class FeignClientErrorDecoderTest {
         int status = 403;
 
         when(response.status())
-                .thenReturn(status);
+                .thenReturn(status)
+                .thenThrow(errorDecoder.decode(methodKey, response));
 
         assertThrows(OtherForbiddenException.class, () -> errorDecoder.decode(methodKey, response));
     }
@@ -54,7 +56,8 @@ class FeignClientErrorDecoderTest {
         int status = 419;
 
         when(response.status())
-                .thenReturn(status);
+                .thenReturn(status)
+                .thenThrow(errorDecoder.decode(methodKey, response));
 
         assertThrows(OtherExpiredTokenException.class, () -> errorDecoder.decode(methodKey, response));
     }
