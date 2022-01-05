@@ -8,7 +8,7 @@ import java.util.Base64;
 
 @Getter
 @ConstructorBinding
-@ConfigurationProperties(prefix = "auth.jwt")
+@ConfigurationProperties(prefix = "jwt")
 public class JwtProperties {
 
     public static final String ACCESS_TYPE = "ACCESS";
