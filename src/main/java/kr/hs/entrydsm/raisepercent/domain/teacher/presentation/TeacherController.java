@@ -13,7 +13,7 @@ public class TeacherController {
 
     private final QueryGoogleAuthLinkService queryGoogleAuthLinkService;
 
-    @GetMapping("/google")
+    @GetMapping("/auth")
     public String queryGoogleAuthLink() {
         return queryGoogleAuthLinkService.execute();
     }
