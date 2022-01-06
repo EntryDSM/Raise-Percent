@@ -4,6 +4,7 @@ import kr.hs.entrydsm.raisepercent.domain.teacher.domain.Teacher;
 import kr.hs.entrydsm.raisepercent.domain.teacher.domain.repositories.TeacherRepository;
 import kr.hs.entrydsm.raisepercent.domain.teacher.domain.types.Role;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
+import kr.hs.entrydsm.raisepercent.domain.user.domain.repositories.UserRepository;
 import kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.request.CodeRequest;
 import kr.hs.entrydsm.raisepercent.global.properties.AuthProperties;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.JwtTokenProvider;
@@ -26,6 +27,7 @@ public class GoogleAuthService {
     private final GoogleAuth googleAuth;
     private final GoogleInfo googleInfo;
     private final AuthProperties authProperties;
+    private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final TeacherRepository teacherRepository;
 
@@ -58,10 +60,12 @@ public class GoogleAuthService {
             teacherRepository.save(
                     Teacher.builder()
                             .user(
-                                    User.builder()
-                                            .email(email)
-                                            .name(name)
-                                            .build()
+                                    userRepository.save(
+                                            User.builder()
+                                                    .email(email)
+                                                    .name(name)
+                                                    .build()
+                                    )
                             )
                             .role(Role.DEFAULT)
                             .build()
