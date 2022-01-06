@@ -2,6 +2,7 @@ package kr.hs.entrydsm.raisepercent.global.security.jwt;
 
 import kr.hs.entrydsm.raisepercent.global.exception.ExpiredTokenException;
 import kr.hs.entrydsm.raisepercent.global.exception.InvalidTokenException;
+import kr.hs.entrydsm.raisepercent.global.properties.JwtProperties;
 import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetails;
 import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetailsService;
 import kr.hs.entrydsm.raisepercent.global.security.auth.Type;

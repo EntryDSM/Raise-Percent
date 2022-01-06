@@ -17,6 +17,13 @@ spring:
     port: ${REDIS_PORT}
     password: ${REDIS_PASS}
 
+auth:
+  google:
+    base-url: ${GOOGLE_BASE_URL}
+    client-id: ${GOOGLE_CLIENT}
+    client-secret: ${GOOGLE_SECRET}
+    redirect-url: ${GOOGLE_REDIRECT_URL}
+
 jwt:
   secret-key: ${JWT_SECRET}
   access.exp: ${JWT_ACCESS_EXP}

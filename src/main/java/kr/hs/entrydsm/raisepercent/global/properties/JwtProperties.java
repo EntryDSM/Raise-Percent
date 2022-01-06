@@ -1,4 +1,4 @@
-package kr.hs.entrydsm.raisepercent.global.security.jwt;
+package kr.hs.entrydsm.raisepercent.global.properties;
 
 import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -8,7 +8,7 @@ import java.util.Base64;
 
 @Getter
 @ConstructorBinding
-@ConfigurationProperties(prefix = "auth.jwt")
+@ConfigurationProperties(prefix = "jwt")
 public class JwtProperties {
 
     public static final String ACCESS_TYPE = "ACCESS";
