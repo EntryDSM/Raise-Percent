@@ -24,7 +24,7 @@ class QueryGoogleAuthLinkServiceTest {
         String link = queryGoogleAuthLinkService.execute();
 
         String formatStr = String.format("%s?client-id=%s&redirect_uri=%s&response_type=code"
-                        + "&scope=https://www.googleapis.com/auth/userinfo.email",
+                        + "&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile",
                 baseUrl,
                 clientId,
                 redirectUrl);
