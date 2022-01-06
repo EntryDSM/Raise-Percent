@@ -24,7 +24,7 @@ class UserFacadeTest {
 
     private static final UserRepository userRepository = mock(UserRepository.class);
 
-    private static final AuthFacade authFacade = mock(AuthFacade.class);
+    private static final AuthFacade authFacade = new AuthFacade();
 
     private static final UserFacade userFacade = new UserFacade(authFacade, userRepository);
 
