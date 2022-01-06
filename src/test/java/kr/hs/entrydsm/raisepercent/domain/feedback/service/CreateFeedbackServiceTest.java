@@ -26,6 +26,6 @@ public class CreateFeedbackServiceTest {
 
         service.execute(id, request);
 
-        verify(feedbackRepository, calls(1));
+        verify(feedbackRepository, times(1));
     }
 }
