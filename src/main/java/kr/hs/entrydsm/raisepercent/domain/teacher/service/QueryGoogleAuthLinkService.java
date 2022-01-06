@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class QueryGoogleAuthLinkService {
 
     private static final String url = "%s?client_id=%s&redirect_uri=%s&response_type=code"
-            + "&scope=https://www.googleapis.com/auth/userinfo.email";
+            + "&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile";
 
     private final AuthProperties authProperties;
 
