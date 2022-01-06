@@ -5,6 +5,8 @@ import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.repositories.UserRepository;
 import kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.request.UpdateInformationRequest;
 import kr.hs.entrydsm.raisepercent.global.facade.AuthFacade;
+import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetails;
+import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,6 +38,8 @@ class UpdateInformationServiceTest {
                 .thenReturn(contactEmail);
         when(request.getContactTel())
                 .thenReturn(contactTel);
+        when(authFacade.getCurrentDetails())
+            .thenReturn(new AuthDetails(contactEmail, Type.TEACHER));
 
         service.execute(request);
 
