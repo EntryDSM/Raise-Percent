@@ -22,7 +22,7 @@ public class CreateFeedbackService {
 
     public void execute(UUID id, CreateFeedbackRequest request) {
 
-        Teacher teacher = teacherFacade.getTeacher();
+        Teacher teacher = teacherFacade.getCurrentTeacher();
 
         Document document = documentFacade.getDocument(id);
 

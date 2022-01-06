@@ -14,7 +14,7 @@ public class TeacherFacade {
     private final AuthFacade authFacade;
     private final TeacherRepository teacherRepository;
 
-    public Teacher getTeacher() {
+    public Teacher getCurrentTeacher() {
         return teacherRepository.findById(authFacade.getCurrentDetails().getUsername())
                 .orElseThrow(() -> TeacherNotFoundException.EXCEPTION);
     }
