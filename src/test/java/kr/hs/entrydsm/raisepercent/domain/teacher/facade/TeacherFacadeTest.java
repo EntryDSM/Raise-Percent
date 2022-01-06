@@ -34,6 +34,6 @@ public class TeacherFacadeTest {
                 .role(Role.ROOT)
                 .build();
 
-        assertEquals(user.getContactEmail(), teacher.getEmail());
+        assertEquals(user.getContactEmail(), teacher.getUser().getContactEmail());
     }
 }
