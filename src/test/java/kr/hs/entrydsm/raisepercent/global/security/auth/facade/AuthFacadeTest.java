@@ -11,6 +11,7 @@ import kr.hs.entrydsm.raisepercent.domain.teacher.domain.repositories.TeacherRep
 import kr.hs.entrydsm.raisepercent.domain.teacher.domain.types.Role;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.repositories.UserRepository;
+import kr.hs.entrydsm.raisepercent.global.facade.AuthFacade;
 import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import org.junit.jupiter.api.Test;
 
