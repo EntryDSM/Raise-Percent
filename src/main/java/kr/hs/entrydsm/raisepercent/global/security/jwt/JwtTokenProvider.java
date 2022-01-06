@@ -38,6 +38,9 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
+        if(isRefreshToken(token)) {
+            throw InvalidTokenException.EXCEPTION;
+        }
         Claims claims = getJws(token).getBody();
         UserDetails userDetails = authDetailsService
                 .loadUserByUsername(claims.getSubject(), claims.get("role", String.class));
