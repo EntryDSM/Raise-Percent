@@ -16,6 +16,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
 @RequiredArgsConstructor
 @Service
 public class GoogleAuthService {
@@ -30,7 +33,7 @@ public class GoogleAuthService {
     public TokenResponse execute(CodeRequest request) {
         String accessToken = googleAuth.googleAuth(
                 GoogleCodeRequest.builder()
-                        .code(request.getCode())
+                        .code(URLDecoder.decode(request.getCode(), StandardCharsets.UTF_8))
                         .clientId(authProperties.getClientId())
                         .clientSecret(authProperties.getClientSecret())
                         .redirectUri(authProperties.getRedirectUrl())
