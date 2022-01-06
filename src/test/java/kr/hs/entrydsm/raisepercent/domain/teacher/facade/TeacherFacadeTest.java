@@ -24,4 +24,5 @@ public class TeacherFacadeTest {
 
         assertEquals(user.getContactEmail(), teacher.getUser().getContactEmail());
     }
+
 }
