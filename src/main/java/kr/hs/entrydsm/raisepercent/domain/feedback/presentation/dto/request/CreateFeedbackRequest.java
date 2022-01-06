@@ -8,4 +8,5 @@ import lombok.NoArgsConstructor;
 public class CreateFeedbackRequest {
 
     private String content;
+
 }
