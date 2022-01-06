@@ -26,7 +26,7 @@ class UserFacadeTest {
 
     private static final AuthFacade authFacade = mock(AuthFacade.class);
 
-    private static final UserFacade userFacade = new UserFacade(userRepository, authFacade);
+    private static final UserFacade userFacade = new UserFacade(authFacade, userRepository);
 
     @BeforeEach
     void securityContextConfig() {
