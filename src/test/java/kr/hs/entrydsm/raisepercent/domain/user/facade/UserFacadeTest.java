@@ -3,6 +3,7 @@ package kr.hs.entrydsm.raisepercent.domain.user.facade;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.repositories.UserRepository;
 import kr.hs.entrydsm.raisepercent.global.exception.CredentialsNotFoundException;
+import kr.hs.entrydsm.raisepercent.global.facade.AuthFacade;
 import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,9 @@ class UserFacadeTest {
 
     private static final UserRepository userRepository = mock(UserRepository.class);
 
-    private static final UserFacade userFacade = new UserFacade(userRepository);
+    private static final AuthFacade authFacade = mock(AuthFacade.class);
+
+    private static final UserFacade userFacade = new UserFacade(userRepository, authFacade);
 
     @BeforeEach
     void securityContextConfig() {
