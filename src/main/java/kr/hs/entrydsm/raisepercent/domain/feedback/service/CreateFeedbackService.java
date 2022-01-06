@@ -21,9 +21,8 @@ public class CreateFeedbackService {
     private final FeedbackRepository feedbackRepository;
 
     public void execute(UUID id, CreateFeedbackRequest request) {
-        Teacher teacher = teacherFacade.getTeacher();
 
-        teacherFacade.verifyTeacherRole(teacher);
+        Teacher teacher = teacherFacade.getTeacher();
 
         Document document = documentFacade.getDocument(id);
 
