@@ -28,6 +28,11 @@ class GoogleAuthServiceTest {
 
     private static final String redirectUrl = "https://localhost:3000/callback";
 
+    private static final CodeRequest codeRequest = mock(CodeRequest.class);
+
+    private static final kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.response.TokenResponse tokenResponse =
+            mock(kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.response.TokenResponse.class);
+
     private static final GoogleAuth googleAuth = mock(GoogleAuth.class);
 
     private static final GoogleInfo googleInfo = mock(GoogleInfo.class);
@@ -56,8 +61,11 @@ class GoogleAuthServiceTest {
         String refreshToken = "refreshToken";
         String googleAccessToken = "googleAccessToken";
 
+        when(tokenResponse.getAccessToken())
+                .thenReturn(googleAccessToken);
+
         when(googleAuth.googleAuth(any(GoogleCodeRequest.class)))
-                .thenReturn(new kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.response.TokenResponse(googleAccessToken));
+                .thenReturn(tokenResponse);
 
         when(googleInfo.googleInfo(googleAccessToken))
                 .thenReturn(new GoogleInfoResponse());
@@ -71,7 +79,10 @@ class GoogleAuthServiceTest {
         when(teacherRepository.findById(any()))
                 .thenReturn(Optional.empty());
 
-        TokenResponse response = googleAuthService.execute(new CodeRequest(code));
+        when(codeRequest.getCode())
+                .thenReturn(code);
+
+        TokenResponse response = googleAuthService.execute(codeRequest);
 
         assertEquals(response.getAccessToken(), accessToken);
         assertEquals(response.getRefreshToken(), refreshToken);
