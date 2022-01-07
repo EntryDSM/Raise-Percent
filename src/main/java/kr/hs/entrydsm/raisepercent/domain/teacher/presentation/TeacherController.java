@@ -25,6 +25,8 @@ public class TeacherController {
     @GetMapping("/code")
     public String codeIssue() {
         return codeIssueService.execute();
+    }
+
     @PostMapping("/auth")
     public TokenResponse googleAuthLogin(@RequestBody CodeRequest codeRequest) {
         return googleAuthService.execute(codeRequest);
