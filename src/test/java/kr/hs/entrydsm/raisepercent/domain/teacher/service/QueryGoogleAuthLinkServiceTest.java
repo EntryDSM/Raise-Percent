@@ -23,7 +23,7 @@ class QueryGoogleAuthLinkServiceTest {
     void 구글_로그인_링크_가져오기() {
         String link = queryGoogleAuthLinkService.execute();
 
-        String formatStr = String.format("%s?client-id=%s&redirect_uri=%s&response_type=code"
+        String formatStr = String.format("%s?client_id=%s&redirect_uri=%s&response_type=code"
                         + "&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile",
                 baseUrl,
                 clientId,
