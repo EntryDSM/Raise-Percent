@@ -23,8 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers(HttpMethod.GET, "/teacher/auth").permitAll()
-                .antMatchers(HttpMethod.POST, "/teacher/auth").permitAll()
+                .antMatchers(HttpMethod.GET, "/teachers/auth").permitAll()
+                .antMatchers(HttpMethod.POST, "/teachers/auth").permitAll()
                 .anyRequest().authenticated()
                 .and().apply(new FilterConfig());
     }
