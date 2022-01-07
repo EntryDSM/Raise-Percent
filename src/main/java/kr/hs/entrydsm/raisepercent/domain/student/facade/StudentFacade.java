@@ -15,7 +15,13 @@ public class StudentFacade {
 	private final StudentRepository studentRepository;
 
 	public Student getCurrentStudent() {
-		return studentRepository.findById(authFacade.getCurrentDetails().getUsername())
-			.orElseThrow(() -> StudentNotFoundException.EXCEPTION);
+		System.out.println(authFacade.getCurrentDetails());
+		return getStudent(authFacade.getCurrentDetails().getUsername());
 	}
+
+	public Student getStudent(String email) {
+		return studentRepository.findById(email)
+				.orElseThrow(() -> StudentNotFoundException.EXCEPTION);
+	}
+
 }
