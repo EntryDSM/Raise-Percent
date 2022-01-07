@@ -37,6 +37,9 @@ class CodeIssueServiceTest {
 
     @Test
     void 코드_발급() {
+        when(codeRepository.findById(codeId))
+                .thenReturn(Optional.empty());
+
         String code = codeFacade.getRandomCode();
 
         when(codeFacade.getRandomCode())
