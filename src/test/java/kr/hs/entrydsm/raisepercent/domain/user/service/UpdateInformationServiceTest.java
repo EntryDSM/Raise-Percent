@@ -31,7 +31,6 @@ class UpdateInformationServiceTest {
 
         User user = User.builder().build();
 
-        // when
         when(userRepository.findById(any()))
             .thenReturn(Optional.ofNullable(user));
         when(request.getContactEmail())
