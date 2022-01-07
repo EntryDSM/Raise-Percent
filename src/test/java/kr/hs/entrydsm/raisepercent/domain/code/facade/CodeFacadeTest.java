@@ -11,7 +11,7 @@ class CodeFacadeTest {
     @Test
     void 코드_생성() {
         int num = 5;
-        String code = codeFacade.getCode();
+        String code = codeFacade.getRandomCode();
 
         assertEquals(code.length(), num);
     }
