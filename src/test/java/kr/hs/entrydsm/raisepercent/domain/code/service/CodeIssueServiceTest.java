@@ -1,12 +1,14 @@
 package kr.hs.entrydsm.raisepercent.domain.code.service;
 
 import kr.hs.entrydsm.raisepercent.domain.code.domain.repositories.CodeRepository;
+import kr.hs.entrydsm.raisepercent.domain.code.facade.CodeAlreadyExistsException;
 import kr.hs.entrydsm.raisepercent.domain.code.facade.CodeFacade;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class CodeIssueServiceTest {
@@ -34,6 +36,8 @@ class CodeIssueServiceTest {
         verify(codeRepository, times(1)).save(any());
 
         assertEquals(code, saveCode);
+
+        assertThrows(CodeAlreadyExistsException.class, codeIssueService::execute);
     }
 
 }
