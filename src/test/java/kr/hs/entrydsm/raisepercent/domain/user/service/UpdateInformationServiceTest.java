@@ -1,28 +1,28 @@
 package kr.hs.entrydsm.raisepercent.domain.user.service;
 
-import java.util.Optional;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
-import kr.hs.entrydsm.raisepercent.domain.user.domain.repositories.UserRepository;
+import kr.hs.entrydsm.raisepercent.domain.user.facade.UserFacade;
 import kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.request.UpdateInformationRequest;
-import kr.hs.entrydsm.raisepercent.global.facade.AuthFacade;
-import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetails;
-import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class UpdateInformationServiceTest {
 
-    private static final UserRepository userRepository = mock(UserRepository.class);
+    @Mock
+    private static UserFacade userFacade;
 
-    private static final AuthFacade authFacade = mock(AuthFacade.class);
+    @Mock
+    private static UpdateInformationRequest request;
 
-    private static final UpdateInformationRequest request = mock(UpdateInformationRequest.class);
-
-    private static final UpdateInformationService service = new UpdateInformationService(userRepository, authFacade);
+    @InjectMocks
+    private static UpdateInformationService service;
 
     @Test
     void 유저_정보_갱신() {
@@ -31,14 +31,12 @@ class UpdateInformationServiceTest {
 
         User user = User.builder().build();
 
-        when(userRepository.findById(any()))
-            .thenReturn(Optional.ofNullable(user));
+        when(userFacade.getCurrentUser())
+            .thenReturn(user);
         when(request.getContactEmail())
                 .thenReturn(contactEmail);
         when(request.getContactTel())
                 .thenReturn(contactTel);
-        when(authFacade.getCurrentDetails())
-            .thenReturn(new AuthDetails(contactEmail, Type.TEACHER));
 
         service.execute(request);
 
