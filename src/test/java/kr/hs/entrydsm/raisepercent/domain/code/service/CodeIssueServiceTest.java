@@ -1,5 +1,6 @@
 package kr.hs.entrydsm.raisepercent.domain.code.service;
 
+import kr.hs.entrydsm.raisepercent.domain.code.domain.Code;
 import kr.hs.entrydsm.raisepercent.domain.code.domain.repositories.CodeRepository;
 import kr.hs.entrydsm.raisepercent.domain.code.facade.CodeAlreadyExistsException;
 import kr.hs.entrydsm.raisepercent.domain.code.facade.CodeFacade;
@@ -36,6 +37,12 @@ class CodeIssueServiceTest {
         verify(codeRepository, times(1)).save(any());
 
         assertEquals(code, saveCode);
+    }
+
+    @Test
+    void 코드_이미_존재함() {
+        when(codeRepository.findById(codeId))
+                .thenReturn(Optional.of(Code.builder().build()));
 
         assertThrows(CodeAlreadyExistsException.class, codeIssueService::execute);
     }
