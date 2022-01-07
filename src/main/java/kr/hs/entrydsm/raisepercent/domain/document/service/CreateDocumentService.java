@@ -30,6 +30,6 @@ public class CreateDocumentService {
 				.build()
 		);
 
-		return new CreateDocumentResponse(document.getId().toString());
+		return new CreateDocumentResponse(document.getId());
 	}
 }

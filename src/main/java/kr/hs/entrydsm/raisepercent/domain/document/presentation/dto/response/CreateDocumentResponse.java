@@ -1,5 +1,6 @@
 package kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response;
 
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -7,5 +8,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CreateDocumentResponse {
 
-	private final String documentId;
+	private final UUID documentId;
 }
