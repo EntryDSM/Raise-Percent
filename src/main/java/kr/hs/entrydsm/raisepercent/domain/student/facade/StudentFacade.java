@@ -15,7 +15,6 @@ public class StudentFacade {
 	private final StudentRepository studentRepository;
 
 	public Student getCurrentStudent() {
-		System.out.println(authFacade.getCurrentDetails());
 		return getStudent(authFacade.getCurrentDetails().getUsername());
 	}
 
