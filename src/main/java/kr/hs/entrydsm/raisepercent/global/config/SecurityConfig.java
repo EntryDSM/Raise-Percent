@@ -1,6 +1,7 @@
 package kr.hs.entrydsm.raisepercent.global.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -22,6 +23,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                .antMatchers(HttpMethod.GET, "/teachers/auth").permitAll()
+                .antMatchers(HttpMethod.POST, "/teachers/auth").permitAll()
+                .antMatchers(HttpMethod.POST, "/teachers/code").permitAll()
+                .antMatchers(HttpMethod.POST, "feedback/{document-id}").hasRole("ROOT")
                 .anyRequest().authenticated()
                 .and().apply(new FilterConfig());
     }
