@@ -20,6 +20,8 @@ public enum ErrorCode {
     TEACHER_NOT_FOUND(404, "GLOBAL-404-3", "Teacher not found."),
     HR_NOT_FOUND(404, "GLOBAL-404-4", "Hr not found."),
 
+    INVALID_TYPE(400, "USER-400-1", "Invalid type."),
+
     OTHER_BAD_REQUEST(400, "OTHER-400-1", "Other Server Bad Request"),
     OTHER_UNAUTHORIZED(401, "OTHER-401-1", "Other Server UnAuthorized"),
     OTHER_FORBIDDEN(403, "OTHER-403-1", "Other Server Forbidden"),
