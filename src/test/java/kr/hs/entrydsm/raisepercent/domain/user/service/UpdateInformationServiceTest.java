@@ -4,18 +4,25 @@ import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
 import kr.hs.entrydsm.raisepercent.domain.user.facade.UserFacade;
 import kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.request.UpdateInformationRequest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class UpdateInformationServiceTest {
 
-    private static final UserFacade userFacade = mock(UserFacade.class);
+    @Mock
+    private static UserFacade userFacade;
 
-    private static final UpdateInformationRequest request = mock(UpdateInformationRequest.class);
+    @Mock
+    private static UpdateInformationRequest request;
 
-    private static final UpdateInformationService service = new UpdateInformationService(userFacade);
+    @InjectMocks
+    private static UpdateInformationService service;
 
     @Test
     void 유저_정보_갱신() {
@@ -25,7 +32,7 @@ class UpdateInformationServiceTest {
         User user = User.builder().build();
 
         when(userFacade.getCurrentUser())
-                .thenReturn(user);
+            .thenReturn(user);
         when(request.getContactEmail())
                 .thenReturn(contactEmail);
         when(request.getContactTel())
