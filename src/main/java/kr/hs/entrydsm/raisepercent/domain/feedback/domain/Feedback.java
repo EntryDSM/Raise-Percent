@@ -3,6 +3,7 @@ package kr.hs.entrydsm.raisepercent.domain.feedback.domain;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.Document;
 import kr.hs.entrydsm.raisepercent.domain.teacher.domain.Teacher;
 import kr.hs.entrydsm.raisepercent.global.entity.BaseTimeEntity;
+import kr.hs.entrydsm.raisepercent.global.entity.BaseUUIDTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,11 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "tbl_feedback")
 @Entity
-public class Feedback extends BaseTimeEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Feedback extends BaseUUIDTimeEntity {
 
     @Column(length = 200, nullable = false)
     private String content;
