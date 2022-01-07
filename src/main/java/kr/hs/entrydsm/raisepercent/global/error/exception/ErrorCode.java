@@ -9,6 +9,8 @@ import lombok.Getter;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ErrorCode {
 
+    CODE_ALREADY_EXISTS(409, "CODE-409-1", "Code Already Exists"),
+
     BAD_REQUEST(400, "GLOBAL-400-1", "Bad request."),
 
     EXPIRED_TOKEN(401, "GLOBAL-401-1", "Expired token."),
