@@ -1,32 +1,31 @@
 package kr.hs.entrydsm.raisepercent.domain.student.service;
 
 import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
-import kr.hs.entrydsm.raisepercent.domain.student.domain.repositories.StudentRepository;
+import kr.hs.entrydsm.raisepercent.domain.student.facade.StudentFacade;
 import kr.hs.entrydsm.raisepercent.domain.tag.facade.TagFacade;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
 import kr.hs.entrydsm.raisepercent.global.exception.StudentNotFoundException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class QueryStudentProfileServiceTest {
 
-    private static final StudentRepository studentRepository = mock(StudentRepository.class);
+    private static final StudentFacade studentFacade = mock(StudentFacade.class);
 
     private static final TagFacade tagFacade = mock(TagFacade.class);
 
-    private static final QueryStudentProfileService service = new QueryStudentProfileService(studentRepository, tagFacade);
+    private static final QueryStudentProfileService service = new QueryStudentProfileService(studentFacade, tagFacade);
 
     @Test
     void 학생_존재하지않음() {
-        when(studentRepository.findById(anyString()))
-                .thenReturn(Optional.empty());
+        when(studentFacade.getStudent(anyString()))
+                .thenThrow(StudentNotFoundException.class);
 
         assertThrows(StudentNotFoundException.class, () -> {
             service.execute("test@gmail.com");
@@ -41,8 +40,8 @@ class QueryStudentProfileServiceTest {
                 .user(user)
                 .build();
 
-        when(studentRepository.findById(email))
-                .thenReturn(Optional.of(student));
+        when(studentFacade.getStudent(email))
+                .thenReturn(student);
         when(tagFacade.queryRegisteredTagValue(student))
                 .thenReturn(List.of());
 
