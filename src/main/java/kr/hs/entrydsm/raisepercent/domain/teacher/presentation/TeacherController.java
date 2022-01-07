@@ -1,18 +1,20 @@
 package kr.hs.entrydsm.raisepercent.domain.teacher.presentation;
 
 import kr.hs.entrydsm.raisepercent.domain.code.service.CodeIssueService;
+import kr.hs.entrydsm.raisepercent.domain.teacher.service.GoogleAuthService;
 import kr.hs.entrydsm.raisepercent.domain.teacher.service.QueryGoogleAuthLinkService;
+import kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.request.CodeRequest;
+import kr.hs.entrydsm.raisepercent.global.security.jwt.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/teacher")
+@RequestMapping("/teachers")
 @RestController
 public class TeacherController {
 
     private final CodeIssueService codeIssueService;
+    private final GoogleAuthService googleAuthService;
     private final QueryGoogleAuthLinkService queryGoogleAuthLinkService;
 
     @GetMapping("/auth")
@@ -23,6 +25,9 @@ public class TeacherController {
     @GetMapping("/code")
     public String codeIssue() {
         return codeIssueService.execute();
+    @PostMapping("/auth")
+    public TokenResponse googleAuthLogin(@RequestBody CodeRequest codeRequest) {
+        return googleAuthService.execute(codeRequest);
     }
 
 }
