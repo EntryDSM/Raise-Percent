@@ -27,6 +27,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/teachers/auth").permitAll()
                 .antMatchers(HttpMethod.POST, "/teachers/code").hasRole("ROOT")
                 .antMatchers(HttpMethod.POST, "/feedback/{document-id}").hasRole("ROOT")
+                .antMatchers(HttpMethod.GET, "/students/{student-email}").hasAnyRole("ROOT", "SENIOR", "STUDENT",
+                        "TEACHER")
                 .anyRequest().authenticated()
                 .and().apply(new FilterConfig());
     }
