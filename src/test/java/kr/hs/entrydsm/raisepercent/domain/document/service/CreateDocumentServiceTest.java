@@ -1,38 +1,27 @@
 package kr.hs.entrydsm.raisepercent.domain.document.service;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Optional;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.Document;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.repositories.DocumentRepository;
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.request.CreateDocumentRequest;
 import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
-import kr.hs.entrydsm.raisepercent.domain.student.domain.repositories.StudentRepository;
 import kr.hs.entrydsm.raisepercent.domain.student.facade.StudentFacade;
-import kr.hs.entrydsm.raisepercent.global.facade.AuthFacade;
-import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetails;
-import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
 class CreateDocumentServiceTest {
 
-	@Mock
-	private static DocumentRepository documentRepository;
+	private static final DocumentRepository documentRepository = mock(DocumentRepository.class);
 
-	@Mock private static StudentFacade studentFacade;
+	private static final StudentFacade studentFacade = mock(StudentFacade.class);
 
-	@Mock private static CreateDocumentRequest request;
+	private static final CreateDocumentRequest request = mock(CreateDocumentRequest.class);
 
-	@InjectMocks
-	private static CreateDocumentService service;
+	private static final CreateDocumentService service = new CreateDocumentService(documentRepository, studentFacade);
 
 	@Test
 	void 문서_생성() {
