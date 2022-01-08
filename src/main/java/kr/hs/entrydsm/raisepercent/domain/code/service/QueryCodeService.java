@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class CodeIssueService {
+public class QueryCodeService {
 
     private final CodeRepository codeRepository;
 

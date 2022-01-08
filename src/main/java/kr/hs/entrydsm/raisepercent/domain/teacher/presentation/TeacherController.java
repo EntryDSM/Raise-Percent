@@ -1,6 +1,6 @@
 package kr.hs.entrydsm.raisepercent.domain.teacher.presentation;
 
-import kr.hs.entrydsm.raisepercent.domain.code.service.CodeIssueService;
+import kr.hs.entrydsm.raisepercent.domain.code.service.QueryCodeService;
 import kr.hs.entrydsm.raisepercent.domain.code.service.CodeReissueService;
 import kr.hs.entrydsm.raisepercent.domain.teacher.service.GoogleAuthService;
 import kr.hs.entrydsm.raisepercent.domain.teacher.service.QueryGoogleAuthLinkService;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class TeacherController {
 
-    private final CodeIssueService codeIssueService;
+    private final QueryCodeService queryCodeService;
     private final CodeReissueService codeReissueService;
     private final GoogleAuthService googleAuthService;
     private final QueryGoogleAuthLinkService queryGoogleAuthLinkService;
@@ -31,7 +31,7 @@ public class TeacherController {
 
     @GetMapping("/code")
     public String codeIssue() {
-        return codeIssueService.execute();
+        return queryCodeService.execute();
     }
 
     @PutMapping("/reissue")

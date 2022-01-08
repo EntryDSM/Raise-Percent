@@ -12,13 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class CodeIssueServiceTest {
+class QueryCodeServiceTest {
 
     private static final String codeId = "TEACHERVERIFICATIONCODE";
 
     private static final CodeRepository codeRepository = mock(CodeRepository.class);
 
-    private static final CodeIssueService codeIssueService = new CodeIssueService(codeRepository);
+    private static final QueryCodeService queryCodeService = new QueryCodeService(codeRepository);
 
     @Test
     void 코드_출력() {
@@ -30,7 +30,7 @@ class CodeIssueServiceTest {
         when(codeRepository.findById(codeId))
                 .thenReturn(Optional.of(code));
 
-        String retCode = codeIssueService.execute();
+        String retCode = queryCodeService.execute();
 
         assertEquals(code.getValue(), retCode);
     }
@@ -40,7 +40,7 @@ class CodeIssueServiceTest {
         when(codeRepository.findById(codeId))
                 .thenReturn(Optional.empty());
 
-        assertThrows(CodeNotFoundException.class, codeIssueService::execute);
+        assertThrows(CodeNotFoundException.class, queryCodeService::execute);
     }
 
 }
