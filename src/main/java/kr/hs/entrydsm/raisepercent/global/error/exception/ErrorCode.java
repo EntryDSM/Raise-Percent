@@ -23,6 +23,7 @@ public enum ErrorCode {
     TEACHER_NOT_FOUND(404, "GLOBAL-404-3", "Teacher not found."),
     HR_NOT_FOUND(404, "GLOBAL-404-4", "Hr not found."),
     DOCUMENT_NOT_FOUND(404, "GLOBAL-404-5", "Document not found."),
+    FEEDBACK_NOT_FOUND(404, "GLOBAL-404-6", "Feedback not found."),
 
     INVALID_TYPE(400, "USER-400-1", "Invalid type."),
 
