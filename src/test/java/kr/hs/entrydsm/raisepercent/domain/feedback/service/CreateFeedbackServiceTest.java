@@ -1,6 +1,5 @@
 package kr.hs.entrydsm.raisepercent.domain.feedback.service;
 
-import kr.hs.entrydsm.raisepercent.domain.document.domain.Document;
 import kr.hs.entrydsm.raisepercent.domain.document.facade.DocumentFacade;
 import kr.hs.entrydsm.raisepercent.domain.feedback.domain.repositories.FeedbackRepository;
 import kr.hs.entrydsm.raisepercent.domain.feedback.presentation.dto.request.CreateFeedbackRequest;
