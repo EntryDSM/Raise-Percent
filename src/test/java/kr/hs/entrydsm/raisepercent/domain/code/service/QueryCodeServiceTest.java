@@ -22,10 +22,7 @@ class QueryCodeServiceTest {
 
     @Test
     void 코드_출력() {
-        Code code = Code.builder()
-                .id(codeId)
-                .value("asd2f")
-                .build();
+        Code code = Code.builder().build();
 
         when(codeRepository.findById(codeId))
                 .thenReturn(Optional.of(code));
