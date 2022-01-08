@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CodeReissueService {
 
     @Value("${code.value}")
-    private static String id;
+    private String id;
 
     private final CodeFacade codeFacade;
     private final CodeRepository codeRepository;

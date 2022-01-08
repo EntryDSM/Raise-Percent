@@ -15,7 +15,7 @@ public class QueryCodeService {
     private final CodeRepository codeRepository;
 
     @Value("${code.value}")
-    private static String id;
+    private String id;
 
     @Transactional(readOnly = true)
     public String execute() {
