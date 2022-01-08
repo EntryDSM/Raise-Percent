@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CodeFacade {
 
-    public String getCode() {
+    public String getRandomCode() {
         return RandomString.make(5);
     }
 

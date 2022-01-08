@@ -22,14 +22,14 @@ public class TeacherController {
         return queryGoogleAuthLinkService.execute();
     }
 
-    @GetMapping("/code")
-    public String codeIssue() {
-        return codeIssueService.execute();
-    }
-
     @PostMapping("/auth")
     public TokenResponse googleAuthLogin(@RequestBody CodeRequest codeRequest) {
         return googleAuthService.execute(codeRequest);
+    }
+
+    @GetMapping("/code")
+    public String codeIssue() {
+        return codeIssueService.execute();
     }
 
 }

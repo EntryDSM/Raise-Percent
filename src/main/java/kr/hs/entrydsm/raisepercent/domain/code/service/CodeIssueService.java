@@ -2,8 +2,7 @@ package kr.hs.entrydsm.raisepercent.domain.code.service;
 
 import kr.hs.entrydsm.raisepercent.domain.code.domain.Code;
 import kr.hs.entrydsm.raisepercent.domain.code.domain.repositories.CodeRepository;
-import kr.hs.entrydsm.raisepercent.domain.code.facade.CodeAlreadyExistsException;
-import kr.hs.entrydsm.raisepercent.domain.code.facade.CodeFacade;
+import kr.hs.entrydsm.raisepercent.global.exception.CodeNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,25 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CodeIssueService {
 
-    private final CodeFacade codeFacade;
     private final CodeRepository codeRepository;
 
     private static final String id = "TEACHERVERIFICATIONCODE";
 
-    @Transactional
+    @Transactional(readOnly = true)
     public String execute() {
-        String code = codeFacade.getCode();
-
-        if(codeRepository.findById(id).isPresent()) {
-            throw CodeAlreadyExistsException.EXCEPTION;
-        }
-
-        codeRepository.save(Code.builder()
-                .id(id)
-                .value(code)
-                .build());
-
-        return code;
+        return codeRepository.findById(id)
+                .map(Code::getValue)
+                .orElseThrow(() -> CodeNotFoundException.EXCEPTION);
     }
 
 }
