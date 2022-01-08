@@ -49,7 +49,7 @@ public class ShowFeedbackServiceTest {
                 .thenReturn(new AuthDetails("email@dsm.hs.kr", Type.STUDENT));
         when(studentFacade.getCurrentStudent())
                 .thenReturn(student);
-        when(feedbackFacade.getCurrentFeedback(id))
+        when(feedbackFacade.getFeedback(id))
                 .thenReturn(feedback);
 
         ShowFeedbackResponse response = service.execute(id);
@@ -77,7 +77,7 @@ public class ShowFeedbackServiceTest {
                 .thenReturn(new AuthDetails("email@dsm.hs.kr", Type.STUDENT));
         when(studentFacade.getCurrentStudent())
                 .thenReturn(student2);
-        when(feedbackFacade.getCurrentFeedback(id))
+        when(feedbackFacade.getFeedback(id))
                 .thenReturn(feedback);
 
         assertThrows(InvalidRoleException.class, () -> service.execute(id));

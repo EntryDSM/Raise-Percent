@@ -14,7 +14,7 @@ public class FeedbackFacade {
     
     private final FeedbackRepository feedbackRepository;
 
-    public Feedback getCurrentFeedback(UUID id) {
+    public Feedback getFeedback(UUID id) {
         return feedbackRepository.findById(id)
                 .orElseThrow(() -> FeedbackNotFoundException.EXCEPTION);
     }
