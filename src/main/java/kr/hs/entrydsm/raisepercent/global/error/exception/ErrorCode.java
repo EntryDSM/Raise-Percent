@@ -9,8 +9,6 @@ import lombok.Getter;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ErrorCode {
 
-    CODE_ALREADY_EXISTS(409, "CODE-409-1", "Code Already Exists"),
-
     BAD_REQUEST(400, "GLOBAL-400-1", "Bad request."),
 
     EXPIRED_TOKEN(401, "GLOBAL-401-1", "Expired token."),
@@ -24,6 +22,7 @@ public enum ErrorCode {
     HR_NOT_FOUND(404, "GLOBAL-404-4", "Hr not found."),
     DOCUMENT_NOT_FOUND(404, "GLOBAL-404-5", "Document not found."),
     FEEDBACK_NOT_FOUND(404, "GLOBAL-404-6", "Feedback not found."),
+    CODE_NOT_FOUND(404, "GLOBAL-404-6", "Code Not Found"),
 
     INVALID_TYPE(400, "USER-400-1", "Invalid type."),
 
