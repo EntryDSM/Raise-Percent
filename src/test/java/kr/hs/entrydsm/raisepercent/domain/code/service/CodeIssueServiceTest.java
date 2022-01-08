@@ -2,23 +2,23 @@ package kr.hs.entrydsm.raisepercent.domain.code.service;
 
 import kr.hs.entrydsm.raisepercent.domain.code.domain.Code;
 import kr.hs.entrydsm.raisepercent.domain.code.domain.repositories.CodeRepository;
-import kr.hs.entrydsm.raisepercent.domain.code.facade.CodeFacade;
+import kr.hs.entrydsm.raisepercent.global.exception.CodeNotFoundException;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class CodeIssueServiceTest {
 
     private static final String codeId = "TEACHERVERIFICATIONCODE";
 
-    private static final CodeFacade codeFacade = mock(CodeFacade.class);
-
     private static final CodeRepository codeRepository = mock(CodeRepository.class);
 
-    private static final CodeIssueService codeIssueService = new CodeIssueService(codeFacade, codeRepository);
+    private static final CodeIssueService codeIssueService = new CodeIssueService(codeRepository);
 
     @Test
     void 코드_출력() {
@@ -36,20 +36,11 @@ class CodeIssueServiceTest {
     }
 
     @Test
-    void 코드_발급() {
+    void 코드_없음_예외() {
         when(codeRepository.findById(codeId))
                 .thenReturn(Optional.empty());
 
-        String code = codeFacade.getRandomCode();
-
-        when(codeFacade.getRandomCode())
-                .thenReturn(code);
-
-        String saveCode = codeIssueService.execute();
-
-        verify(codeRepository, times(1)).save(any());
-
-        assertEquals(code, saveCode);
+        assertThrows(CodeNotFoundException.class, codeIssueService::execute);
     }
 
 }
