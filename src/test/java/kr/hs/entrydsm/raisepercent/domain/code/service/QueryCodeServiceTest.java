@@ -4,6 +4,7 @@ import kr.hs.entrydsm.raisepercent.domain.code.domain.Code;
 import kr.hs.entrydsm.raisepercent.domain.code.domain.repositories.CodeRepository;
 import kr.hs.entrydsm.raisepercent.global.exception.CodeNotFoundException;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
@@ -22,7 +23,8 @@ class QueryCodeServiceTest {
 
     @Test
     void 코드_출력() {
-        Code code = Code.builder().build();
+        ReflectionTestUtils.setField(queryCodeService, "id", codeId);
+        Code code = Code.builder().value("codeValue").build();
 
         when(codeRepository.findById(codeId))
                 .thenReturn(Optional.of(code));
