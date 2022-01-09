@@ -45,12 +45,14 @@ public class ShowFeedbackServiceTest {
                 .document(document)
                 .build();
 
-        when(authFacade.getCurrentDetails())
-                .thenReturn(new AuthDetails("email@dsm.hs.kr", Type.STUDENT));
-        when(studentFacade.getCurrentStudent())
-                .thenReturn(student);
         when(feedbackFacade.getFeedback(id))
                 .thenReturn(feedback);
+
+        when(authFacade.getCurrentDetails())
+                .thenReturn(new AuthDetails("email@dsm.hs.kr", Type.STUDENT));
+
+        when(studentFacade.getCurrentStudent())
+                .thenReturn(student);
 
         ShowFeedbackResponse response = service.execute(id);
 
@@ -73,12 +75,14 @@ public class ShowFeedbackServiceTest {
                 .document(document)
                 .build();
 
-        when(authFacade.getCurrentDetails())
-                .thenReturn(new AuthDetails("email@dsm.hs.kr", Type.STUDENT));
-        when(studentFacade.getCurrentStudent())
-                .thenReturn(student2);
         when(feedbackFacade.getFeedback(id))
                 .thenReturn(feedback);
+
+        when(authFacade.getCurrentDetails())
+                .thenReturn(new AuthDetails("email@dsm.hs.kr", Type.STUDENT));
+
+        when(studentFacade.getCurrentStudent())
+                .thenReturn(student2);
 
         assertThrows(InvalidRoleException.class, () -> service.execute(id));
     }
