@@ -22,15 +22,15 @@ public class CodeReissueService {
     public String execute() {
         String newCode = codeFacade.getRandomCode();
 
-        return codeRepository.findById(id)
+        Code unsavedCode = codeRepository.findById(id)
                 .map(code -> code.updateCode(newCode))
-                .orElseGet(() -> {
-                    codeRepository.save(Code.builder()
-                            .id(id)
-                            .value(newCode)
-                            .build());
-                    return newCode;
-                });
+                .orElseGet(() -> Code.builder()
+                        .id(id)
+                        .value(newCode)
+                        .build());
+
+        return codeRepository.save(unsavedCode)
+                .getValue();
     }
 
 }

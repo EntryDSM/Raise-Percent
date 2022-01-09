@@ -28,9 +28,9 @@ public class Code {
         this.value = value;
     }
 
-    public String updateCode(String value) {
+    public Code updateCode(String value) {
         this.value = value;
-        return this.value;
+        return this;
     }
 
 }
