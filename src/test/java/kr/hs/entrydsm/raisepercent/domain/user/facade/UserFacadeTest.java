@@ -7,26 +7,19 @@ import kr.hs.entrydsm.raisepercent.global.facade.AuthFacade;
 import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetails;
 import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
 class UserFacadeTest {
 
-	@Mock
-	private static AuthFacade authFacade;
+	private static final AuthFacade authFacade = mock(AuthFacade.class);
 
-	@Mock
-	private static UserRepository userRepository;
+	private static final UserRepository userRepository = mock(UserRepository.class);
 
-	@InjectMocks
-	private static UserFacade userFacade;
+	private static final UserFacade userFacade = new UserFacade(authFacade, userRepository);
 
 	@Test
 	void 유저_객체_가져오기() {
