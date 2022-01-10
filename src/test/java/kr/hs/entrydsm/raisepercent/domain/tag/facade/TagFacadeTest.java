@@ -4,19 +4,27 @@ import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
 import kr.hs.entrydsm.raisepercent.domain.tag.domain.RegisteredTag;
 import kr.hs.entrydsm.raisepercent.domain.tag.domain.Tag;
 import kr.hs.entrydsm.raisepercent.domain.tag.domain.repositories.RegisteredTagRepository;
+import kr.hs.entrydsm.raisepercent.domain.tag.domain.repositories.TagRepository;
+import kr.hs.entrydsm.raisepercent.domain.tag.exception.AlreadyRegisteredTagException;
+import kr.hs.entrydsm.raisepercent.domain.tag.exception.TagNotFoundException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class TagFacadeTest {
 
+    private static final TagRepository tagRepository = mock(TagRepository.class);
+
     private static final RegisteredTagRepository registeredTagRepository = mock(RegisteredTagRepository.class);
 
-    private static final TagFacade tagFacade = new TagFacade(registeredTagRepository);
+    private static final TagFacade tagFacade = new TagFacade(tagRepository, registeredTagRepository);
 
     @Test
     void 등록한_태그_가져오기() {
@@ -35,6 +43,48 @@ class TagFacadeTest {
             assertEquals(tag.getName(), result);
         }
 
+    }
+
+    @Test
+    void 학생_태그_등록하기() {
+        List<String> tagId = List.of("test");
+        Tag tag  = Tag.builder().name("test").build();
+        Student student = Student.builder().build();
+
+        when(tagRepository.findById("test"))
+                .thenReturn(Optional.of(tag));
+        when(registeredTagRepository.findByStudentAndTag(any(), any()))
+                .thenReturn(Optional.empty());
+
+        tagFacade.registerTag(tagId, student);
+    }
+
+    @Test
+    void 태그_존재하지_않음() {
+        List<String> tagId = List.of("test");
+        Student student = Student.builder().build();
+
+        when(tagRepository.findById("test"))
+                .thenReturn(Optional.empty());
+        when(registeredTagRepository.findByStudentAndTag(any(), any()))
+                .thenReturn(Optional.empty());
+
+        assertThrows(TagNotFoundException.class, () -> tagFacade.registerTag(tagId, student));
+    }
+
+    @Test
+    void 이미_등록된_태그() {
+        List<String> tagId = List.of("test");
+        Tag tag  = Tag.builder().name("test").build();
+        Student student = Student.builder().build();
+        RegisteredTag registeredTag = RegisteredTag.builder().build();
+
+        when(tagRepository.findById("test"))
+                .thenReturn(Optional.of(tag));
+        when(registeredTagRepository.findByStudentAndTag(any(), any()))
+                .thenReturn(Optional.of(registeredTag));
+
+        assertThrows(AlreadyRegisteredTagException.class, () -> tagFacade.registerTag(tagId, student));
     }
 
 }
