@@ -5,10 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.UUID;
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response.CreateDocumentResponse;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
 class CreateDocumentResponseTest {
 
 	@Test

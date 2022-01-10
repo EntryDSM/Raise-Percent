@@ -11,7 +11,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "tbl_registered_tag")
+@Table(name = "tbl_registered_tag", uniqueConstraints = @UniqueConstraint(columnNames = {"tag_id", "student_email"}))
 @Entity
 public class RegisteredTag extends BaseUUIDEntity {
 
