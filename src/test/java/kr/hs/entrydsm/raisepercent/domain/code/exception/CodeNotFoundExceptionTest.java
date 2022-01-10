@@ -1,4 +1,4 @@
-package kr.hs.entrydsm.raisepercent.global.exception;
+package kr.hs.entrydsm.raisepercent.domain.code.exception;
 
 import kr.hs.entrydsm.raisepercent.global.error.exception.ErrorCode;
 import org.junit.jupiter.api.Test;

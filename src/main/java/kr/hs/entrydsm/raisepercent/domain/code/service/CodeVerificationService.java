@@ -6,7 +6,7 @@ import kr.hs.entrydsm.raisepercent.domain.teacher.domain.Teacher;
 import kr.hs.entrydsm.raisepercent.domain.teacher.domain.types.Role;
 import kr.hs.entrydsm.raisepercent.domain.teacher.facade.TeacherFacade;
 import kr.hs.entrydsm.raisepercent.domain.teacher.presentation.dto.request.VerifyTeacherRequest;
-import kr.hs.entrydsm.raisepercent.global.exception.CodeNotFoundException;
+import kr.hs.entrydsm.raisepercent.domain.code.exception.CodeNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.exception.InvalidRoleException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
