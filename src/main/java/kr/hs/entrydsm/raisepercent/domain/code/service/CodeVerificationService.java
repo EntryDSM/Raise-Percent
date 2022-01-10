@@ -2,12 +2,12 @@ package kr.hs.entrydsm.raisepercent.domain.code.service;
 
 import kr.hs.entrydsm.raisepercent.domain.code.domain.Code;
 import kr.hs.entrydsm.raisepercent.domain.code.domain.repositories.CodeRepository;
+import kr.hs.entrydsm.raisepercent.domain.code.exception.CodeNotFoundException;
+import kr.hs.entrydsm.raisepercent.domain.code.exception.CodeNotMatchException;
 import kr.hs.entrydsm.raisepercent.domain.teacher.domain.Teacher;
 import kr.hs.entrydsm.raisepercent.domain.teacher.domain.types.Role;
 import kr.hs.entrydsm.raisepercent.domain.teacher.facade.TeacherFacade;
 import kr.hs.entrydsm.raisepercent.domain.teacher.presentation.dto.request.VerifyTeacherRequest;
-import kr.hs.entrydsm.raisepercent.domain.code.exception.CodeNotFoundException;
-import kr.hs.entrydsm.raisepercent.global.exception.InvalidRoleException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -31,8 +31,8 @@ public class CodeVerificationService {
                 .map(Code::getValue)
                 .orElseThrow(() -> CodeNotFoundException.EXCEPTION);
 
-        if (value.equals(request.getCode())) {
-            throw InvalidRoleException.EXCEPTION;
+        if (!value.equals(request.getCode())) {
+            throw CodeNotMatchException.EXCEPTION;
         }
 
         teacher.updateRole(Role.TEACHER);
