@@ -14,6 +14,8 @@ import kr.hs.entrydsm.raisepercent.infrastructure.feign.client.GoogleInfo;
 import kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.request.GoogleCodeRequest;
 import kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.response.GoogleInfoResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,9 +32,10 @@ public class GoogleAuthService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final TeacherRepository teacherRepository;
+    private static int status = 200;
 
     @Transactional
-    public TokenResponse execute(CodeRequest request) {
+    public ResponseEntity<TokenResponse> execute(CodeRequest request) {
         String accessToken = googleAuth.googleAuth(
                 GoogleCodeRequest.builder()
                         .code(URLDecoder.decode(request.getCode(), StandardCharsets.UTF_8))
@@ -49,9 +52,10 @@ public class GoogleAuthService {
 
         saveTeacher(email, name);
 
-        return new TokenResponse(
+        return new ResponseEntity<>(new TokenResponse(
                 jwtTokenProvider.generateAccessToken(email, "teacher"),
-                jwtTokenProvider.generateRefreshToken(email, "teacher")
+                jwtTokenProvider.generateRefreshToken(email, "teacher")),
+                HttpStatus.valueOf(status)
         );
     }
 
@@ -70,6 +74,7 @@ public class GoogleAuthService {
                             .role(Role.DEFAULT)
                             .build()
             );
+            status = 201;
         }
     }
 
