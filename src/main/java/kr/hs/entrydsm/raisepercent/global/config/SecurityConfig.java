@@ -26,11 +26,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/teachers/auth").permitAll()
                 .antMatchers(HttpMethod.POST, "/teachers/auth").permitAll()
                 .antMatchers(HttpMethod.PUT, "/teachers/auth").hasRole("DEFAULT")
+                .antMatchers(HttpMethod.POST, "/teachers/code").permitAll()
                 .antMatchers(HttpMethod.GET, "/teachers/code").hasRole("ROOT")
                 .antMatchers(HttpMethod.PUT, "/teachers/reissue").hasRole("ROOT")
                 .antMatchers(HttpMethod.POST, "/feedback/{document-id}").hasRole("ROOT")
-                .antMatchers(HttpMethod.GET, "/students/{student-email}").hasAnyRole("ROOT", "SENIOR", "STUDENT",
-                        "TEACHER")
+                .antMatchers(HttpMethod.GET, "/feedback/{feedback-id}").hasAnyRole("ROOT", "STUDENT")
+                .antMatchers(HttpMethod.GET, "/students/{student-email}").hasAnyRole("ROOT", "SENIOR", "STUDENT", "TEACHER")
                 .anyRequest().authenticated()
                 .and().apply(new FilterConfig());
     }
