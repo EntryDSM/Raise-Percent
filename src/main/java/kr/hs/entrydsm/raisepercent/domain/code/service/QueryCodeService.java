@@ -4,16 +4,18 @@ import kr.hs.entrydsm.raisepercent.domain.code.domain.Code;
 import kr.hs.entrydsm.raisepercent.domain.code.domain.repositories.CodeRepository;
 import kr.hs.entrydsm.raisepercent.global.exception.CodeNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class CodeIssueService {
+public class QueryCodeService {
 
     private final CodeRepository codeRepository;
 
-    private static final String id = "TEACHERVERIFICATIONCODE";
+    @Value("${code.value}")
+    private String id;
 
     @Transactional(readOnly = true)
     public String execute() {
