@@ -23,7 +23,7 @@ public class ShowFeedbackService {
     public ShowFeedbackResponse execute(UUID id) {
         Feedback feedback = feedbackFacade.getFeedback(id);
 
-        if (authFacade.getCurrentDetails().getRole() == Type.STUDENT) {
+        if (Type.STUDENT.equals(authFacade.getCurrentDetails().getRole())) {
             if (!feedback.getDocument().getStudent().equals(studentFacade.getCurrentStudent())) {
                 throw InvalidRoleException.EXCEPTION;
             }
