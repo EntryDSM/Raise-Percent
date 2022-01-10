@@ -1,4 +1,4 @@
-package kr.hs.entrydsm.raisepercent.domain.code.domain;
+package kr.hs.entrydsm.raisepercent.domain.teacher.code.domain;
 
 import lombok.AccessLevel;
 import lombok.Builder;

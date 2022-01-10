@@ -1,8 +1,8 @@
-package kr.hs.entrydsm.raisepercent.domain.code.service;
+package kr.hs.entrydsm.raisepercent.domain.teacher.code.service;
 
-import kr.hs.entrydsm.raisepercent.domain.code.domain.Code;
-import kr.hs.entrydsm.raisepercent.domain.code.domain.repositories.CodeRepository;
-import kr.hs.entrydsm.raisepercent.domain.code.exception.CodeNotFoundException;
+import kr.hs.entrydsm.raisepercent.domain.teacher.code.domain.Code;
+import kr.hs.entrydsm.raisepercent.domain.teacher.code.domain.repositories.CodeRepository;
+import kr.hs.entrydsm.raisepercent.domain.teacher.code.exception.CodeNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 

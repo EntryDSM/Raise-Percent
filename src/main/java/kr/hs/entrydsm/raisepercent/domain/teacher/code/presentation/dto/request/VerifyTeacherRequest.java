@@ -1,4 +1,4 @@
-package kr.hs.entrydsm.raisepercent.domain.teacher.presentation.dto.request;
+package kr.hs.entrydsm.raisepercent.domain.teacher.code.presentation.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

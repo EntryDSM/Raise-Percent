@@ -1,6 +1,6 @@
-package kr.hs.entrydsm.raisepercent.domain.code.domain.repositories;
+package kr.hs.entrydsm.raisepercent.domain.teacher.code.domain.repositories;
 
-import kr.hs.entrydsm.raisepercent.domain.code.domain.Code;
+import kr.hs.entrydsm.raisepercent.domain.teacher.code.domain.Code;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
