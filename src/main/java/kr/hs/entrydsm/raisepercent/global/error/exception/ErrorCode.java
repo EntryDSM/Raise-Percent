@@ -21,7 +21,9 @@ public enum ErrorCode {
     TEACHER_NOT_FOUND(404, "GLOBAL-404-3", "Teacher not found."),
     HR_NOT_FOUND(404, "GLOBAL-404-4", "Hr not found."),
     DOCUMENT_NOT_FOUND(404, "GLOBAL-404-5", "Document not found."),
-    CODE_NOT_FOUND(404, "GLOBAL-404-6", "Code not found"),
+
+    CODE_NOT_MATCH(401, "TEACHER-401-1", "Code not match"),
+    CODE_NOT_FOUND(404, "TEACHER-404-1", "Code not found"),
 
     INVALID_TYPE(400, "USER-400-1", "Invalid type."),
 
