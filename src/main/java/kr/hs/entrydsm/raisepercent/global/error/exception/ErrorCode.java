@@ -21,9 +21,12 @@ public enum ErrorCode {
     TEACHER_NOT_FOUND(404, "GLOBAL-404-3", "Teacher not found."),
     HR_NOT_FOUND(404, "GLOBAL-404-4", "Hr not found."),
     DOCUMENT_NOT_FOUND(404, "GLOBAL-404-5", "Document not found."),
-    CODE_NOT_FOUND(404, "GLOBAL-404-6", "Code Not Found"),
+    CODE_NOT_FOUND(404, "GLOBAL-404-6", "Code not found"),
 
     INVALID_TYPE(400, "USER-400-1", "Invalid type."),
+
+    TAG_NOT_FOUND(404, "TAG-404-1", "Tag not found."),
+    ALREADY_REGISTERED_TAG(409, "TAG-409-1", "Already registered tag."),
 
     OTHER_BAD_REQUEST(400, "OTHER-400-1", "Other Server Bad Request"),
     OTHER_UNAUTHORIZED(401, "OTHER-401-1", "Other Server UnAuthorized"),
