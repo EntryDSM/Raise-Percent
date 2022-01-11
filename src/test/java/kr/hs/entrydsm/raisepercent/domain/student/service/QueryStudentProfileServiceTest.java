@@ -1,6 +1,7 @@
 package kr.hs.entrydsm.raisepercent.domain.student.service;
 
 import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
+import kr.hs.entrydsm.raisepercent.domain.student.domain.types.Position;
 import kr.hs.entrydsm.raisepercent.domain.student.facade.StudentFacade;
 import kr.hs.entrydsm.raisepercent.domain.tag.facade.TagFacade;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
@@ -39,6 +40,7 @@ class QueryStudentProfileServiceTest {
         Student student = Student.builder()
                 .user(user)
                 .build();
+        student.updatePosition(Position.BACKEND);
 
         when(studentFacade.getStudent(email))
                 .thenReturn(student);

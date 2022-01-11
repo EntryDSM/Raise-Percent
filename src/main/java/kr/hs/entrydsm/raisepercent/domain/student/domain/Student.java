@@ -1,5 +1,6 @@
 package kr.hs.entrydsm.raisepercent.domain.student.domain;
 
+import kr.hs.entrydsm.raisepercent.domain.student.domain.types.Position;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
 import kr.hs.entrydsm.raisepercent.global.entity.Person;
 import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
@@ -31,8 +32,9 @@ public class Student extends Person {
     @Column(length = 4, nullable = false)
     private String year;
 
+    @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    private String position;
+    private Position position;
 
     @Builder
     public Student(User user, String number, String year) {
@@ -41,7 +43,7 @@ public class Student extends Person {
         this.year = year;
     }
 
-    public void updatePosition(String position) {
+    public void updatePosition(Position position) {
         this.position = position;
     }
 
