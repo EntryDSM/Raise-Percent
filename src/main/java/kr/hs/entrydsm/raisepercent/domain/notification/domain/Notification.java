@@ -56,4 +56,8 @@ public class Notification extends BaseUUIDTimeEntity {
         this.receiver = receiver;
     }
 
+    public void checkNotification() {
+        this.isWatch = true;
+    }
+
 }

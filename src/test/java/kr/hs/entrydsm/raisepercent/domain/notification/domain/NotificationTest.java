@@ -2,17 +2,21 @@ package kr.hs.entrydsm.raisepercent.domain.notification.domain;
 
 import kr.hs.entrydsm.raisepercent.domain.notification.domain.types.Type;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class NotificationTest {
 
     private static final String title = "Test title";
 
     private static final String content = "Test content";
 
-    private static final boolean isWatch = true;
+    private static final boolean isWatch = false;
 
     private static final String icon = "Test icon";
 
@@ -62,6 +66,7 @@ class NotificationTest {
         assertEquals(content, notification.getContent());
     }
 
+    @Order(0)
     @Test
     void 알림_읽음여부_가져오기() {
         assertEquals(isWatch, notification.isWatch());
@@ -90,6 +95,13 @@ class NotificationTest {
     @Test
     void 알림_수신자_가져오기() {
         assertEquals(receiver, notification.getReceiver());
+    }
+
+    @Order(1)
+    @Test
+    void 알림_확인() {
+        notification.checkNotification();
+        assertTrue(notification.isWatch());
     }
 
 }
