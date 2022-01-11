@@ -24,7 +24,7 @@ public class CreateFeedbackServiceTest {
 
     @Test
     void 피드백_작성하기() {
-        UUID id = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
+        String id = String.valueOf(UUID.randomUUID());
         String content = "test content";
 
         when(request.getContent())

@@ -31,7 +31,7 @@ public class ShowFeedbackServiceTest {
 
     @Test
     void 피드백_보기() {
-        UUID id = UUID.randomUUID();
+        String id = String.valueOf(UUID.randomUUID());
         String content = "content";
 
         Student student = Student.builder().build();
@@ -45,7 +45,7 @@ public class ShowFeedbackServiceTest {
                 .document(document)
                 .build();
 
-        when(feedbackFacade.getFeedback(id))
+        when(feedbackFacade.getFeedback(UUID.fromString(id)))
                 .thenReturn(feedback);
 
         when(authFacade.getCurrentDetails())
@@ -61,7 +61,7 @@ public class ShowFeedbackServiceTest {
 
     @Test
     void 피드백_보기_실패() {
-        UUID id = UUID.randomUUID();
+        String id = String.valueOf(UUID.randomUUID());
 
         Student student = Student.builder().build();
         Student student2 = Student.builder().build();
@@ -75,7 +75,7 @@ public class ShowFeedbackServiceTest {
                 .document(document)
                 .build();
 
-        when(feedbackFacade.getFeedback(id))
+        when(feedbackFacade.getFeedback(UUID.fromString(id)))
                 .thenReturn(feedback);
 
         when(authFacade.getCurrentDetails())

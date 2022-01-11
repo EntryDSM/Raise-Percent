@@ -20,8 +20,8 @@ public class ShowFeedbackService {
     private final AuthFacade authFacade;
     private final StudentFacade studentFacade;
 
-    public ShowFeedbackResponse execute(UUID id) {
-        Feedback feedback = feedbackFacade.getFeedback(id);
+    public ShowFeedbackResponse execute(String id) {
+        Feedback feedback = feedbackFacade.getFeedback(UUID.fromString(id));
 
         if (Type.STUDENT.equals(authFacade.getCurrentDetails().getRole())) {
             if (!feedback.getDocument().getStudent().equals(studentFacade.getCurrentStudent())) {

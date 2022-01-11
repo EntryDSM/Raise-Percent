@@ -20,11 +20,11 @@ public class CreateFeedbackService {
     private final DocumentFacade documentFacade;
     private final FeedbackRepository feedbackRepository;
 
-    public void execute(UUID id, CreateFeedbackRequest request) {
+    public void execute(String id, CreateFeedbackRequest request) {
 
         Teacher teacher = teacherFacade.getCurrentTeacher();
 
-        Document document = documentFacade.getDocument(id);
+        Document document = documentFacade.getDocument(UUID.fromString(id));
 
         feedbackRepository.save(Feedback.builder()
                 .content(request.getContent())
