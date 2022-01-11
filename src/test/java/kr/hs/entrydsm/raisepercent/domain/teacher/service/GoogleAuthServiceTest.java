@@ -11,6 +11,7 @@ import kr.hs.entrydsm.raisepercent.infrastructure.feign.client.GoogleInfo;
 import kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.request.GoogleCodeRequest;
 import kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.response.GoogleInfoResponse;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 
@@ -82,10 +83,10 @@ class GoogleAuthServiceTest {
         when(codeRequest.getCode())
                 .thenReturn(code);
 
-        TokenResponse response = googleAuthService.execute(codeRequest);
+        ResponseEntity<TokenResponse> response = googleAuthService.execute(codeRequest);
 
-        assertEquals(response.getAccessToken(), accessToken);
-        assertEquals(response.getRefreshToken(), refreshToken);
+        assertEquals(response.getBody().getAccessToken(), accessToken);
+        assertEquals(response.getBody().getRefreshToken(), refreshToken);
 
         verify(teacherRepository, times(1)).save(any());
     }

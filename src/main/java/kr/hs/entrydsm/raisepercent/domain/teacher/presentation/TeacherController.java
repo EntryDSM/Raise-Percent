@@ -7,6 +7,7 @@ import kr.hs.entrydsm.raisepercent.domain.teacher.service.QueryGoogleAuthLinkSer
 import kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.request.CodeRequest;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class TeacherController {
     }
 
     @PostMapping("/auth")
-    public TokenResponse googleAuthLogin(@RequestBody CodeRequest codeRequest) {
+    public ResponseEntity<TokenResponse> googleAuthLogin(@RequestBody CodeRequest codeRequest) {
         return googleAuthService.execute(codeRequest);
     }
 
