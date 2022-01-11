@@ -7,10 +7,9 @@ import kr.hs.entrydsm.raisepercent.domain.student.facade.StudentFacade;
 import kr.hs.entrydsm.raisepercent.global.exception.InvalidRoleException;
 import kr.hs.entrydsm.raisepercent.global.facade.AuthFacade;
 import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
+import kr.hs.entrydsm.raisepercent.global.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -21,7 +20,7 @@ public class ShowFeedbackService {
     private final StudentFacade studentFacade;
 
     public ShowFeedbackResponse execute(String id) {
-        Feedback feedback = feedbackFacade.getFeedback(UUID.fromString(id));
+        Feedback feedback = feedbackFacade.getFeedback(UUIDUtil.convertToUUID(id));
 
         if (Type.STUDENT.equals(authFacade.getCurrentDetails().getRole())) {
             if (!feedback.getDocument().getStudent().equals(studentFacade.getCurrentStudent())) {

@@ -3,6 +3,7 @@ package kr.hs.entrydsm.raisepercent.domain.feedback.service;
 import kr.hs.entrydsm.raisepercent.domain.feedback.domain.Feedback;
 import kr.hs.entrydsm.raisepercent.domain.feedback.facade.FeedbackFacade;
 import kr.hs.entrydsm.raisepercent.domain.feedback.presentation.dto.request.UpdateFeedbackRequest;
+import kr.hs.entrydsm.raisepercent.global.util.UUIDUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -26,7 +27,7 @@ public class UpdateFeedbackServiceTest {
 
         Feedback feedback = Feedback.builder().build();
 
-        when(feedbackFacade.getFeedback(UUID.fromString(id)))
+        when(feedbackFacade.getFeedback(UUIDUtil.convertToUUID(id)))
                 .thenReturn(feedback);
         when(request.getContent())
                 .thenReturn(content);
