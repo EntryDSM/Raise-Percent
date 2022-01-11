@@ -1,6 +1,5 @@
 package kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -8,7 +7,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-@AllArgsConstructor
 public class NotificationElement {
 
     private final String notificationId;
