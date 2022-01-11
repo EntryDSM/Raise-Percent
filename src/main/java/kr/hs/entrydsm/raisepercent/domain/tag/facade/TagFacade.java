@@ -7,13 +7,13 @@ import kr.hs.entrydsm.raisepercent.domain.tag.domain.repositories.RegisteredTagR
 import kr.hs.entrydsm.raisepercent.domain.tag.domain.repositories.TagRepository;
 import kr.hs.entrydsm.raisepercent.domain.tag.exception.AlreadyRegisteredTagException;
 import kr.hs.entrydsm.raisepercent.domain.tag.exception.TagNotFoundException;
+import kr.hs.entrydsm.raisepercent.global.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Component
@@ -34,7 +34,7 @@ public class TagFacade {
     @Transactional
     public void registerTag(List<String> tagIdList, Student student) {
         for (String tagId : tagIdList) {
-            Tag tag = tagRepository.findById(UUID.fromString(tagId))
+            Tag tag = tagRepository.findById(UUIDUtil.convertToUUID(tagId))
                     .orElseThrow(() -> TagNotFoundException.EXCEPTION);
 
             if(registeredTagRepository.findByStudentAndTag(student, tag).isPresent()) {
