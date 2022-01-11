@@ -2,7 +2,9 @@ package kr.hs.entrydsm.raisepercent.domain.student.presentation;
 
 import kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.request.RegisterTagRequest;
 import kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.request.UpdatePositionRequest;
+import kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.response.BookmarkListResponse;
 import kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.response.ProfileResponse;
+import kr.hs.entrydsm.raisepercent.domain.student.service.QueryBookmarkService;
 import kr.hs.entrydsm.raisepercent.domain.student.service.QueryStudentProfileService;
 import kr.hs.entrydsm.raisepercent.domain.student.service.RegisterTagService;
 import kr.hs.entrydsm.raisepercent.domain.student.service.UpdatePositionService;
@@ -27,6 +29,7 @@ public class StudentController {
     private final QueryStudentProfileService queryStudentProfileService;
     private final RegisterTagService registerTagService;
     private final UpdatePositionService updatePositionService;
+    private final QueryBookmarkService queryBookmarkService;
 
     @GetMapping("/{student-email}")
     public ProfileResponse queryStudentProfile(@PathVariable("student-email") String email) {
@@ -43,6 +46,11 @@ public class StudentController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updatePosition(@RequestBody @Valid UpdatePositionRequest request) {
         updatePositionService.execute(request);
+    }
+
+    @GetMapping("/bookmark")
+    public BookmarkListResponse queryBookmark() {
+        return queryBookmarkService.execute();
     }
 
 }
