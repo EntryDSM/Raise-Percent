@@ -11,6 +11,7 @@ public enum ErrorCode {
 
     BAD_REQUEST(400, "GLOBAL-400-1", "Bad request."),
     INVALID_ENUM_VALUE(400, "GLOBAL-400-2", "Invalid enum value."),
+    INVALID_UUID_VALUE(400, "GLOBAL-400-2", "Invalid uuid value."),
 
     EXPIRED_TOKEN(401, "GLOBAL-401-1", "Expired token."),
     INVALID_TOKEN(401, "GLOBAL-401-2", "Invalid token."),
@@ -31,6 +32,9 @@ public enum ErrorCode {
 
     TAG_NOT_FOUND(404, "TAG-404-1", "Tag not found."),
     ALREADY_REGISTERED_TAG(409, "TAG-409-1", "Already registered tag."),
+
+    NOT_YOUR_NOTIFICATION(403, "NOTIFICATION-403-1", "Not your notification"),
+    NOTIFICATION_NOT_FOUND(404, "NOTIFICATION-404-1", "Notification not found"),
 
     OTHER_BAD_REQUEST(400, "OTHER-400-1", "Other server bad request"),
     OTHER_UNAUTHORIZED(401, "OTHER-401-1", "Other server unauthorized"),
