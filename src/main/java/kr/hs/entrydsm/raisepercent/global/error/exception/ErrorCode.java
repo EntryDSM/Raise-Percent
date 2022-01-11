@@ -10,6 +10,7 @@ import lombok.Getter;
 public enum ErrorCode {
 
     BAD_REQUEST(400, "GLOBAL-400-1", "Bad request."),
+    INVALID_ENUM_VALUE(400, "GLOBAL-400-2", "Invalid enum value."),
 
     EXPIRED_TOKEN(401, "GLOBAL-401-1", "Expired token."),
     INVALID_TOKEN(401, "GLOBAL-401-2", "Invalid token."),

@@ -1,5 +1,6 @@
 package kr.hs.entrydsm.raisepercent.domain.student.domain;
 
+import kr.hs.entrydsm.raisepercent.domain.student.domain.types.Position;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
 import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import org.junit.jupiter.api.Test;
@@ -48,7 +49,7 @@ class StudentTest {
 
     @Test
     void 학생_분야_수정() {
-        String position = "Backend";
+        Position position = Position.BACKEND;
         student.updatePosition(position);
         assertEquals(position, student.getPosition());
     }

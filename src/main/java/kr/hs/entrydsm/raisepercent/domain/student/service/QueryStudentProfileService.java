@@ -20,7 +20,7 @@ public class QueryStudentProfileService {
         User user = student.getUser();
 
         return new ProfileResponse(user.getName(), user.getContactEmail(), user.getContactTel(),
-                student.getPosition(), tagFacade.queryRegisteredTagValue(student));
+                student.getPosition().name(), tagFacade.queryRegisteredTagValue(student));
     }
 
 }
