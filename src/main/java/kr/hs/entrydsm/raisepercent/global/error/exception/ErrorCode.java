@@ -22,18 +22,19 @@ public enum ErrorCode {
     HR_NOT_FOUND(404, "GLOBAL-404-4", "Hr not found."),
     DOCUMENT_NOT_FOUND(404, "GLOBAL-404-5", "Document not found."),
     FEEDBACK_NOT_FOUND(404, "GLOBAL-404-6", "Feedback not found."),
-    CODE_NOT_FOUND(404, "GLOBAL-404-6", "Code not found"),
+  
+    CODE_NOT_MATCH(401, "TEACHER-401-1", "Code not match"),
+    CODE_NOT_FOUND(404, "TEACHER-404-1", "Code not found"),
 
     INVALID_TYPE(400, "USER-400-1", "Invalid type."),
 
     TAG_NOT_FOUND(404, "TAG-404-1", "Tag not found."),
     ALREADY_REGISTERED_TAG(409, "TAG-409-1", "Already registered tag."),
 
-    OTHER_BAD_REQUEST(400, "OTHER-400-1", "Other Server Bad Request"),
-    OTHER_UNAUTHORIZED(401, "OTHER-401-1", "Other Server UnAuthorized"),
-    OTHER_FORBIDDEN(403, "OTHER-403-1", "Other Server Forbidden"),
-    OTHER_EXPIRED_TOKEN(419, "OTHER-419-1", "Other Server Expired Token")
-    ;
+    OTHER_BAD_REQUEST(400, "OTHER-400-1", "Other server bad request"),
+    OTHER_UNAUTHORIZED(401, "OTHER-401-1", "Other server unauthorized"),
+    OTHER_FORBIDDEN(403, "OTHER-403-1", "Other server forbidden"),
+    OTHER_EXPIRED_TOKEN(419, "OTHER-419-1", "Other server expired token");
 
     private final int status;
     private final String code;

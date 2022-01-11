@@ -1,4 +1,4 @@
-package kr.hs.entrydsm.raisepercent.domain.code.facade;
+package kr.hs.entrydsm.raisepercent.domain.teacher.code.facade;
 
 import org.junit.jupiter.api.Test;
 

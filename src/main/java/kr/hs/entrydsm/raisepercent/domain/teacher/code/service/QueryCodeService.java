@@ -1,8 +1,8 @@
-package kr.hs.entrydsm.raisepercent.domain.code.service;
+package kr.hs.entrydsm.raisepercent.domain.teacher.code.service;
 
-import kr.hs.entrydsm.raisepercent.domain.code.domain.Code;
-import kr.hs.entrydsm.raisepercent.domain.code.domain.repositories.CodeRepository;
-import kr.hs.entrydsm.raisepercent.global.exception.CodeNotFoundException;
+import kr.hs.entrydsm.raisepercent.domain.teacher.code.domain.Code;
+import kr.hs.entrydsm.raisepercent.domain.teacher.code.domain.repositories.CodeRepository;
+import kr.hs.entrydsm.raisepercent.domain.teacher.code.exception.CodeNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
