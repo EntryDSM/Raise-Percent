@@ -6,11 +6,10 @@ import kr.hs.entrydsm.raisepercent.domain.notification.domain.exception.Notifica
 import kr.hs.entrydsm.raisepercent.domain.notification.domain.repositories.NotificationRepository;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
 import kr.hs.entrydsm.raisepercent.domain.user.facade.UserFacade;
+import kr.hs.entrydsm.raisepercent.global.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -23,7 +22,7 @@ public class CheckNotificationService {
     public void execute(String notificationId) {
         User receiver = userFacade.getCurrentUser();
 
-        Notification notification = notificationRepository.findById(UUID.fromString(notificationId))
+        Notification notification = notificationRepository.findById(UUIDUtil.convertToUUID(notificationId))
                 .orElseThrow(() -> NotificationNotFoundException.EXCEPTION);
 
         if(!notification.getReceiver().equals(receiver)) {
