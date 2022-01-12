@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RequiredArgsConstructor
-@RequestMapping("/notice")
+@RequestMapping("/notices")
 @RestController
 public class NoticeController {
 
