@@ -8,7 +8,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -32,6 +37,14 @@ public class Bookmark extends BaseUUIDTimeEntity {
         this.hr = hr;
         this.student = student;
         this.companyName = companyName;
+    }
+
+    public String queryHrEmail() {
+        if(hr == null) {
+            return null;
+        } else {
+            return hr.getEmail();
+        }
     }
 
 }
