@@ -14,7 +14,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class DeleteFeedbackServiceTest {
+class DeleteFeedbackServiceTest {
 
     private static final FeedbackFacade feedbackFacade = mock(FeedbackFacade.class);
 
