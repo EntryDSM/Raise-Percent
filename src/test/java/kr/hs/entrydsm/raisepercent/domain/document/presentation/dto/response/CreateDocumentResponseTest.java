@@ -1,4 +1,4 @@
-package kr.hs.entrydsm.raisepercent.domain.document.dto;
+package kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
