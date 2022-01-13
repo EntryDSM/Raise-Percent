@@ -4,6 +4,7 @@ import kr.hs.entrydsm.raisepercent.domain.document.domain.Document;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.repositories.DocumentRepository;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.repositories.SubmittedDocumentRepository;
 import kr.hs.entrydsm.raisepercent.global.exception.DocumentNotFoundException;
+import kr.hs.entrydsm.raisepercent.global.util.UUIDUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -17,7 +18,7 @@ import static org.mockito.Mockito.when;
 
 class DocumentFacadeTest {
 
-    private static final UUID id = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
+    private static final UUID id = UUIDUtil.convertToUUID("550e8400-e29b-41d4-a716-446655440000");
 
     private static final DocumentRepository documentRepository = mock(DocumentRepository.class);
 
