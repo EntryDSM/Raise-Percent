@@ -7,10 +7,9 @@ import kr.hs.entrydsm.raisepercent.domain.feedback.domain.repositories.FeedbackR
 import kr.hs.entrydsm.raisepercent.domain.feedback.presentation.dto.request.CreateFeedbackRequest;
 import kr.hs.entrydsm.raisepercent.domain.teacher.domain.Teacher;
 import kr.hs.entrydsm.raisepercent.domain.teacher.facade.TeacherFacade;
+import kr.hs.entrydsm.raisepercent.global.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -20,11 +19,11 @@ public class CreateFeedbackService {
     private final DocumentFacade documentFacade;
     private final FeedbackRepository feedbackRepository;
 
-    public void execute(UUID id, CreateFeedbackRequest request) {
+    public void execute(String id, CreateFeedbackRequest request) {
 
         Teacher teacher = teacherFacade.getCurrentTeacher();
 
-        Document document = documentFacade.getDocument(id);
+        Document document = documentFacade.getDocument(UUIDUtil.convertToUUID(id));
 
         feedbackRepository.save(Feedback.builder()
                 .content(request.getContent())

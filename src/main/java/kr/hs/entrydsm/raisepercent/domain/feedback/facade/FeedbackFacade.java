@@ -11,7 +11,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Component
 public class FeedbackFacade {
-    
+
     private final FeedbackRepository feedbackRepository;
 
     public Feedback getFeedback(UUID id) {
