@@ -33,6 +33,6 @@ class DeleteFeedbackServiceTest {
 
         service.execute(id);
 
-        verify(feedbackRepository, times(1)).deleteById(any());
+        verify(feedbackRepository, times(1)).delete(any());
     }
 }
