@@ -16,6 +16,6 @@ public class DeleteFeedbackService {
 
     public void execute(String id) {
         Feedback feedback = feedbackFacade.getFeedback(UUIDUtil.convertToUUID(id));
-        feedbackRepository.deleteById(feedback.getId());
+        feedbackRepository.delete(feedback);
     }
 }
