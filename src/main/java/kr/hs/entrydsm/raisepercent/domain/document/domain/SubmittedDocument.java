@@ -25,4 +25,12 @@ public class SubmittedDocument extends BaseUUIDEntity {
         this.document = document;
     }
 
+    public String getStudentName() {
+        return this.document.getStudent().getUser().getName();
+    }
+
+    public String getStudentNumber() {
+        return this.document.getStudent().getNumber();
+    }
+
 }

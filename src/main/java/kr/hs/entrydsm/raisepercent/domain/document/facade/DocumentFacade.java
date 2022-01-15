@@ -28,8 +28,8 @@ public class DocumentFacade {
         return submittedDocumentRepository.findAll()
                 .stream()
                 .map(document -> SubmittedDocumentElement.builder()
-                        .name(document.getDocument().getStudent().getUser().getName())
-                        .number(document.getDocument().getStudent().getNumber())
+                        .name(document.getStudentName())
+                        .number(document.getStudentNumber())
                         .submittedDocumentId(document.getId().toString())
                         .build())
                 .collect(Collectors.toList());
