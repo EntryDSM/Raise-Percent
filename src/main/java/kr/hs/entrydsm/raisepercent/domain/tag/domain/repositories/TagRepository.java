@@ -1,9 +1,9 @@
 package kr.hs.entrydsm.raisepercent.domain.tag.domain.repositories;
 
 import kr.hs.entrydsm.raisepercent.domain.tag.domain.Tag;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface TagRepository extends CrudRepository<Tag, UUID> {
+public interface TagRepository extends JpaRepository<Tag, UUID> {
 }
