@@ -60,15 +60,17 @@ class DocumentFacadeTest {
 
         String name = DocumentUserConstant.name;
         String number = DocumentUserConstant.number;
-        Document document = DocumentUserConstant.document;
+
+        when(submittedDocument.getStudentName())
+                .thenReturn(name);
+
+        when(submittedDocument.getStudentNumber())
+                .thenReturn(number);
 
         documents.add(submittedDocument);
 
         when(submittedDocumentRepository.findAll())
                 .thenReturn(documents);
-
-        when(submittedDocument.getDocument())
-                .thenReturn(document);
 
         when(submittedDocument.getId())
                 .thenReturn(id);
