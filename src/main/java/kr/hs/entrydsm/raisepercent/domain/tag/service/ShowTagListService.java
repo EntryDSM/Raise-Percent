@@ -6,6 +6,7 @@ import kr.hs.entrydsm.raisepercent.domain.tag.presentation.dto.response.TagListR
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -15,8 +16,11 @@ public class ShowTagListService {
     private final TagRepository tagRepository;
 
     public ShowTagListResponse execute() {
-        return new ShowTagListResponse(tagRepository.findAll()
+        List<TagListResponse> tagList = tagRepository.findAll()
                 .stream().map(tag -> new TagListResponse(tag.getId(), tag.getName()))
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
+
+        return new ShowTagListResponse(tagList);
     }
+
 }
