@@ -16,7 +16,7 @@ public class ShowTagListService {
     private final TagRepository tagRepository;
 
     public ShowTagListResponse execute() {
-        List<TagListResponse> tagList = tagRepository.findAll()
+        List<TagListResponse> tagList = tagRepository.findAllBy()
                 .stream().map(tag -> new TagListResponse(tag.getId(), tag.getName()))
                 .collect(Collectors.toList());
 
