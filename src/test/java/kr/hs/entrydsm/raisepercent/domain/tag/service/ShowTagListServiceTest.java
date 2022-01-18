@@ -23,6 +23,6 @@ public class ShowTagListServiceTest {
 
         service.execute();
 
-        verify(tagRepository, times(1)).findAll();
+        verify(tagRepository, times(1)).findAllBy();
     }
 }
