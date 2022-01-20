@@ -1,7 +1,6 @@
 package kr.hs.entrydsm.raisepercent.domain.tag.service;
 
 import kr.hs.entrydsm.raisepercent.domain.tag.domain.repositories.TagRepository;
-import kr.hs.entrydsm.raisepercent.domain.tag.presentation.dto.response.ShowTagListResponse;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -16,13 +15,16 @@ public class ShowTagListServiceTest {
     private static final TagRepository tagRepository = mock(TagRepository.class);
 
     private static final ShowTagListService service = new ShowTagListService(tagRepository);
+
     @Test
     void 태그_리스트_불러오기() {
-        when(tagRepository.findAll())
+        String name = "test";
+
+        when(tagRepository.findAllByNameLike(name))
                 .thenReturn(new ArrayList<>());
 
-        service.execute();
+        service.execute(name);
 
-        verify(tagRepository, times(1)).findAllBy();
+        verify(tagRepository, times(1)).findAllByNameLike(name);
     }
 }
