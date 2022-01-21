@@ -19,7 +19,7 @@ class HrTest {
             .build();
 
     private static final Company company = Company.builder()
-            .rank(Rank.JUNIOR)
+            .rankValue(Rank.JUNIOR)
             .build();
 
     private static final Hr hr = Hr.builder()
@@ -57,7 +57,7 @@ class HrTest {
         User user = User.builder()
                 .build();
         Company company = Company.builder()
-                .rank(Rank.SENIOR)
+                .rankValue(Rank.SENIOR)
                 .build();
         Hr hr = Hr.builder()
                 .user(user)

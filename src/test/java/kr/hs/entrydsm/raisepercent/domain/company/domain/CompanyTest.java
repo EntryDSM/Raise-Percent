@@ -18,7 +18,7 @@ class CompanyTest {
 
     private static final Company company = Company.builder()
             .name(name)
-            .rank(rank)
+            .rankValue(rank)
             .build();
 
     @Test

@@ -79,7 +79,7 @@ public class AuthFacadeTest {
 	@Test
 	void 인사담당자_역할() {
 		Company company = Company.builder()
-			.rank(Rank.SENIOR)
+			.rankValue(Rank.SENIOR)
 			.build();
 		Hr hr = Hr.builder()
 			.company(company)
