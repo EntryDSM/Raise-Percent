@@ -20,16 +20,16 @@ public class Company extends BaseUUIDEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 6, nullable = false)
-    private Rank rank;
+    private Rank rankValue;
 
     @Builder
-    public Company(String name, Rank rank) {
+    public Company(String name, Rank rankValue) {
         this.name = name;
-        this.rank = rank;
+        this.rankValue = rankValue;
     }
 
-    public void updateRank(Rank rank) {
-        this.rank = rank;
+    public void updateRank(Rank rankValue) {
+        this.rankValue = rankValue;
     }
 
 }

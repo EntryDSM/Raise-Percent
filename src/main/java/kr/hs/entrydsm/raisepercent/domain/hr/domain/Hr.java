@@ -46,7 +46,7 @@ public class Hr extends Person {
     }
 
     private Rank getRank() {
-        return company.getRank();
+        return company.getRankValue();
     }
 
 }

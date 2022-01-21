@@ -18,7 +18,7 @@ class CompanyTest {
 
     private static final Company company = Company.builder()
             .name(name)
-            .rank(rank)
+            .rankValue(rank)
             .build();
 
     @Test
@@ -26,7 +26,7 @@ class CompanyTest {
         Company company = new Company();
         assertNull(company.getId());
         assertNull(company.getName());
-        assertNull(company.getRank());
+        assertNull(company.getRankValue());
     }
 
     @Test
@@ -37,7 +37,7 @@ class CompanyTest {
     @Test
     @Order(1)
     void 회사_등급_가져오기() {
-        assertEquals(rank, company.getRank());
+        assertEquals(rank, company.getRankValue());
     }
 
     @Test
@@ -45,7 +45,7 @@ class CompanyTest {
     void 회사_등급_수정() {
         Rank rank = Rank.SENIOR;
         company.updateRank(rank);
-        assertEquals(rank, company.getRank());
+        assertEquals(rank, company.getRankValue());
     }
 
 }
