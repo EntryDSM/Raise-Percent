@@ -9,8 +9,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class TagListResponse {
 
-    private UUID id;
+    private final UUID id;
 
-    private String name;
+    private final String name;
 
 }
