@@ -25,13 +25,13 @@ class ShowTagListServiceTest {
         String name = "test";
         List<Tag> arrayList = new ArrayList<>();
 
-        when(tagRepository.findAllByNameLike(name))
+        when(tagRepository.findAllByNameContaining(name))
                 .thenReturn(arrayList);
 
         ShowTagListResponse response = service.execute(name);
 
         assertThat(arrayList).isEqualTo(response.getTagList());
 
-        verify(tagRepository, times(1)).findAllByNameLike(name);
+        verify(tagRepository, times(1)).findAllByNameContaining(name);
     }
 }

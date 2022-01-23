@@ -5,6 +5,7 @@ import kr.hs.entrydsm.raisepercent.domain.tag.presentation.dto.response.ShowTagL
 import kr.hs.entrydsm.raisepercent.domain.tag.presentation.dto.response.TagListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,8 +16,9 @@ public class ShowTagListService {
 
     private final TagRepository tagRepository;
 
+    @Transactional(readOnly = true)
     public ShowTagListResponse execute(String name) {
-        List<TagListResponse> tagList = tagRepository.findAllByNameLike(name)
+        List<TagListResponse> tagList = tagRepository.findAllByNameContaining(name)
                 .stream().map(tag -> new TagListResponse(tag.getId(), tag.getName()))
                 .collect(Collectors.toList());
 
