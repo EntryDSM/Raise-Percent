@@ -9,6 +9,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class NoticeResponse {
 
-    private String title;
-    private LocalDateTime createAt;
+    private final String title;
+    private final LocalDateTime createAt;
 }
