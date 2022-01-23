@@ -5,6 +5,7 @@ import kr.hs.entrydsm.raisepercent.domain.notice.presentation.dto.response.Notic
 import kr.hs.entrydsm.raisepercent.domain.notice.presentation.dto.response.NoticeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,6 +16,7 @@ public class NoticeListService {
 
     private final NoticeRepository noticeRepository;
 
+    @Transactional(readOnly = true)
     public NoticeListResponse execute() {
         List<NoticeResponse> noticeList = noticeRepository.findAllBy()
                 .stream().map(notice -> new NoticeResponse(notice.getTitle(), notice.getCreatedAt()))
