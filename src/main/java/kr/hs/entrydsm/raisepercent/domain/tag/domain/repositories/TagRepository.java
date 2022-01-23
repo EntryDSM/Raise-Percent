@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface TagRepository extends CrudRepository<Tag, UUID> {
-    List<Tag> findAllByNameLike(String name);
+    List<Tag> findAllByNameContaining(String name);
 }
