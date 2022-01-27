@@ -24,7 +24,7 @@ public class ApproveStayDocumentService {
         List<StayDocument> stayDocumentList =
                 stayDocumentRepository.findByIdDocumentId(UUIDUtil.convertToUUID(documentId));
 
-        if (stayDocumentList.size() == 0) {
+        if (stayDocumentList.isEmpty()) {
             throw DocumentNotFoundException.EXCEPTION;
         }
         
