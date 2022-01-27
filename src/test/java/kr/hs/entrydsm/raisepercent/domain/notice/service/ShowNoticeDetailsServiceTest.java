@@ -12,7 +12,7 @@ import java.util.UUID;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class NoticeDetailsServiceTest {
+class ShowNoticeDetailsServiceTest {
 
     private static final NoticeRepository noticeRepository = mock(NoticeRepository.class);
 
