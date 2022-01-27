@@ -2,6 +2,8 @@ package kr.hs.entrydsm.raisepercent.domain.notice.presentation;
 
 import kr.hs.entrydsm.raisepercent.domain.notice.presentation.dto.request.RegistrationNoticeRequest;
 import kr.hs.entrydsm.raisepercent.domain.notice.presentation.dto.response.NoticeDetailsResponse;
+import kr.hs.entrydsm.raisepercent.domain.notice.presentation.dto.response.NoticeListResponse;
+import kr.hs.entrydsm.raisepercent.domain.notice.service.NoticeListService;
 import kr.hs.entrydsm.raisepercent.domain.notice.service.RegistrationNoticeService;
 import kr.hs.entrydsm.raisepercent.domain.notice.service.ShowNoticeDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class NoticeController {
 
     private final RegistrationNoticeService registrationNoticeService;
     private final ShowNoticeDetailsService showNoticeDetailsService;
+    private final NoticeListService noticeListService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -33,6 +36,11 @@ public class NoticeController {
     @GetMapping("/{notice-id}")
     public NoticeDetailsResponse noticeDetails(@PathVariable("notice-id") String noticeId) {
         return showNoticeDetailsService.execute(noticeId);
+    }
+    
+    @GetMapping
+    public NoticeListResponse noticeList() {
+        return noticeListService.execute();
     }
 
 }
