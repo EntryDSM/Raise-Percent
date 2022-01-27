@@ -24,6 +24,7 @@ public enum ErrorCode {
     HR_NOT_FOUND(404, "GLOBAL-404-4", "Hr not found."),
     DOCUMENT_NOT_FOUND(404, "GLOBAL-404-5", "Document not found."),
     FEEDBACK_NOT_FOUND(404, "GLOBAL-404-6", "Feedback not found."),
+    NOTICE_NOT_FOUND(404, "GLOBAL-404-7", "Notice not found"),
   
     CODE_NOT_MATCH(401, "TEACHER-401-1", "Code not match"),
     CODE_NOT_FOUND(404, "TEACHER-404-1", "Code not found"),
