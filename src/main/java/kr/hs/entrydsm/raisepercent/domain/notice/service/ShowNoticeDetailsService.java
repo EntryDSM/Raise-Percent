@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class NoticeDetailsService {
+public class ShowNoticeDetailsService {
 
     private final NoticeRepository noticeRepository;
 
