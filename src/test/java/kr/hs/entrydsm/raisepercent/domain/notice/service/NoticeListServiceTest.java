@@ -24,13 +24,13 @@ class NoticeListServiceTest {
     void 공지사항_목록() {
         List<Notice> arrayList = new ArrayList<>();
 
-        when(noticeRepository.findAllBy())
+        when(noticeRepository.findAll())
                 .thenReturn(arrayList);
 
         NoticeListResponse response = service.execute();
 
         assertThat(arrayList).isEqualTo(response.getNoticeList());
 
-        verify(noticeRepository, times(1)).findAllBy();
+        verify(noticeRepository, times(1)).findAll();
     }
 }

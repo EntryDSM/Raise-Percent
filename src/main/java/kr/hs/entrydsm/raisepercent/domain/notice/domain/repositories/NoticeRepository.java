@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface NoticeRepository extends CrudRepository<Notice, UUID> {
-    List<Notice> findAllBy();
+    List<Notice> findAll();
 }
