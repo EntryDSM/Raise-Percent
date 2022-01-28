@@ -10,7 +10,7 @@ import kr.hs.entrydsm.raisepercent.global.exception.HrNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.exception.StudentNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.exception.TeacherNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.exception.UserNotFoundException;
-import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetails;
+import kr.hs.entrydsm.raisepercent.global.security.auth.detail.AuthDetails;
 import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -4,7 +4,7 @@ import io.jsonwebtoken.*;
 import kr.hs.entrydsm.raisepercent.global.exception.ExpiredTokenException;
 import kr.hs.entrydsm.raisepercent.global.exception.InvalidTokenException;
 import kr.hs.entrydsm.raisepercent.global.properties.JwtProperties;
-import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetailsService;
+import kr.hs.entrydsm.raisepercent.global.security.auth.detail.AuthDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

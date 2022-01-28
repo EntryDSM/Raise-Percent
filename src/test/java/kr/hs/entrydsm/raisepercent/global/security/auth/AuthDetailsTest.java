@@ -1,5 +1,6 @@
 package kr.hs.entrydsm.raisepercent.global.security.auth;
 
+import kr.hs.entrydsm.raisepercent.global.security.auth.detail.AuthDetails;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
 

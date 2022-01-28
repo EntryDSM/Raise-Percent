@@ -4,7 +4,7 @@ import java.util.Optional;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.repositories.UserRepository;
 import kr.hs.entrydsm.raisepercent.global.facade.AuthFacade;
-import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetails;
+import kr.hs.entrydsm.raisepercent.global.security.auth.detail.AuthDetails;
 import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import org.junit.jupiter.api.Test;
 

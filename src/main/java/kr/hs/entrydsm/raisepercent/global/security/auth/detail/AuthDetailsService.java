@@ -1,4 +1,4 @@
-package kr.hs.entrydsm.raisepercent.global.security.auth;
+package kr.hs.entrydsm.raisepercent.global.security.auth.detail;
 
 import kr.hs.entrydsm.raisepercent.global.facade.AuthFacade;
 import lombok.RequiredArgsConstructor;

@@ -1,5 +1,6 @@
-package kr.hs.entrydsm.raisepercent.global.security.auth;
+package kr.hs.entrydsm.raisepercent.global.security.auth.detail;
 
+import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

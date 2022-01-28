@@ -5,7 +5,7 @@ import kr.hs.entrydsm.raisepercent.domain.teacher.domain.repositories.TeacherRep
 import kr.hs.entrydsm.raisepercent.domain.teacher.domain.types.Role;
 import kr.hs.entrydsm.raisepercent.global.exception.TeacherNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.facade.AuthFacade;
-import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetails;
+import kr.hs.entrydsm.raisepercent.global.security.auth.detail.AuthDetails;
 import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import org.junit.jupiter.api.Test;
 

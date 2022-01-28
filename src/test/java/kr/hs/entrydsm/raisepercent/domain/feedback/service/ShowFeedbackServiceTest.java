@@ -8,7 +8,7 @@ import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
 import kr.hs.entrydsm.raisepercent.domain.student.facade.StudentFacade;
 import kr.hs.entrydsm.raisepercent.global.exception.InvalidRoleException;
 import kr.hs.entrydsm.raisepercent.global.facade.AuthFacade;
-import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetails;
+import kr.hs.entrydsm.raisepercent.global.security.auth.detail.AuthDetails;
 import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import org.junit.jupiter.api.Test;
 
