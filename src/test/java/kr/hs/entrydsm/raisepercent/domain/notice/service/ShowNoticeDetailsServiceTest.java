@@ -3,14 +3,16 @@ package kr.hs.entrydsm.raisepercent.domain.notice.service;
 import kr.hs.entrydsm.raisepercent.domain.notice.domain.Notice;
 import kr.hs.entrydsm.raisepercent.domain.notice.domain.repositories.NoticeRepository;
 import kr.hs.entrydsm.raisepercent.domain.teacher.domain.Teacher;
+import kr.hs.entrydsm.raisepercent.global.exception.NoticeNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.util.UUIDUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class ShowNoticeDetailsServiceTest {
 
@@ -28,9 +30,20 @@ class ShowNoticeDetailsServiceTest {
                 .teacher(teacher)
                 .build();
 
-        when(noticeRepository.findById(UUIDUtil.convertToUUID(id)))
-                .thenReturn(Optional.of(notice));
+        given(noticeRepository.findById(UUIDUtil.convertToUUID(id)))
+                .willReturn(Optional.of(notice));
 
         service.execute(id);
+    }
+
+    @Test
+    void 공시사항_존재하지_않음_예외() {
+        String id = String.valueOf(UUID.randomUUID());
+
+        given(noticeRepository.findById(UUIDUtil.convertToUUID(id)))
+                .willReturn(Optional.empty());
+
+        assertThrows(NoticeNotFoundException.class, () -> service.execute(id));
+
     }
 }
