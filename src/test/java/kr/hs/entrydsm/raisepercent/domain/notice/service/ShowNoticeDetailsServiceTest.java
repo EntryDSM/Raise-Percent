@@ -1,8 +1,14 @@
 package kr.hs.entrydsm.raisepercent.domain.notice.service;
 
+import kr.hs.entrydsm.raisepercent.domain.hr.domain.repositories.HrRepository;
 import kr.hs.entrydsm.raisepercent.domain.notice.domain.Notice;
 import kr.hs.entrydsm.raisepercent.domain.notice.domain.repositories.NoticeRepository;
+import kr.hs.entrydsm.raisepercent.domain.notice.domain.types.Scope;
+import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
+import kr.hs.entrydsm.raisepercent.domain.student.domain.repositories.StudentRepository;
 import kr.hs.entrydsm.raisepercent.domain.teacher.domain.Teacher;
+import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
+import kr.hs.entrydsm.raisepercent.domain.user.facade.UserFacade;
 import kr.hs.entrydsm.raisepercent.global.exception.NoticeNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.util.UUIDUtil;
 import org.junit.jupiter.api.Test;
@@ -18,18 +24,65 @@ class ShowNoticeDetailsServiceTest {
 
     private static final NoticeRepository noticeRepository = mock(NoticeRepository.class);
 
-    private static final ShowNoticeDetailsService service = new ShowNoticeDetailsService(noticeRepository);
+    private static final UserFacade userFacade = mock(UserFacade.class);
+
+    private static final HrRepository hrRepository = mock(HrRepository.class);
+
+    private static final StudentRepository studentRepository = mock(StudentRepository.class);
+
+    private static final ShowNoticeDetailsService service =
+            new ShowNoticeDetailsService(noticeRepository, userFacade, hrRepository, studentRepository);
 
     @Test
     void 공지사항_상세보기() {
         String id = String.valueOf(UUID.randomUUID());
+        String email = "test@test.com";
 
         Teacher teacher = Teacher.builder().build();
 
         Notice notice = Notice.builder()
                 .teacher(teacher)
+                .scope(Scope.STUDENT)
                 .build();
 
+        User user = User.builder()
+                .email(email)
+                .build();
+
+        Student student = Student.builder()
+                .user(user)
+                .build();
+
+        given(userFacade.getCurrentUser())
+                .willReturn(user);
+        given(studentRepository.findById(id))
+                .willReturn(Optional.of(student));
+        given(noticeRepository.findById(UUIDUtil.convertToUUID(id)))
+                .willReturn(Optional.of(notice));
+
+        service.execute(id);
+    }
+
+    @Test
+    void 공지사항_스코프_예외() {
+        String id = String.valueOf(UUID.randomUUID());
+        String email = "test@test.com";
+
+        Teacher teacher = Teacher.builder().build();
+
+        Notice notice = Notice.builder()
+                .teacher(teacher)
+                .scope(Scope.STUDENT)
+                .build();
+
+        User user = User.builder()
+                .email(email)
+                .build();
+
+        given(userFacade.getCurrentUser())
+                .willReturn(user);
+        given(studentRepository.findById(id))
+                .willReturn(Optional.empty());
         given(noticeRepository.findById(UUIDUtil.convertToUUID(id)))
                 .willReturn(Optional.of(notice));
 
