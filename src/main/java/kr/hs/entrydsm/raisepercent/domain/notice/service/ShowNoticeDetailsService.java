@@ -31,9 +31,9 @@ public class ShowNoticeDetailsService {
 
         User user = userFacade.getCurrentUser();
 
-        if (Scope.COMPANY.equals(notice.getScope()) && hrRepository.findById(user.getEmail()).isPresent()) {
+        if (Scope.COMPANY.equals(notice.getScope()) && hrRepository.findById(user.getEmail()).isEmpty()) {
             throw InvalidRoleException.EXCEPTION;
-        } else if (Scope.STUDENT.equals(notice.getScope()) && studentRepository.findById(user.getEmail()).isPresent()) {
+        } else if (Scope.STUDENT.equals(notice.getScope()) && studentRepository.findById(user.getEmail()).isEmpty()) {
             throw InvalidRoleException.EXCEPTION;
         }
 
