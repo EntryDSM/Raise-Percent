@@ -9,6 +9,7 @@ import kr.hs.entrydsm.raisepercent.domain.student.domain.repositories.StudentRep
 import kr.hs.entrydsm.raisepercent.domain.teacher.domain.Teacher;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
 import kr.hs.entrydsm.raisepercent.domain.user.facade.UserFacade;
+import kr.hs.entrydsm.raisepercent.global.exception.InvalidRoleException;
 import kr.hs.entrydsm.raisepercent.global.exception.NoticeNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.util.UUIDUtil;
 import org.junit.jupiter.api.Test;
@@ -55,7 +56,7 @@ class ShowNoticeDetailsServiceTest {
 
         given(userFacade.getCurrentUser())
                 .willReturn(user);
-        given(studentRepository.findById(id))
+        given(studentRepository.findById(user.getEmail()))
                 .willReturn(Optional.of(student));
         given(noticeRepository.findById(UUIDUtil.convertToUUID(id)))
                 .willReturn(Optional.of(notice));
@@ -81,12 +82,12 @@ class ShowNoticeDetailsServiceTest {
 
         given(userFacade.getCurrentUser())
                 .willReturn(user);
-        given(studentRepository.findById(id))
+        given(studentRepository.findById(user.getEmail()))
                 .willReturn(Optional.empty());
         given(noticeRepository.findById(UUIDUtil.convertToUUID(id)))
                 .willReturn(Optional.of(notice));
 
-        service.execute(id);
+        assertThrows(InvalidRoleException.class, () -> service.execute(id));
     }
 
     @Test
