@@ -1,5 +1,5 @@
 package kr.hs.entrydsm.raisepercent.domain.document.domain.types;
 
-public enum Type {
+public enum DocumentType {
     PORTFOLIO, RESUME
 }

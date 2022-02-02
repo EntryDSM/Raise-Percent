@@ -30,7 +30,7 @@ public class Notification extends BaseUUIDTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false)
-    private Type type;
+    private Type documentType;
 
     @Column(length = 60, nullable = false)
     private String value;
@@ -45,12 +45,12 @@ public class Notification extends BaseUUIDTimeEntity {
 
     @Builder
     public Notification(String title, String content, boolean isWatch,
-                        String icon, Type type, String value, User sender, User receiver) {
+                        String icon, Type documentType, String value, User sender, User receiver) {
         this.title = title;
         this.content = content;
         this.isWatch = isWatch;
         this.icon = icon;
-        this.type = type;
+        this.documentType = documentType;
         this.value = value;
         this.sender = sender;
         this.receiver = receiver;

@@ -1,6 +1,6 @@
 package kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.request;
 
-import kr.hs.entrydsm.raisepercent.domain.document.domain.types.Type;
+import kr.hs.entrydsm.raisepercent.domain.document.domain.types.DocumentType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateDocumentRequest {
 
-	private Type type;
+	private DocumentType documentType;
 }

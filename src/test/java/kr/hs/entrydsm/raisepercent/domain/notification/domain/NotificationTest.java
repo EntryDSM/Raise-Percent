@@ -35,7 +35,7 @@ class NotificationTest {
             .content(content)
             .isWatch(isWatch)
             .icon(icon)
-            .type(type)
+            .documentType(type)
             .value(value)
             .sender(sender)
             .receiver(receiver)
@@ -49,7 +49,7 @@ class NotificationTest {
         assertNull(notification.getContent());
         assertFalse(notification.isWatch());
         assertNull(notification.getIcon());
-        assertNull(notification.getType());
+        assertNull(notification.getDocumentType());
         assertNull(notification.getValue());
         assertNull(notification.getSender());
         assertNull(notification.getReceiver());
@@ -79,7 +79,7 @@ class NotificationTest {
 
     @Test
     void 알림_종류_가져오기() {
-        assertEquals(type, notification.getType());
+        assertEquals(type, notification.getDocumentType());
     }
 
     @Test
