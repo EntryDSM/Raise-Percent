@@ -1,5 +1,6 @@
 package kr.hs.entrydsm.raisepercent.domain.document.service;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -16,7 +17,10 @@ import kr.hs.entrydsm.raisepercent.domain.document.facade.DocumentFacade;
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.request.UpdateDocumentRequest;
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.request.UpdateDocumentRequest.PageRequest;
 import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
+import kr.hs.entrydsm.raisepercent.domain.student.facade.StudentFacade;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
+import kr.hs.entrydsm.raisepercent.global.exception.DocumentNotFoundException;
+import kr.hs.entrydsm.raisepercent.global.exception.InvalidRoleException;
 import org.junit.jupiter.api.Test;
 
 class UpdateDocumentServiceTest {
@@ -25,13 +29,17 @@ class UpdateDocumentServiceTest {
 
 	private static final DocumentFacade documentFacade = mock(DocumentFacade.class);
 
-	private static final UpdateDocumentService service = new UpdateDocumentService(localDocumentRepository, documentFacade);
+	private static final StudentFacade studentFacade = mock(StudentFacade.class);
+
+	private static final UpdateDocumentService service = new UpdateDocumentService(localDocumentRepository, documentFacade, studentFacade);
 
 	private static final UpdateDocumentRequest request = mock(UpdateDocumentRequest.class);
 
 	private static final String email = "test@nate.com";
 
 	private static final String name = "test";
+
+	private static final UUID uuid = UUID.randomUUID();
 
 	private static final User user = User.builder()
 		.email(email)
@@ -51,11 +59,12 @@ class UpdateDocumentServiceTest {
 
 	@Test
 	void 문서_수정() {
-		UUID uuid = UUID.randomUUID();
 		List<PageRequest> pageRequests = new ArrayList<>();
 
 		when(documentFacade.getDocument(uuid))
 			.thenReturn(document);
+		when(studentFacade.getCurrentStudent())
+			.thenReturn(student);
 		when(request.getPages())
 			.thenReturn(pageRequests);
 
@@ -64,5 +73,17 @@ class UpdateDocumentServiceTest {
 		verify(localDocumentRepository, times(1)).deleteByDocumentIdByQuery(uuid);
 		verify(localDocumentRepository, times(1)).saveAll(any());
 
+	}
+
+	@Test
+	void 문서_수정_권한_없음() {
+		Student student = Student.builder().build();
+
+		when(documentFacade.getDocument(uuid))
+			.thenReturn(document);
+		when(studentFacade.getCurrentStudent())
+			.thenReturn(student);
+
+		assertThrows(InvalidRoleException.class, () -> service.execute(uuid, request));
 	}
 }
