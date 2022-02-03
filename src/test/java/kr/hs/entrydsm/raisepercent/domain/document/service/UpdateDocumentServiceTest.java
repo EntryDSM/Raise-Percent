@@ -6,6 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
 import kr.hs.entrydsm.raisepercent.global.exception.DocumentNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.exception.InvalidRoleException;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
 class UpdateDocumentServiceTest {
 
@@ -32,8 +34,6 @@ class UpdateDocumentServiceTest {
 	private static final StudentFacade studentFacade = mock(StudentFacade.class);
 
 	private static final UpdateDocumentService service = new UpdateDocumentService(localDocumentRepository, documentFacade, studentFacade);
-
-	private static final UpdateDocumentRequest request = mock(UpdateDocumentRequest.class);
 
 	private static final String email = "test@nate.com";
 
@@ -57,16 +57,22 @@ class UpdateDocumentServiceTest {
 		.student(student)
 		.build();
 
+	UpdateDocumentRequest request = new UpdateDocumentRequest();
+	PageRequest pageRequest = new PageRequest();
 	@Test
 	void 문서_수정() {
-		List<PageRequest> pageRequests = new ArrayList<>();
+
+		final String content = "test";
+		final Integer page = 1;
+
+		setField(pageRequest, "content", content);
+		setField(pageRequest, "page", page);
+		setField(request, "pages", List.of(pageRequest));
 
 		when(documentFacade.getDocument(uuid))
 			.thenReturn(document);
 		when(studentFacade.getCurrentStudent())
 			.thenReturn(student);
-		when(request.getPages())
-			.thenReturn(pageRequests);
 
 		service.execute(uuid, request);
 
