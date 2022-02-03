@@ -38,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/students/bookmark").hasRole("STUDENT")
                 .antMatchers(HttpMethod.POST, "/notices").hasRole("ROOT")
                 .antMatchers(HttpMethod.GET, "/documents/submit").hasRole("ROOT")
+                .antMatchers(HttpMethod.POST, "/documents/local/{local-document-id}").hasRole("STUDENT")
                 .anyRequest().authenticated()
                 .and().apply(new FilterConfig());
     }
