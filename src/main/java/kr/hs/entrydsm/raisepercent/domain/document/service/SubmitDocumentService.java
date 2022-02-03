@@ -17,6 +17,7 @@ import kr.hs.entrydsm.raisepercent.global.exception.InvalidRoleException;
 import kr.hs.entrydsm.raisepercent.global.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -28,6 +29,7 @@ public class SubmitDocumentService {
 	private final DocumentFacade documentFacade;
 	private final StudentFacade studentFacade;
 
+	@Transactional
 	public void execute(String documentId) {
 		final UUID documentUUID = UUIDUtil.convertToUUID(documentId);
 		Document document = documentFacade.getDocument(documentUUID);
