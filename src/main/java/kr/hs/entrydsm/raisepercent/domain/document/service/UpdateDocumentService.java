@@ -35,12 +35,12 @@ public class UpdateDocumentService {
 		localDocumentRepository.saveAll(
 			updateDocumentRequest.getPages().stream()
 				.map(pageRequest -> LocalDocument.builder()
-				.id(DocumentContentId.builder()
-					.document(document)
-					.page(pageRequest.getPage())
+					.id(DocumentContentId.builder()
+						.document(document)
+						.page(pageRequest.getPage())
+						.build())
+					.content(pageRequest.getContent())
 					.build())
-				.content(pageRequest.getContent())
-				.build())
 				.collect(Collectors.toList())
 		);
 	}
