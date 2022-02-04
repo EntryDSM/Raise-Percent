@@ -1,5 +1,6 @@
 package kr.hs.entrydsm.raisepercent.domain.notice.service;
 
+import kr.hs.entrydsm.raisepercent.domain.hr.domain.Hr;
 import kr.hs.entrydsm.raisepercent.domain.hr.domain.repositories.HrRepository;
 import kr.hs.entrydsm.raisepercent.domain.notice.domain.Notice;
 import kr.hs.entrydsm.raisepercent.domain.notice.domain.repositories.NoticeRepository;
@@ -36,11 +37,12 @@ class ShowNoticeDetailsServiceTest {
     private static final ShowNoticeDetailsService service =
             new ShowNoticeDetailsService(noticeRepository, userFacade, hrRepository, studentRepository);
 
-    @Test
-    void 공지사항_상세보기() {
-        String id = String.valueOf(UUID.randomUUID());
-        String email = "test@test.com";
+    private static final String id = String.valueOf(UUID.randomUUID());
 
+    private static final String email = "test@test.com";
+
+    @Test
+    void 공지사항_상세보기_학생() {
         Teacher teacher = Teacher.builder().build();
 
         Notice notice = Notice.builder()
@@ -73,10 +75,40 @@ class ShowNoticeDetailsServiceTest {
     }
 
     @Test
-    void 공지사항_스코프_예외_학생() {
-        String id = String.valueOf(UUID.randomUUID());
-        String email = "test@test.com";
+    void 공지사항_상세보기_회사() {
+        Teacher teacher = Teacher.builder().build();
 
+        Notice notice = Notice.builder()
+                .teacher(teacher)
+                .scope(Scope.COMPANY)
+                .build();
+
+        User user = User.builder()
+                .email(email)
+                .build();
+
+        Hr hr = Hr.builder()
+                .user(user)
+                .build();
+
+        given(userFacade.getCurrentUser())
+                .willReturn(user);
+        given(hrRepository.findById(user.getEmail()))
+                .willReturn(Optional.of(hr));
+        given(noticeRepository.findById(UUIDUtil.convertToUUID(id)))
+                .willReturn(Optional.of(notice));
+
+        NoticeDetailsResponse response = service.execute(id);
+
+        assertThat(response.getTitle()).isEqualTo(notice.getTitle());
+        assertThat(response.getContent()).isEqualTo(notice.getContent());
+        assertThat(response.getScope()).isEqualTo(notice.getScope());
+        assertThat(response.getCreatedAt()).isEqualTo(notice.getCreatedAt());
+        assertThat(response.getTeacherEmail()).isEqualTo(notice.getTeacher().getEmail());
+    }
+
+    @Test
+    void 공지사항_스코프_예외_학생() {
         Teacher teacher = Teacher.builder().build();
 
         Notice notice = Notice.builder()
@@ -100,9 +132,6 @@ class ShowNoticeDetailsServiceTest {
 
     @Test
     void 공지사항_스코프_예외_회사() {
-        String id = String.valueOf(UUID.randomUUID());
-        String email = "test@test.com";
-
         Teacher teacher = Teacher.builder().build();
 
         Notice notice = Notice.builder()
@@ -126,8 +155,6 @@ class ShowNoticeDetailsServiceTest {
 
     @Test
     void 공시사항_존재하지_않음_예외() {
-        String id = String.valueOf(UUID.randomUUID());
-
         given(noticeRepository.findById(UUIDUtil.convertToUUID(id)))
                 .willReturn(Optional.empty());
 
