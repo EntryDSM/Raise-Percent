@@ -22,27 +22,24 @@ public class CreateTagServiceTest {
 
     private static final CreateTagService service = new CreateTagService(tagRepository);
 
-    CreateTagRequest createTagRequest = new CreateTagRequest();
+    private static final CreateTagRequest request = new CreateTagRequest();
+
+    private static final String name = "test";
 
     @Test
     void 태그_생성() {
-        final String name = "test";
-
         given(tagRepository.findByName(name))
                 .willReturn(Optional.empty());
 
-        setField(createTagRequest, "name", name);
+        setField(request, "name", name);
 
-        service.execute(createTagRequest);
+        service.execute(request);
 
-        verify(tagRepository, times(1)).findByName(createTagRequest.getName());
         verify(tagRepository, times(1)).save(any());
     }
 
     @Test
     void 태그_생성_예외() {
-        final String name = "test";
-
         Tag tag = Tag.builder()
                 .name(name)
                 .build();
@@ -50,8 +47,8 @@ public class CreateTagServiceTest {
         given(tagRepository.findByName(name))
                 .willReturn(Optional.of(tag));
 
-        setField(createTagRequest, "name", name);
+        setField(request, "name", name);
 
-        assertThrows(AlreadyRegisteredTagException.class, () -> service.execute(createTagRequest));
+        assertThrows(AlreadyRegisteredTagException.class, () -> service.execute(request));
     }
 }
