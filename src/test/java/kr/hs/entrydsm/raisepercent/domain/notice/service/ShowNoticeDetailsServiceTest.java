@@ -4,6 +4,7 @@ import kr.hs.entrydsm.raisepercent.domain.hr.domain.repositories.HrRepository;
 import kr.hs.entrydsm.raisepercent.domain.notice.domain.Notice;
 import kr.hs.entrydsm.raisepercent.domain.notice.domain.repositories.NoticeRepository;
 import kr.hs.entrydsm.raisepercent.domain.notice.domain.types.Scope;
+import kr.hs.entrydsm.raisepercent.domain.notice.presentation.dto.response.NoticeDetailsResponse;
 import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
 import kr.hs.entrydsm.raisepercent.domain.student.domain.repositories.StudentRepository;
 import kr.hs.entrydsm.raisepercent.domain.teacher.domain.Teacher;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -61,7 +63,13 @@ class ShowNoticeDetailsServiceTest {
         given(noticeRepository.findById(UUIDUtil.convertToUUID(id)))
                 .willReturn(Optional.of(notice));
 
-        service.execute(id);
+        NoticeDetailsResponse response = service.execute(id);
+
+        assertThat(response.getTitle()).isEqualTo(notice.getTitle());
+        assertThat(response.getContent()).isEqualTo(notice.getContent());
+        assertThat(response.getScope()).isEqualTo(notice.getScope());
+        assertThat(response.getCreatedAt()).isEqualTo(notice.getCreatedAt());
+        assertThat(response.getTeacherEmail()).isEqualTo(notice.getTeacher().getEmail());
     }
 
     @Test
