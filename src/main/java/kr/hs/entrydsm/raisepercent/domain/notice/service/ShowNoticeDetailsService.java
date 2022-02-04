@@ -31,9 +31,7 @@ public class ShowNoticeDetailsService {
 
         User user = userFacade.getCurrentUser();
 
-        if (Scope.STUDENT.equals(notice.getScope()) && studentRepository.findById(user.getEmail()).isEmpty()) {
-            throw InvalidRoleException.EXCEPTION;
-        } else if (Scope.COMPANY.equals(notice.getScope()) && hrRepository.findById(user.getEmail()).isEmpty()) {
+        if (isValid(notice.getScope(), user.getEmail())) {
             throw InvalidRoleException.EXCEPTION;
         }
 
@@ -44,5 +42,10 @@ public class ShowNoticeDetailsService {
                 .createdAt(notice.getCreatedAt())
                 .teacherEmail(notice.getTeacher().getEmail())
                 .build();
+    }
+
+    private boolean isValid(Scope scope, String email) {
+        return Scope.STUDENT.equals(scope) && studentRepository.findById(email).isEmpty()
+                || Scope.COMPANY.equals(scope) && hrRepository.findById(email).isEmpty();
     }
 }
