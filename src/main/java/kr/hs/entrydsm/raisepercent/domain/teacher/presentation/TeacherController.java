@@ -1,7 +1,7 @@
 package kr.hs.entrydsm.raisepercent.domain.teacher.presentation;
 
 import kr.hs.entrydsm.raisepercent.domain.teacher.service.GoogleAuthService;
-import kr.hs.entrydsm.raisepercent.domain.teacher.service.QueryGoogleAuthLinkService;
+import kr.hs.entrydsm.raisepercent.global.util.auth.service.QueryGoogleAuthLinkService;
 import kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.request.CodeRequest;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;

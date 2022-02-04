@@ -1,4 +1,4 @@
-package kr.hs.entrydsm.raisepercent.domain.teacher.service;
+package kr.hs.entrydsm.raisepercent.global.util.auth.service;
 
 import kr.hs.entrydsm.raisepercent.global.properties.AuthProperties;
 import lombok.RequiredArgsConstructor;

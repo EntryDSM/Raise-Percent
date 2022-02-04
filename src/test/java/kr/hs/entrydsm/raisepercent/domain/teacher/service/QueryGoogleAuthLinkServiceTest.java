@@ -1,6 +1,7 @@
 package kr.hs.entrydsm.raisepercent.domain.teacher.service;
 
 import kr.hs.entrydsm.raisepercent.global.properties.AuthProperties;
+import kr.hs.entrydsm.raisepercent.global.util.auth.service.QueryGoogleAuthLinkService;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
