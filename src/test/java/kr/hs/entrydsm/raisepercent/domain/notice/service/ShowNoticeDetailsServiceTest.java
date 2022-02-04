@@ -73,7 +73,7 @@ class ShowNoticeDetailsServiceTest {
     }
 
     @Test
-    void 공지사항_스코프_예외() {
+    void 공지사항_스코프_예외_학생() {
         String id = String.valueOf(UUID.randomUUID());
         String email = "test@test.com";
 
@@ -91,6 +91,32 @@ class ShowNoticeDetailsServiceTest {
         given(userFacade.getCurrentUser())
                 .willReturn(user);
         given(studentRepository.findById(user.getEmail()))
+                .willReturn(Optional.empty());
+        given(noticeRepository.findById(UUIDUtil.convertToUUID(id)))
+                .willReturn(Optional.of(notice));
+
+        assertThrows(InvalidRoleException.class, () -> service.execute(id));
+    }
+
+    @Test
+    void 공지사항_스코프_예외_회사() {
+        String id = String.valueOf(UUID.randomUUID());
+        String email = "test@test.com";
+
+        Teacher teacher = Teacher.builder().build();
+
+        Notice notice = Notice.builder()
+                .teacher(teacher)
+                .scope(Scope.COMPANY)
+                .build();
+
+        User user = User.builder()
+                .email(email)
+                .build();
+
+        given(userFacade.getCurrentUser())
+                .willReturn(user);
+        given(hrRepository.findById(user.getEmail()))
                 .willReturn(Optional.empty());
         given(noticeRepository.findById(UUIDUtil.convertToUUID(id)))
                 .willReturn(Optional.of(notice));
