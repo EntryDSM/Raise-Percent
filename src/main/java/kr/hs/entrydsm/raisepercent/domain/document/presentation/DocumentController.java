@@ -42,7 +42,7 @@ public class DocumentController {
 		return querySubmittedDocumentListService.execute();
 	}
 
-	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@PatchMapping("/local/{local-document-id}")
 	public void updateDocument(@PathVariable("local-document-id") UUID localId,
 		@RequestBody UpdateDocumentRequest updateDocumentRequest) {
