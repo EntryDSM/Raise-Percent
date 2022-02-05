@@ -16,7 +16,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 
-public class CreateTagServiceTest {
+class CreateTagServiceTest {
 
     private static final TagRepository tagRepository = mock(TagRepository.class);
 
