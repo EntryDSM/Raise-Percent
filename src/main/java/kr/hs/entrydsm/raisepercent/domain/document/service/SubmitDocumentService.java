@@ -46,13 +46,17 @@ public class SubmitDocumentService {
 
 		stayDocumentRepository.saveAll(
 			localDocument.stream()
-			.map(doc -> StayDocument.builder()
+				.map(doc -> StayDocument.builder()
 					.id(doc.getId())
 					.content(doc.getContent())
 					.build())
-			.collect(Collectors.toList())
+				.collect(Collectors.toList())
 		);
 
-		submittedDocumentRepository.save(SubmittedDocument.builder().document(document).build());
+		submittedDocumentRepository.save(
+			SubmittedDocument.builder()
+				.document(document)
+				.build()
+		);
 	}
 }
