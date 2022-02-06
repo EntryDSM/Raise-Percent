@@ -18,8 +18,10 @@ public class CreateTagService {
             throw AlreadyRegisteredTagException.EXCEPTION;
         }
 
-        tagRepository.save(Tag.builder()
-                .name(request.getName())
-                .build());
+        tagRepository.save(
+                Tag.builder()
+                        .name(request.getName())
+                        .build()
+        );
     }
 }
