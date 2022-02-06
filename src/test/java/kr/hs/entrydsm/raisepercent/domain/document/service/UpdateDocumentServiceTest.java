@@ -57,8 +57,10 @@ class UpdateDocumentServiceTest {
 		.student(student)
 		.build();
 
-	UpdateDocumentRequest request = new UpdateDocumentRequest();
-	PageRequest pageRequest = new PageRequest();
+	private static final UpdateDocumentRequest request = new UpdateDocumentRequest();
+
+	private static final PageRequest pageRequest = new PageRequest();
+
 	@Test
 	void 문서_수정() {
 
