@@ -76,7 +76,7 @@ class UpdateDocumentServiceTest {
 
 		service.execute(uuid, request);
 
-		verify(localDocumentRepository, times(1)).deleteByDocumentIdByQuery(uuid);
+		verify(localDocumentRepository, times(1)).deleteByIdDocumentId(uuid);
 		verify(localDocumentRepository, times(1)).saveAll(any());
 
 	}

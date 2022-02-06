@@ -4,7 +4,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.Document;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.LocalDocument;
-import kr.hs.entrydsm.raisepercent.domain.document.domain.repositories.DocumentRepository;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.repositories.LocalDocumentRepository;
 import kr.hs.entrydsm.raisepercent.domain.document.facade.DocumentFacade;
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.request.UpdateDocumentRequest;
@@ -30,7 +29,7 @@ public class UpdateDocumentService {
 			throw InvalidRoleException.EXCEPTION;
 		}
 
-		localDocumentRepository.deleteByDocumentIdByQuery(localId);
+		localDocumentRepository.deleteByIdDocumentId(localId);
 
 		localDocumentRepository.saveAll(
 			updateDocumentRequest.getPages().stream()

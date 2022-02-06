@@ -10,6 +10,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LocalDocumentRepository extends CrudRepository<LocalDocument, DocumentContentId> {
-	@Query("delete from LocalDocument l where l.id.document.id = :id")
-	void deleteByDocumentIdByQuery(@Param("id") UUID uuid);
+	void deleteByIdDocumentId(UUID uuid);
 }
