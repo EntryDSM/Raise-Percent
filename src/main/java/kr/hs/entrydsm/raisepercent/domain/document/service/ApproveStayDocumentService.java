@@ -5,7 +5,6 @@ import kr.hs.entrydsm.raisepercent.domain.document.domain.StayDocument;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.repositories.PublicDocumentRepository;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.repositories.StayDocumentRepository;
 import kr.hs.entrydsm.raisepercent.domain.document.facade.DocumentFacade;
-import kr.hs.entrydsm.raisepercent.global.exception.DocumentNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,9 +26,7 @@ public class ApproveStayDocumentService {
         List<StayDocument> stayDocumentList =
                 stayDocumentRepository.findByIdDocumentId(UUIDUtil.convertToUUID(documentId));
 
-        if (documentFacade.checkIsEmpty(stayDocumentList)) {
-            throw DocumentNotFoundException.EXCEPTION;
-        }
+        documentFacade.checkIsEmpty(stayDocumentList);
 
         publicDocumentRepository.saveAll(
                 stayDocumentList

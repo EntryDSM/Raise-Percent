@@ -1,7 +1,6 @@
 package kr.hs.entrydsm.raisepercent.domain.document.facade;
 
 import kr.hs.entrydsm.raisepercent.domain.document.domain.Document;
-import kr.hs.entrydsm.raisepercent.domain.document.domain.StayDocument;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.repositories.DocumentRepository;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.repositories.SubmittedDocumentRepository;
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response.SubmittedDocumentElement;
@@ -37,8 +36,10 @@ public class DocumentFacade {
                 .collect(Collectors.toList());
     }
 
-    public boolean checkIsEmpty(List<? extends BaseDocumentContentEntity> entityList) {
-        return entityList.isEmpty();
+    public void checkIsEmpty(List<? extends BaseDocumentContentEntity> entityList) {
+        if (entityList.isEmpty()) {
+            throw DocumentNotFoundException.EXCEPTION;
+        }
     }
 
 }
