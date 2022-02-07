@@ -1,6 +1,6 @@
 package kr.hs.entrydsm.raisepercent.domain.document.domain;
 
-import kr.hs.entrydsm.raisepercent.domain.document.domain.types.Type;
+import kr.hs.entrydsm.raisepercent.domain.document.domain.types.DocumentType;
 import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
 import kr.hs.entrydsm.raisepercent.global.entity.BaseUUIDEntity;
 import lombok.AccessLevel;
@@ -22,7 +22,7 @@ public class Document extends BaseUUIDEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 9, nullable = false)
-    private Type type;
+    private DocumentType documentType;
 
     @Column(nullable = false)
     @LastModifiedDate
@@ -33,8 +33,8 @@ public class Document extends BaseUUIDEntity {
     private Student student;
 
     @Builder
-    public Document(Type type, Student student) {
-        this.type = type;
+    public Document(DocumentType documentType, Student student) {
+        this.documentType = documentType;
         this.student = student;
     }
 

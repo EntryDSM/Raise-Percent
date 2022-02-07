@@ -22,7 +22,7 @@ public class CreateDocumentService {
 		Document document = documentRepository.save(
 			Document.builder()
 				.student(student)
-				.type(request.getType())
+				.documentType(request.getDocumentType())
 				.build()
 		);
 

@@ -1,6 +1,6 @@
 package kr.hs.entrydsm.raisepercent.domain.document.domain;
 
-import kr.hs.entrydsm.raisepercent.domain.document.domain.types.Type;
+import kr.hs.entrydsm.raisepercent.domain.document.domain.types.DocumentType;
 import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
 import org.junit.jupiter.api.Test;
 
@@ -9,13 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 class DocumentTest {
 
-    private static final Type type = Type.RESUME;
+    private static final DocumentType DOCUMENT_TYPE = DocumentType.RESUME;
 
     private static final Student student = Student.builder()
             .build();
 
     private static final Document document = Document.builder()
-            .type(type)
+            .documentType(DOCUMENT_TYPE)
             .student(student)
             .build();
 
@@ -23,7 +23,7 @@ class DocumentTest {
     void 문서_객체_생성() {
         Document document = new Document();
         assertNull(document.getId());
-        assertNull(document.getType());
+        assertNull(document.getDocumentType());
         assertNull(document.getLastModifiedAt());
         assertNull(document.getStudent());
     }
@@ -35,17 +35,17 @@ class DocumentTest {
 
     @Test
     void 종류_가져오기() {
-        assertEquals(type, document.getType());
+        assertEquals(DOCUMENT_TYPE, document.getDocumentType());
     }
 
     @Test
     void 포트폴리오() {
-        Type type = Type.PORTFOLIO;
+        DocumentType documentType = DocumentType.PORTFOLIO;
         Document document = Document.builder()
                 .student(student)
-                .type(type)
+                .documentType(documentType)
                 .build();
-        assertEquals(type, document.getType());
+        assertEquals(documentType, document.getDocumentType());
     }
 
 }
