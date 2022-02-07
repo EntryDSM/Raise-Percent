@@ -15,10 +15,8 @@ public class HrFacade {
     private final AuthFacade authFacade;
 
     public Hr getHr(){
-
         return hrRepository.findById(authFacade.getCurrentDetails().getUsername())
                 .orElseThrow(() -> HrNotFoundException.EXCEPTION);
-
     }
 
 
