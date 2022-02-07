@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import kr.hs.entrydsm.raisepercent.domain.document.domain.Document;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.repositories.DocumentRepository;
+import kr.hs.entrydsm.raisepercent.domain.document.domain.types.DocumentType;
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.request.CreateDocumentRequest;
 import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
 import kr.hs.entrydsm.raisepercent.domain.student.facade.StudentFacade;
@@ -25,14 +26,14 @@ class CreateDocumentServiceTest {
 
 	@Test
 	void 문서_생성() {
-		final kr.hs.entrydsm.raisepercent.domain.document.domain.types.Type type = kr.hs.entrydsm.raisepercent.domain.document.domain.types.Type.PORTFOLIO;
+		final DocumentType documentType = DocumentType.PORTFOLIO;
 
 		Student student = Student.builder().build();
 
 		when(studentFacade.getCurrentStudent())
 			.thenReturn(student);
-		when(request.getType())
-			.thenReturn(type);
+		when(request.getDocumentType())
+			.thenReturn(documentType);
 		when(documentRepository.save(any()))
 			.thenReturn(Document.builder().build());
 

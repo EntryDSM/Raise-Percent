@@ -25,7 +25,7 @@ public class NotificationFacade {
                         .content(notification.getContent())
                         .createdAt(notification.getCreatedAt())
                         .isWatch(notification.isWatch())
-                        .type(notification.getType().toString())
+                        .type(notification.getDocumentType().toString())
                         .value(notification.getValue())
                         .build()
         ).collect(Collectors.toList());

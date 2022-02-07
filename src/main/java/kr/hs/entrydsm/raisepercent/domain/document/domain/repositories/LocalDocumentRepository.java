@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LocalDocumentRepository extends CrudRepository<LocalDocument, DocumentContentId> {
 	List<LocalDocument> findByIdDocumentId(UUID id_document_id);
+	void deleteByIdDocumentId(UUID uuid);
 }

@@ -31,7 +31,7 @@ class NotificationFacadeTest {
 
         when(notification.getId())
                 .thenReturn(UUID.randomUUID());
-        when(notification.getType())
+        when(notification.getDocumentType())
                 .thenReturn(Type.COMPANY);
         when(notificationRepository.findByReceiver(receiver, pageable))
                 .thenReturn(notificationList);
