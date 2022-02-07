@@ -1,9 +1,11 @@
 package kr.hs.entrydsm.raisepercent.domain.document.facade;
 
 import kr.hs.entrydsm.raisepercent.domain.document.domain.Document;
+import kr.hs.entrydsm.raisepercent.domain.document.domain.StayDocument;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.repositories.DocumentRepository;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.repositories.SubmittedDocumentRepository;
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response.SubmittedDocumentElement;
+import kr.hs.entrydsm.raisepercent.global.entity.BaseDocumentContentEntity;
 import kr.hs.entrydsm.raisepercent.global.exception.DocumentNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -33,6 +35,10 @@ public class DocumentFacade {
                         .submittedDocumentId(document.getId().toString())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    public boolean checkIsEmpty(List<? extends BaseDocumentContentEntity> entityList) {
+        return entityList.isEmpty();
     }
 
 }
