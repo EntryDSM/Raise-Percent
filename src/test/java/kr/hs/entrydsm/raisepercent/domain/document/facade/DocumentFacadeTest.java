@@ -92,4 +92,11 @@ class DocumentFacadeTest {
         assertThrows(DocumentNotFoundException.class, () -> documentFacade.checkIsEmpty(documentList));
     }
 
+    @Test
+    void 문서_비어있지_않음() {
+        List<StayDocument> documentList = List.of(StayDocument.builder().build());
+
+        documentFacade.checkIsEmpty(documentList);
+    }
+
 }
