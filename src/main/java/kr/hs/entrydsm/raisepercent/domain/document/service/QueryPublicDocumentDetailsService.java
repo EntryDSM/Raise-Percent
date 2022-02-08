@@ -42,8 +42,7 @@ public class QueryPublicDocumentDetailsService {
 		documentFacade.checkIsEmpty(publicDocuments);
 
 		List<QueryDocumentDetailsElement> pages = publicDocuments.stream()
-			.map(
-				doc -> QueryDocumentDetailsElement.builder()
+			.map(doc -> QueryDocumentDetailsElement.builder()
 				.content(doc.getContent())
 				.page(doc.getId().getPage())
 				.build()
