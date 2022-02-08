@@ -44,7 +44,7 @@ class JwtTokenProviderTest {
 
         assertEquals(email, authentication.getName());
         for(GrantedAuthority authority : authentication.getAuthorities()) {
-            assertEquals(role, authority.getAuthority());
+            assertEquals(role.name(), authority.getAuthority());
         }
 
         assertFalse(jwtTokenProvider.isRefreshToken(accessToken));
@@ -75,7 +75,7 @@ class JwtTokenProviderTest {
 
         when(jwtProperties.getSecretKey())
                 .thenReturn("SECRETKEY");
-        when(jwtProperties.getAccessExp())
+        when(jwtProperties.getRefreshExp())
                 .thenReturn(100000000L);
         when(authDetailsService.loadUserByUsername(email, role))
                 .thenReturn(new AuthDetails(email, Type.STUDENT));
