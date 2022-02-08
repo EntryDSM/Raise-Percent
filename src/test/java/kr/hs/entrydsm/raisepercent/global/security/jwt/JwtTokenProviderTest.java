@@ -6,6 +6,7 @@ import kr.hs.entrydsm.raisepercent.global.properties.JwtProperties;
 import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetails;
 import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetailsService;
 import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
+import kr.hs.entrydsm.raisepercent.global.security.jwt.type.TokenRole;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,7 +28,7 @@ class JwtTokenProviderTest {
     @Test
     void 엑세스키_발급_인증() {
         String email = "test@gmail.com";
-        String role = "STUDENT";
+        TokenRole role = TokenRole.STUDENT;
 
         when(jwtProperties.getSecretKey())
                 .thenReturn("SECRETKEY");
@@ -52,7 +53,7 @@ class JwtTokenProviderTest {
     @Test
     void 리프레시키_발급_인증() {
         String email = "test@gmail.com";
-        String role = "STUDENT";
+        TokenRole role = TokenRole.STUDENT;
 
         when(jwtProperties.getSecretKey())
                 .thenReturn("SECRETKEY");
@@ -70,7 +71,7 @@ class JwtTokenProviderTest {
     @Test
     void 리프레시토큰_예외() {
         String email = "test@gmail.com";
-        String role = "STUDENT";
+        TokenRole role = TokenRole.STUDENT;
 
         when(jwtProperties.getSecretKey())
                 .thenReturn("SECRETKEY");
@@ -109,7 +110,7 @@ class JwtTokenProviderTest {
     @Test
     void 인증_토큰_만료() {
         String email = "test@gmail.com";
-        String role = "STUDENT";
+        TokenRole role = TokenRole.STUDENT;
 
         when(jwtProperties.getSecretKey())
                 .thenReturn("SECRETKEY");
