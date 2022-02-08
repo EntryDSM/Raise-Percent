@@ -2,6 +2,7 @@ package kr.hs.entrydsm.raisepercent.domain.document.domain.repositories;
 
 import java.util.List;
 import java.util.UUID;
+import kr.hs.entrydsm.raisepercent.domain.document.domain.Document;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.PublicDocument;
 import kr.hs.entrydsm.raisepercent.global.entity.DocumentContentId;
 import org.springframework.data.repository.CrudRepository;
