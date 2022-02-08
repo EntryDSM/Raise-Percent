@@ -10,11 +10,13 @@ import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response.Sub
 import kr.hs.entrydsm.raisepercent.domain.document.service.ApproveStayDocumentService;
 import kr.hs.entrydsm.raisepercent.domain.document.service.CreateDocumentService;
 import kr.hs.entrydsm.raisepercent.domain.document.service.QueryPublicDocumentDetailsService;
+import kr.hs.entrydsm.raisepercent.domain.document.service.DeletePublicDocumentService;
 import kr.hs.entrydsm.raisepercent.domain.document.service.QuerySubmittedDocumentListService;
 import kr.hs.entrydsm.raisepercent.domain.document.service.SubmitDocumentService;
 import kr.hs.entrydsm.raisepercent.domain.document.service.UpdateDocumentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +37,7 @@ public class DocumentController {
 	private final ApproveStayDocumentService approveStayDocumentService;
 	private final SubmitDocumentService submitDocumentService;
 	private final QueryPublicDocumentDetailsService queryPublicDocumentDetailsService;
+	private final DeletePublicDocumentService deletePublicDocumentService;
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
@@ -66,9 +69,16 @@ public class DocumentController {
 		submitDocumentService.execute(documentId);
 	}
 
+
 	@GetMapping("/public/{public-document-id}")
 	public QueryDocumentDetailsResponse queryPublicDocumentDetails(@PathVariable("public-document-id") String documentId) {
 		return queryPublicDocumentDetailsService.execute(documentId);
+	}
+  
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@DeleteMapping("/public/{public-document-id}")
+	public void deletePublicDocument(@PathVariable("public-document-id") String documentId) {
+		deletePublicDocumentService.execute(documentId);
 	}
 
 }
