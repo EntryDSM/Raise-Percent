@@ -42,7 +42,7 @@ class DeletePublicDocumentServiceTest {
 
 		service.execute(uuid.toString());
 
-		verify(publicDocumentRepository, times(1)).deleteByIdDocumentId(uuid);
+		verify(publicDocumentRepository, times(1)).deleteByIdDocument(document);
 	}
 
 	@Test

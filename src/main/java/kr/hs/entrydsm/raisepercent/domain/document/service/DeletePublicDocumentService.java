@@ -19,13 +19,13 @@ public class DeletePublicDocumentService {
 	private final StudentFacade studentFacade;
 
 	public void execute(String documentId) {
-		final UUID documentUUID = UUIDUtil.convertToUUID(documentId);
+		UUID documentUUID = UUIDUtil.convertToUUID(documentId);
 		Document document = documentFacade.getDocument(documentUUID);
 
 		if (document.getStudent() != studentFacade.getCurrentStudent()) {
 			throw InvalidRoleException.EXCEPTION;
 		}
 
-		publicDocumentRepository.deleteByIdDocumentId(documentUUID);
+		publicDocumentRepository.deleteByIdDocument(document);
 	}
 }
