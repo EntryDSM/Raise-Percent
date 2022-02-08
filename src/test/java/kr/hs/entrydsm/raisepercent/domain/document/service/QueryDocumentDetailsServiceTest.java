@@ -1,6 +1,7 @@
 package kr.hs.entrydsm.raisepercent.domain.document.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.mock;
@@ -14,6 +15,7 @@ import kr.hs.entrydsm.raisepercent.domain.document.domain.PublicDocument;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.repositories.PublicDocumentRepository;
 import kr.hs.entrydsm.raisepercent.domain.document.facade.DocumentFacade;
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response.QueryDocumentDetailsElement;
+import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response.QueryDocumentDetailsElementTest;
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response.QueryDocumentDetailsResponse;
 import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
 import kr.hs.entrydsm.raisepercent.domain.student.facade.StudentFacade;
@@ -40,6 +42,8 @@ class QueryDocumentDetailsServiceTest {
 	private static final AuthDetails authDetails = mock(AuthDetails.class);
 
 	private static final Document document = UpdateDocumentServiceTest.document;
+
+	private static final Student student = UpdateDocumentServiceTest.student;
 
 	private static final UUID uuid = UUID.randomUUID();
 
@@ -91,6 +95,20 @@ class QueryDocumentDetailsServiceTest {
 			.thenReturn(student);
 
 		assertThrows(InvalidRoleException.class, () -> service.execute(uuid.toString()));
+	}
+
+	@Test
+	void 권한있는_학생() {
+		when(documentFacade.getDocument(uuid))
+			.thenReturn(document);
+		when(authFacade.getCurrentDetails())
+			.thenReturn(authDetails);
+		when(authFacade.getCurrentDetails().getRole())
+			.thenReturn(Type.STUDENT);
+		when(studentFacade.getCurrentStudent())
+			.thenReturn(student);
+
+		assertDoesNotThrow(() -> service.execute(uuid.toString()));
 	}
 
 	@Test
