@@ -2,6 +2,8 @@ package kr.hs.entrydsm.raisepercent.domain.document.service;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -62,7 +64,7 @@ class SubmitDocumentServiceTest {
 
 		service.execute(uuid.toString());
 
-		verify(localDocumentRepository, times(1)).findByIdDocumentId(uuid);
+		verify(localDocumentRepository, atLeast(1)).findByIdDocumentId(uuid);
 		verify(stayDocumentRepository, times(1)).saveAll(any());
 		verify(submittedDocumentRepository, times(1)).save(any());
 	}
