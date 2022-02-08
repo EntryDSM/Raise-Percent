@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class QueryDocumentDetailsService {
+public class QueryPublicDocumentDetailsService {
 
 	private final PublicDocumentRepository publicDocumentRepository;
 	private final DocumentFacade documentFacade;

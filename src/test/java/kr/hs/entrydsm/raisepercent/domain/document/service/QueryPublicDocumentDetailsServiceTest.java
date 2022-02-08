@@ -15,7 +15,6 @@ import kr.hs.entrydsm.raisepercent.domain.document.domain.PublicDocument;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.repositories.PublicDocumentRepository;
 import kr.hs.entrydsm.raisepercent.domain.document.facade.DocumentFacade;
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response.QueryDocumentDetailsElement;
-import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response.QueryDocumentDetailsElementTest;
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response.QueryDocumentDetailsResponse;
 import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
 import kr.hs.entrydsm.raisepercent.domain.student.facade.StudentFacade;
@@ -27,7 +26,7 @@ import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetails;
 import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import org.junit.jupiter.api.Test;
 
-class QueryDocumentDetailsServiceTest {
+class QueryPublicDocumentDetailsServiceTest {
 
 	private static final PublicDocumentRepository publicDocumentRepository = mock(PublicDocumentRepository.class);
 
@@ -37,7 +36,7 @@ class QueryDocumentDetailsServiceTest {
 
 	private static final StudentFacade studentFacade = mock(StudentFacade.class);
 
-	private static final QueryDocumentDetailsService service = new QueryDocumentDetailsService(publicDocumentRepository, documentFacade, authFacade, studentFacade);
+	private static final QueryPublicDocumentDetailsService service = new QueryPublicDocumentDetailsService(publicDocumentRepository, documentFacade, authFacade, studentFacade);
 
 	private static final AuthDetails authDetails = mock(AuthDetails.class);
 

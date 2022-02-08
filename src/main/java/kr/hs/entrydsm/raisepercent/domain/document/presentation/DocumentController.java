@@ -9,7 +9,7 @@ import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response.Que
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response.SubmittedDocumentListResponse;
 import kr.hs.entrydsm.raisepercent.domain.document.service.ApproveStayDocumentService;
 import kr.hs.entrydsm.raisepercent.domain.document.service.CreateDocumentService;
-import kr.hs.entrydsm.raisepercent.domain.document.service.QueryDocumentDetailsService;
+import kr.hs.entrydsm.raisepercent.domain.document.service.QueryPublicDocumentDetailsService;
 import kr.hs.entrydsm.raisepercent.domain.document.service.QuerySubmittedDocumentListService;
 import kr.hs.entrydsm.raisepercent.domain.document.service.SubmitDocumentService;
 import kr.hs.entrydsm.raisepercent.domain.document.service.UpdateDocumentService;
@@ -34,7 +34,7 @@ public class DocumentController {
 	private final QuerySubmittedDocumentListService querySubmittedDocumentListService;
 	private final ApproveStayDocumentService approveStayDocumentService;
 	private final SubmitDocumentService submitDocumentService;
-	private final QueryDocumentDetailsService queryDocumentDetailsService;
+	private final QueryPublicDocumentDetailsService queryPublicDocumentDetailsService;
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
@@ -67,8 +67,8 @@ public class DocumentController {
 	}
 
 	@GetMapping("/public/{public-document-id}")
-	public QueryDocumentDetailsResponse queryDocumentDetails(@PathVariable("public-document-id") String documentId) {
-		return queryDocumentDetailsService.execute(documentId);
+	public QueryDocumentDetailsResponse queryPublicDocumentDetails(@PathVariable("public-document-id") String documentId) {
+		return queryPublicDocumentDetailsService.execute(documentId);
 	}
 
 }
