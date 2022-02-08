@@ -5,6 +5,8 @@ import kr.hs.entrydsm.raisepercent.global.exception.ExpiredTokenException;
 import kr.hs.entrydsm.raisepercent.global.exception.InvalidTokenException;
 import kr.hs.entrydsm.raisepercent.global.properties.JwtProperties;
 import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetailsService;
+import kr.hs.entrydsm.raisepercent.global.security.jwt.type.TokenRole;
+import kr.hs.entrydsm.raisepercent.global.util.EnumUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,12 +23,12 @@ public class JwtTokenProvider {
     private final JwtProperties jwtProperties;
     private final AuthDetailsService authDetailsService;
 
-    public String generateAccessToken(String email, String role) {
-        return generateToken(email, role, jwtProperties.getAccessExp(), JwtProperties.ACCESS_TYPE);
+    public String generateAccessToken(String email, TokenRole role) {
+        return generateToken(email, role.name(), jwtProperties.getAccessExp(), JwtProperties.ACCESS_TYPE);
     }
 
-    public String generateRefreshToken(String email, String role) {
-        return generateToken(email, role, jwtProperties.getAccessExp(), JwtProperties.REFRESH_TYPE);
+    public String generateRefreshToken(String email, TokenRole role) {
+        return generateToken(email, role.name(), jwtProperties.getRefreshExp(), JwtProperties.REFRESH_TYPE);
     }
 
     public String resolveToken(HttpServletRequest request) {
@@ -44,7 +46,7 @@ public class JwtTokenProvider {
         }
         Claims claims = getJws(token).getBody();
         UserDetails userDetails = authDetailsService
-                .loadUserByUsername(claims.getSubject(), claims.get("role", String.class));
+                .loadUserByUsername(claims.getSubject(), EnumUtil.convertToEnum(claims.get("role", String.class), TokenRole.class));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
