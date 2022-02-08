@@ -36,7 +36,7 @@ class ApproveStayDocumentServiceTest {
         given(stayDocumentRepository.findByIdDocumentId(any()))
                 .willReturn(stayDocumentList);
 
-        willDoNothing().given(documentFacade).checkIsEmpty(stayDocumentList);
+        willDoNothing().given(documentFacade).isEmptyList(stayDocumentList);
 
         service.execute("123e4567-e89b-12d3-a456-426614174000");
 
@@ -52,7 +52,7 @@ class ApproveStayDocumentServiceTest {
         given(stayDocumentRepository.findByIdDocumentId(any()))
                 .willReturn(documentList);
 
-        willThrow(DocumentNotFoundException.class).given(documentFacade).checkIsEmpty(documentList);
+        willThrow(DocumentNotFoundException.class).given(documentFacade).isEmptyList(documentList);
 
         assertThrows(DocumentNotFoundException.class, () -> service.execute("123e4567-e89b-12d3-a456-426614174000"));
     }
