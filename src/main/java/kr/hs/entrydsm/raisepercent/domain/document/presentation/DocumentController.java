@@ -9,6 +9,7 @@ import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response.Sub
 import kr.hs.entrydsm.raisepercent.domain.document.service.ApproveStayDocumentService;
 import kr.hs.entrydsm.raisepercent.domain.document.service.CreateDocumentService;
 import kr.hs.entrydsm.raisepercent.domain.document.service.QuerySubmittedDocumentListService;
+import kr.hs.entrydsm.raisepercent.domain.document.service.SubmitDocumentService;
 import kr.hs.entrydsm.raisepercent.domain.document.service.UpdateDocumentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,7 @@ public class DocumentController {
 	private final UpdateDocumentService updateDocumentService;
 	private final QuerySubmittedDocumentListService querySubmittedDocumentListService;
 	private final ApproveStayDocumentService approveStayDocumentService;
+	private final SubmitDocumentService submitDocumentService;
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
@@ -51,8 +53,14 @@ public class DocumentController {
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/{submitted-document-id}")
-	public void approveSubmittedDocument(@PathVariable(name = "submitted-document-id") String documentId) {
+	public void approveSubmittedDocument(@PathVariable("submitted-document-id") String documentId) {
 		approveStayDocumentService.execute(documentId);
+	}
+
+	@ResponseStatus(HttpStatus.CREATED)
+	@PostMapping("/local/{local-document-id}")
+	public void submitDocument(@PathVariable("local-document-id") String documentId) {
+		submitDocumentService.execute(documentId);
 	}
 
 }

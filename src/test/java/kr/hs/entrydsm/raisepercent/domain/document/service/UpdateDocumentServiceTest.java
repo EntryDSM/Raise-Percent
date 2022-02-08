@@ -46,13 +46,13 @@ class UpdateDocumentServiceTest {
 		.name(name)
 		.build();
 
-	private static final Student student = Student.builder()
+	public static final Student student = Student.builder()
 		.number("1415")
 		.year("2022")
 		.user(user)
 		.build();
 
-	private static final Document document = Document.builder()
+	public static final Document document = Document.builder()
 		.documentType(DocumentType.RESUME)
 		.student(student)
 		.build();
