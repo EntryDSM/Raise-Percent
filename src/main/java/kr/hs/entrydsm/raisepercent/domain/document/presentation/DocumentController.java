@@ -5,9 +5,11 @@ import javax.validation.Valid;
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.request.CreateDocumentRequest;
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.request.UpdateDocumentRequest;
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response.CreateDocumentResponse;
+import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response.QueryDocumentDetailsResponse;
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response.SubmittedDocumentListResponse;
 import kr.hs.entrydsm.raisepercent.domain.document.service.ApproveStayDocumentService;
 import kr.hs.entrydsm.raisepercent.domain.document.service.CreateDocumentService;
+import kr.hs.entrydsm.raisepercent.domain.document.service.QueryDocumentDetailsService;
 import kr.hs.entrydsm.raisepercent.domain.document.service.QuerySubmittedDocumentListService;
 import kr.hs.entrydsm.raisepercent.domain.document.service.SubmitDocumentService;
 import kr.hs.entrydsm.raisepercent.domain.document.service.UpdateDocumentService;
@@ -32,6 +34,7 @@ public class DocumentController {
 	private final QuerySubmittedDocumentListService querySubmittedDocumentListService;
 	private final ApproveStayDocumentService approveStayDocumentService;
 	private final SubmitDocumentService submitDocumentService;
+	private final QueryDocumentDetailsService queryDocumentDetailsService;
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
@@ -61,6 +64,11 @@ public class DocumentController {
 	@PostMapping("/local/{local-document-id}")
 	public void submitDocument(@PathVariable("local-document-id") String documentId) {
 		submitDocumentService.execute(documentId);
+	}
+
+	@GetMapping("/public/{public-document-id}")
+	public QueryDocumentDetailsResponse queryDocumentDetails(@PathVariable("public-document-id") String documentId) {
+		return queryDocumentDetailsService.execute(documentId);
 	}
 
 }
