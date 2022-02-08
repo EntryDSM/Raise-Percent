@@ -16,6 +16,7 @@ import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import kr.hs.entrydsm.raisepercent.global.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -26,6 +27,7 @@ public class QueryPublicDocumentDetailsService {
 	private final AuthFacade authFacade;
 	private final StudentFacade studentFacade;
 
+	@Transactional(readOnly = true)
 	public QueryDocumentDetailsResponse execute(String documentId) {
 		final UUID documentUUID = UUIDUtil.convertToUUID(documentId);
 		Document document = documentFacade.getDocument(documentUUID);
