@@ -21,7 +21,8 @@ public class HrFacadeTest {
     private static final HrRepository hrRepository = mock(HrRepository.class);
     private static final HrFacade hrFacade = new HrFacade(hrRepository,authFacade);
 
-    @Test void 인사담당자_정보_가져오기(){
+    @Test
+    void 인사담당자_정보_가져오기() {
         Hr hr = Hr.builder().build();
 
         when(authFacade.getCurrentDetails())
@@ -37,7 +38,7 @@ public class HrFacadeTest {
     }
 
     @Test
-    void 인사담당자_예외(){
+    void 인사담당자_예외() {
         when(authFacade.getCurrentDetails())
                 .thenReturn(new AuthDetails(email,Type.SENIOR));
 
