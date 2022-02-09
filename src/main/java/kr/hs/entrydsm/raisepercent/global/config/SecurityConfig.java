@@ -1,5 +1,7 @@
 package kr.hs.entrydsm.raisepercent.global.config;
 
+import kr.hs.entrydsm.raisepercent.global.security.jwt.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,9 +10,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.web.cors.CorsUtils;
 
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -45,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/tags").hasRole("ROOT")
                 .antMatchers(HttpMethod.DELETE, "/tags/{tag-id}").hasRole("ROOT")
                 .anyRequest().authenticated()
-                .and().apply(new FilterConfig());
+                .and().apply(new FilterConfig(jwtTokenProvider));
     }
 
 }
