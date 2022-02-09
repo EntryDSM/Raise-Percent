@@ -1,5 +1,6 @@
 package kr.hs.entrydsm.raisepercent.domain.teacher.service;
 
+import kr.hs.entrydsm.raisepercent.domain.teacher.domain.Teacher;
 import kr.hs.entrydsm.raisepercent.domain.teacher.domain.repositories.TeacherRepository;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.repositories.UserRepository;
 import kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.request.CodeRequest;
@@ -89,6 +90,16 @@ class GoogleAuthServiceTest {
         assertEquals(response.getBody().getRefreshToken(), refreshToken);
 
         verify(teacherRepository, times(1)).save(any());
+    }
+
+    @Test
+    void 선생님_구글_회원가입() {
+        Teacher teacher = Teacher.builder().build();
+
+        when(teacherRepository.findById(any()))
+                .thenReturn(Optional.of(teacher));
+
+        verify(teacherRepository, times(0)).save(any());
     }
 
 }
