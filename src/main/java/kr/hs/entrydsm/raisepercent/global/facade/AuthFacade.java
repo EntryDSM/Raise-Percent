@@ -12,6 +12,7 @@ import kr.hs.entrydsm.raisepercent.global.exception.TeacherNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.exception.UserNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetails;
 import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
+import kr.hs.entrydsm.raisepercent.global.security.jwt.type.TokenRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -28,19 +29,19 @@ public class AuthFacade {
 
 	private final HrRepository hrRepository;
 
-	public Type queryUserRole(String email, String type) {
+	public Type queryUserRole(String email, TokenRole type) {
 		return queryPerson(email, type).queryType();
 	}
 
-	private Person queryPerson(String email, String type) {
+	private Person queryPerson(String email, TokenRole type) {
 		switch (type) {
-			case "student":
+			case STUDENT:
 				return studentRepository.findById(email)
 					.orElseThrow(() -> StudentNotFoundException.EXCEPTION);
-			case "teacher":
+			case TEACHER:
 				return teacherRepository.findById(email)
 					.orElseThrow(() -> TeacherNotFoundException.EXCEPTION);
-			case "hr":
+			case HR_MANAGER:
 				return hrRepository.findById(email)
 					.orElseThrow(() -> HrNotFoundException.EXCEPTION);
 			default:
