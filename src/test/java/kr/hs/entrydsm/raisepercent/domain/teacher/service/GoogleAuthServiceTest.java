@@ -98,8 +98,6 @@ class GoogleAuthServiceTest {
 
         when(teacherRepository.findById(any()))
                 .thenReturn(Optional.of(teacher));
-
-        verify(teacherRepository, times(0)).save(any());
     }
 
 }
