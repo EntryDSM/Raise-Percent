@@ -38,7 +38,6 @@ public class GoogleAuthService {
     private final TeacherRepository teacherRepository;
     private final JwtProperties jwtProperties;
     private final RefreshTokenRepository refreshTokenRepository;
-    private static int status = 200;
 
     @Transactional
     public ResponseEntity<TokenResponse> execute(CodeRequest request) {
@@ -56,7 +55,7 @@ public class GoogleAuthService {
         String email = googleInfoResponse.getEmail();
         String name = googleInfoResponse.getName();
 
-        saveTeacher(email, name);
+        Integer status = saveTeacher(email, name);
 
         String refreshToken = jwtTokenProvider.generateRefreshToken(email, TokenRole.TEACHER);
 
@@ -75,7 +74,7 @@ public class GoogleAuthService {
         );
     }
 
-    private void saveTeacher(String email, String name) {
+    private Integer saveTeacher(String email, String name) {
         if(teacherRepository.findById(email).isEmpty()) {
             teacherRepository.save(
                     Teacher.builder()
@@ -90,8 +89,9 @@ public class GoogleAuthService {
                             .role(Role.DEFAULT)
                             .build()
             );
-            status = 201;
+            return 201;
         }
+        return 200;
     }
 
 }
