@@ -1,6 +1,6 @@
 package kr.hs.entrydsm.raisepercent.domain.teacher.presentation;
 
-import kr.hs.entrydsm.raisepercent.domain.teacher.service.GoogleAuthService;
+import kr.hs.entrydsm.raisepercent.domain.teacher.service.TeacherGoogleAuthService;
 import kr.hs.entrydsm.raisepercent.global.util.auth.service.QueryGoogleAuthLinkService;
 import kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.request.CodeRequest;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.dto.TokenResponse;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class TeacherController {
 
-    private final GoogleAuthService googleAuthService;
+    private final TeacherGoogleAuthService teacherGoogleAuthService;
     private final QueryGoogleAuthLinkService queryGoogleAuthLinkService;
 
     @GetMapping("/auth")
@@ -23,7 +23,7 @@ public class TeacherController {
 
     @PostMapping("/auth")
     public ResponseEntity<TokenResponse> googleAuthLogin(@RequestBody CodeRequest codeRequest) {
-        return googleAuthService.execute(codeRequest);
+        return teacherGoogleAuthService.execute(codeRequest);
     }
 
 }
