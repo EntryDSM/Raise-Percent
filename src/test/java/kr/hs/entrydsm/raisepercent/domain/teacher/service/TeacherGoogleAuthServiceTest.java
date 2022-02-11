@@ -8,6 +8,7 @@ import kr.hs.entrydsm.raisepercent.global.properties.AuthProperties;
 import kr.hs.entrydsm.raisepercent.global.properties.JwtProperties;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.JwtTokenProvider;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.dto.TokenResponse;
+import kr.hs.entrydsm.raisepercent.global.util.auth.service.GoogleAuthService;
 import kr.hs.entrydsm.raisepercent.infrastructure.feign.client.GoogleAuth;
 import kr.hs.entrydsm.raisepercent.infrastructure.feign.client.GoogleInfo;
 import kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.request.GoogleCodeRequest;
@@ -21,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-class GoogleAuthServiceTest {
+class TeacherGoogleAuthServiceTest {
 
     private static final String baseUrl = "https://www.google.com";
 
@@ -55,13 +56,18 @@ class GoogleAuthServiceTest {
     private static final GoogleAuthService googleAuthService = new GoogleAuthService(
             googleAuth,
             googleInfo,
-            authProperties,
+            authProperties
+    );
+
+    private static final TeacherGoogleAuthService teacherGoogleAuthService = new TeacherGoogleAuthService(
             userRepository,
             jwtTokenProvider,
             teacherRepository,
             jwtProperties,
-            refreshTokenRepository
+            refreshTokenRepository,
+            googleAuthService
     );
+
 
     @Test
     void 선생님_구글_로그인() {
@@ -91,7 +97,7 @@ class GoogleAuthServiceTest {
         when(codeRequest.getCode())
                 .thenReturn(code);
 
-        ResponseEntity<TokenResponse> response = googleAuthService.execute(codeRequest);
+        ResponseEntity<TokenResponse> response = teacherGoogleAuthService.execute(codeRequest);
 
         assertEquals(response.getBody().getAccessToken(), accessToken);
         assertEquals(response.getBody().getRefreshToken(), refreshToken);
