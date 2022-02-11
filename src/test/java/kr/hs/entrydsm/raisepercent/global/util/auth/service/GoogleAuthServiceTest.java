@@ -11,6 +11,7 @@ import kr.hs.entrydsm.raisepercent.global.util.auth.dto.PersonalInformation;
 import kr.hs.entrydsm.raisepercent.infrastructure.feign.client.GoogleAuth;
 import kr.hs.entrydsm.raisepercent.infrastructure.feign.client.GoogleInfo;
 import kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.request.GoogleCodeRequest;
+import kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.response.GoogleInfoResponse;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -45,6 +46,10 @@ class GoogleAuthServiceTest {
 
     private static final JwtProperties jwtProperties = mock(JwtProperties.class);
 
+    private static final GoogleInfoResponse googleInfoResponse = mock(GoogleInfoResponse.class);
+
+    private static final PersonalInformation personalInformation = mock(PersonalInformation.class);
+
     private static final GoogleAuthService googleAuthService = new GoogleAuthService(
             googleAuth,
             googleInfo,
@@ -53,24 +58,31 @@ class GoogleAuthServiceTest {
 
     @Test
     void 사용자_이메일_이름_받기() {
-        String code = "code";
-        String googleAccessToken = "googleAccessToken";
         String email = "email";
         String name = "name";
+        String code = "code";
+        String googleAccessToken = "googleAccessToken";
 
         when(codeRequest.getCode())
                 .thenReturn(code);
 
-        when(tokenResponse.getAccessToken())
-                .thenReturn(googleAccessToken);
-
         when(googleAuth.googleAuth(any(GoogleCodeRequest.class)))
                 .thenReturn(tokenResponse);
 
-        //PersonalInformation personalInformation = googleAuthService.execute(codeRequest);
+        when(tokenResponse.getAccessToken())
+                .thenReturn(googleAccessToken);
 
-        //assertEquals(personalInformation.getEmail(),email);
-        //assertEquals(personalInformation.getName(),name);
+        when(googleInfoResponse.getEmail())
+                .thenReturn(email);
+
+        when(googleInfoResponse.getName())
+                .thenReturn(name);
+
+        when(personalInformation.getEmail())
+                .thenReturn(email);
+
+        when(personalInformation.getName())
+                .thenReturn(name);
 
     }
 
