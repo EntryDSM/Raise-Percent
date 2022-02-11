@@ -89,14 +89,14 @@ class DocumentFacadeTest {
     void 문서_비어있음() {
         List<StayDocument> documentList = new ArrayList<>();
 
-        assertThrows(DocumentNotFoundException.class, () -> documentFacade.isEmptyList(documentList));
+        assertThrows(DocumentNotFoundException.class, () -> documentFacade.assertNotEmpty(documentList));
     }
 
     @Test
     void 문서_비어있지_않음() {
         List<StayDocument> documentList = List.of(StayDocument.builder().build());
 
-        documentFacade.isEmptyList(documentList);
+        documentFacade.assertNotEmpty(documentList);
     }
 
 }

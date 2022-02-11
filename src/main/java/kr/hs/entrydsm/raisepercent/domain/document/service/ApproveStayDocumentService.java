@@ -26,7 +26,7 @@ public class ApproveStayDocumentService {
         List<StayDocument> stayDocumentList =
                 stayDocumentRepository.findByIdDocumentId(UUIDUtil.convertToUUID(documentId));
 
-        documentFacade.isEmptyList(stayDocumentList);
+        documentFacade.assertNotEmpty(stayDocumentList);
 
         publicDocumentRepository.saveAll(
                 stayDocumentList
