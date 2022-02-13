@@ -84,6 +84,8 @@ class GoogleAuthServiceTest {
         when(personalInformation.getName())
                 .thenReturn(name);
 
+        when(googleAuthService.execute(codeRequest))
+                .thenReturn(personalInformation);
     }
 
 }
