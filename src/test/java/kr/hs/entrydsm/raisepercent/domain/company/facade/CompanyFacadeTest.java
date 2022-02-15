@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -23,24 +24,26 @@ class CompanyFacadeTest {
 
     @Test
     public void 회사_가져오기(){
-        UUID id = UUID.randomUUID();
+        String name = "google";
 
-        Company company = Company.builder().build();
+        Company company = Company.builder()
+                .name(name)
+                .build();
 
-        when(companyRepository.findById(id))
+        when(companyRepository.findCompanyByName(name))
                 .thenReturn(Optional.of(company));
 
-        assertEquals(company,companyFacade.getCompany(id));
+        assertEquals(company,companyFacade.getCompany(name));
     }
 
     @Test
     public void 회사_예외(){
-        UUID id = UUID.randomUUID();
+        String name = "google";
 
-        when(companyRepository.findById(id))
+        when(companyRepository.findCompanyByName(name))
                 .thenReturn(Optional.empty());
 
-        assertThrows(CompanyNotFoundException.class, () -> companyFacade.getCompany(id));
+        assertThrows(CompanyNotFoundException.class, () -> companyFacade.getCompany(name));
     }
 
 }

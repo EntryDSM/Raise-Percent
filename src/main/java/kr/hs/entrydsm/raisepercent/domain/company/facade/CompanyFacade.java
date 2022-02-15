@@ -15,8 +15,8 @@ public class CompanyFacade {
 
     private final CompanyRepository companyRepository;
 
-    public Company getCompany(UUID companyId){
-        return companyRepository.findById(companyId)
+    public Company getCompany(String companyName){
+        return companyRepository.findCompanyByName(companyName)
                 .orElseThrow(() -> CompanyNotFoundException.EXCEPTION);
     }
 
