@@ -7,17 +7,17 @@ import kr.hs.entrydsm.raisepercent.global.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor
 @Component
 public class CompanyFacade {
 
     private final CompanyRepository companyRepository;
 
-    public Company getCompany(String companyName){
-        Company company = companyRepository.findById(UUIDUtil.convertToUUID(companyName))
+    public Company getCompany(UUID companyId){
+        return companyRepository.findById(companyId)
                 .orElseThrow(() -> CompanyNotFoundException.EXCEPTION);
-
-        return company;
     }
 
 }
