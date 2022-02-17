@@ -7,6 +7,8 @@ import kr.hs.entrydsm.raisepercent.domain.company.facade.CompanyFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @RequiredArgsConstructor
 @Service
 public class ChangeRankService {
@@ -14,7 +16,8 @@ public class ChangeRankService {
     private final CompanyRepository companyRepository;
     private final CompanyFacade companyFacade;
 
-    public void execute(String name){
+    @Transactional
+    public Company execute(String name){
         Company company = companyFacade.getCompany(name);
 
         Company changedCompany = changeRank(company);
@@ -22,6 +25,8 @@ public class ChangeRankService {
         companyRepository.delete(company);
 
         companyRepository.save(changedCompany);
+
+        return changedCompany;
     }
 
     private Company changeRank(Company company){
