@@ -13,6 +13,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ChangeRankServiceTest {
 
@@ -39,9 +40,6 @@ public class ChangeRankServiceTest {
 
     @Test
     public void 회사_랭크_변경하기(){
-        Rank seniorRank = Rank.SENIOR;
-        Rank juniorRank = Rank.JUNIOR;
-
         when(companyFacade.getCompany(anyString()))
                 .thenReturn(company);
 
@@ -52,14 +50,11 @@ public class ChangeRankServiceTest {
 
         assertEquals(Rank.JUNIOR, junior.getRankValue());
 
-        Company juniorToSenior = changeRankService.execute(junior.getName());
+        Company changedJunior = changeRankService.execute(anyString());
+        assertThat(changedJunior.getRankValue()).isEqualTo(Rank.JUNIOR);
 
-        Company seniorToJunior = changeRankService.execute(senior.getName());
-
-        assertEquals(seniorRank, juniorToSenior.getRankValue());
-
-        assertEquals(juniorRank, seniorToJunior.getRankValue());
-
+        Company changedSenior = changeRankService.execute(anyString());
+        assertThat(changedSenior.getRankValue()).isEqualTo(Rank.SENIOR);
     }
 
 }
