@@ -10,6 +10,6 @@ import java.util.UUID;
 @Repository
 public interface CompanyRepository extends CrudRepository<Company, UUID> {
 
-     Optional<Company> findCompanyByName(String name);
+     Optional<Company> findByName(String name);
 
 }

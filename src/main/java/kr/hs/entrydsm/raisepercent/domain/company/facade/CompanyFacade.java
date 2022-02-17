@@ -16,7 +16,7 @@ public class CompanyFacade {
     private final CompanyRepository companyRepository;
 
     public Company getCompany(String companyName){
-        return companyRepository.findCompanyByName(companyName)
+        return companyRepository.findByName(companyName)
                 .orElseThrow(() -> CompanyNotFoundException.EXCEPTION);
     }
 
