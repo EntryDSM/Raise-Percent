@@ -8,6 +8,6 @@ public class CompanyNotFoundException extends RaiseException {
             new CompanyNotFoundException();
 
     private CompanyNotFoundException() {
-        super(ErrorCode.CREDENTIALS_NOT_FOUND);
+        super(ErrorCode.COMPANY_NOT_FOUND);
     }
 }
