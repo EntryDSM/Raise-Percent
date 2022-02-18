@@ -21,7 +21,7 @@ public class ChangeRankService {
         Company company = companyFacade.getCompany(name);
 
         if (company.getRankValue()==Rank.JUNIOR) company.updateRank(Rank.SENIOR);
-        else company.updateRank(Rank.SENIOR);
+        else company.updateRank(Rank.JUNIOR);
 
     }
 
