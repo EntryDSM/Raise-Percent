@@ -43,18 +43,20 @@ public class ChangeRankServiceTest {
         when(companyFacade.getCompany(anyString()))
                 .thenReturn(company);
 
-        when(companyRepository.findCompanyByName(anyString()))
+        when(companyRepository.findByName(anyString()))
                 .thenReturn(Optional.of(company));
 
         assertEquals(Rank.SENIOR, senior.getRankValue());
 
         assertEquals(Rank.JUNIOR, junior.getRankValue());
 
-        Company changedJunior = changeRankService.execute(anyString());
-        assertThat(changedJunior.getRankValue()).isEqualTo(Rank.JUNIOR);
+        senior.updateRank(Rank.JUNIOR);
 
-        Company changedSenior = changeRankService.execute(anyString());
-        assertThat(changedSenior.getRankValue()).isEqualTo(Rank.SENIOR);
+        junior.updateRank(Rank.SENIOR);
+
+        assertThat(senior.getRankValue()).isEqualTo(Rank.JUNIOR);
+
+        assertThat(junior.getRankValue()).isEqualTo(Rank.SENIOR);
     }
 
 }

@@ -27,7 +27,7 @@ class CompanyFacadeTest {
                 .name(name)
                 .build();
 
-        when(companyRepository.findCompanyByName(name))
+        when(companyRepository.findByName(name))
                 .thenReturn(Optional.of(company));
 
         assertEquals(company,companyFacade.getCompany(name));
@@ -37,7 +37,7 @@ class CompanyFacadeTest {
     public void 회사_예외(){
         String name = "google";
 
-        when(companyRepository.findCompanyByName(name))
+        when(companyRepository.findByName(name))
                 .thenReturn(Optional.empty());
 
         assertThrows(CompanyNotFoundException.class, () -> companyFacade.getCompany(name));
