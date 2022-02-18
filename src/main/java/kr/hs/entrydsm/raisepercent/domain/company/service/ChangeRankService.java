@@ -17,25 +17,12 @@ public class ChangeRankService {
     private final CompanyFacade companyFacade;
 
     @Transactional
-    public Company execute(String name){
+    public void execute(String name){
         Company company = companyFacade.getCompany(name);
 
-        Company changedCompany = changeRank(company);
+        if (company.getRankValue()==Rank.JUNIOR) company.updateRank(Rank.SENIOR);
+        else company.updateRank(Rank.SENIOR);
 
-        companyRepository.delete(company);
-
-        companyRepository.save(changedCompany);
-
-        return changedCompany;
-    }
-
-    private Company changeRank(Company company){
-        if(company.getRankValue()==Rank.JUNIOR) {
-            company.updateRank(Rank.SENIOR);
-            return company;
-        }
-        company.updateRank(Rank.JUNIOR);
-        return company;
     }
 
 }
