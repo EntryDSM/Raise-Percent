@@ -39,7 +39,7 @@ public class QueryPublicDocumentDetailsService {
 		}
 
 		List<PublicDocument> publicDocuments = publicDocumentRepository.findByIdDocumentId(documentUUID);
-		documentFacade.checkIsEmpty(publicDocuments);
+		documentFacade.assertNotEmpty(publicDocuments);
 
 		List<QueryDocumentDetailsElement> pages = publicDocuments.stream()
 			.map(doc -> QueryDocumentDetailsElement.builder()
