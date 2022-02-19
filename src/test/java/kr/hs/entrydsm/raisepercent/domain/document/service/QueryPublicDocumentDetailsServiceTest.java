@@ -123,6 +123,6 @@ class QueryPublicDocumentDetailsServiceTest {
 		when(publicDocumentRepository.findByIdDocumentId(uuid))
 			.thenReturn(publicDocumentList);
 
-		willThrow(DocumentNotFoundException.class).given(documentFacade).checkIsEmpty(publicDocumentList);
+		willThrow(DocumentNotFoundException.class).given(documentFacade).assertNotEmpty(publicDocumentList);
 	}
 }
