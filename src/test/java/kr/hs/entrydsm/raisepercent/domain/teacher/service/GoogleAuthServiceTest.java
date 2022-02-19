@@ -1,9 +1,12 @@
 package kr.hs.entrydsm.raisepercent.domain.teacher.service;
 
+import kr.hs.entrydsm.raisepercent.domain.teacher.domain.Teacher;
 import kr.hs.entrydsm.raisepercent.domain.teacher.domain.repositories.TeacherRepository;
+import kr.hs.entrydsm.raisepercent.domain.user.domain.repositories.RefreshTokenRepository;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.repositories.UserRepository;
 import kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.request.CodeRequest;
 import kr.hs.entrydsm.raisepercent.global.properties.AuthProperties;
+import kr.hs.entrydsm.raisepercent.global.properties.JwtProperties;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.JwtTokenProvider;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.dto.TokenResponse;
 import kr.hs.entrydsm.raisepercent.infrastructure.feign.client.GoogleAuth;
@@ -46,13 +49,19 @@ class GoogleAuthServiceTest {
 
     private static final TeacherRepository teacherRepository = mock(TeacherRepository.class);
 
+    private static final JwtProperties jwtProperties = mock(JwtProperties.class);
+
+    private static final RefreshTokenRepository refreshTokenRepository = mock(RefreshTokenRepository.class);
+
     private static final GoogleAuthService googleAuthService = new GoogleAuthService(
             googleAuth,
             googleInfo,
             authProperties,
             userRepository,
             jwtTokenProvider,
-            teacherRepository
+            teacherRepository,
+            jwtProperties,
+            refreshTokenRepository
     );
 
     @Test
@@ -89,6 +98,14 @@ class GoogleAuthServiceTest {
         assertEquals(response.getBody().getRefreshToken(), refreshToken);
 
         verify(teacherRepository, times(1)).save(any());
+    }
+
+    @Test
+    void 선생님_구글_회원가입() {
+        Teacher teacher = Teacher.builder().build();
+
+        when(teacherRepository.findById(any()))
+                .thenReturn(Optional.of(teacher));
     }
 
 }

@@ -36,7 +36,7 @@ public class DocumentFacade {
                 .collect(Collectors.toList());
     }
 
-    public void checkIsEmpty(List<? extends BaseDocumentContentEntity> entityList) {
+    public void assertNotEmpty(List<? extends BaseDocumentContentEntity> entityList) {
         if (entityList.isEmpty()) {
             throw DocumentNotFoundException.EXCEPTION;
         }

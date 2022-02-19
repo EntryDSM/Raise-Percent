@@ -1,13 +1,5 @@
 package kr.hs.entrydsm.raisepercent.global.facade;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.util.Optional;
 import kr.hs.entrydsm.raisepercent.domain.company.domain.Company;
 import kr.hs.entrydsm.raisepercent.domain.company.domain.types.Rank;
 import kr.hs.entrydsm.raisepercent.domain.hr.domain.Hr;
@@ -22,10 +14,20 @@ import kr.hs.entrydsm.raisepercent.domain.user.domain.repositories.UserRepositor
 import kr.hs.entrydsm.raisepercent.global.exception.CredentialsNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetails;
 import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
+import kr.hs.entrydsm.raisepercent.global.security.jwt.type.TokenRole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class AuthFacadeTest {
 
@@ -57,7 +59,7 @@ public class AuthFacadeTest {
 		when(studentRepository.findById(anyString()))
 			.thenReturn(Optional.of(student));
 
-		Type type = authFacade.queryUserRole("test@gamil.com", "student");
+		Type type = authFacade.queryUserRole("test@gamil.com", TokenRole.STUDENT);
 
 		assertEquals(Type.STUDENT, type);
 	}
@@ -71,7 +73,7 @@ public class AuthFacadeTest {
 		when(teacherRepository.findById(anyString()))
 			.thenReturn(Optional.of(teacher));
 
-		Type type = authFacade.queryUserRole("test@gmail.com", "teacher");
+		Type type = authFacade.queryUserRole("test@gmail.com", TokenRole.TEACHER);
 
 		assertEquals(Type.ROOT, type);
 	}
@@ -88,7 +90,7 @@ public class AuthFacadeTest {
 		when(hrRepository.findById(anyString()))
 			.thenReturn(Optional.of(hr));
 
-		Type type = authFacade.queryUserRole("test@gmail.com", "hr");
+		Type type = authFacade.queryUserRole("test@gmail.com", TokenRole.HR_MANAGER);
 
 		assertEquals(Type.SENIOR, type);
 	}
@@ -101,7 +103,7 @@ public class AuthFacadeTest {
 		when(userRepository.findById(anyString()))
 			.thenReturn(Optional.of(user));
 
-		Type type = authFacade.queryUserRole("test@gmail.com", "user");
+		Type type = authFacade.queryUserRole("test@gmail.com", TokenRole.USER);
 
 		assertNull(type);
 	}

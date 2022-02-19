@@ -2,6 +2,7 @@ package kr.hs.entrydsm.raisepercent.domain.document.facade;
 
 import kr.hs.entrydsm.raisepercent.domain.document.domain.Document;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.DocumentUserConstant;
+import kr.hs.entrydsm.raisepercent.domain.document.domain.StayDocument;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.SubmittedDocument;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.repositories.DocumentRepository;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.repositories.SubmittedDocumentRepository;
@@ -82,6 +83,20 @@ class DocumentFacadeTest {
             assertThat(element.getNumber()).isEqualTo(number);
             assertThat(element.getSubmittedDocumentId()).isEqualTo(id.toString());
         });
+    }
+
+    @Test
+    void 문서_비어있음() {
+        List<StayDocument> documentList = new ArrayList<>();
+
+        assertThrows(DocumentNotFoundException.class, () -> documentFacade.assertNotEmpty(documentList));
+    }
+
+    @Test
+    void 문서_비어있지_않음() {
+        List<StayDocument> documentList = List.of(StayDocument.builder().build());
+
+        documentFacade.assertNotEmpty(documentList);
     }
 
 }
