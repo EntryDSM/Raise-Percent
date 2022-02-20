@@ -28,35 +28,46 @@ public class ChangeRankServiceTest {
 
     Company company = Company.builder().build();
 
-    Company senior = Company.builder()
-            .name("original senior")
-            .rankValue(Rank.SENIOR)
+    Company junior = Company.builder()
+            .name("naver")
+            .rankValue(Rank.JUNIOR)
             .build();
 
-    Company junior = Company.builder()
-            .name("original junior")
-            .rankValue(Rank.JUNIOR)
+    Company senior = Company.builder()
+            .name("google")
+            .rankValue(Rank.SENIOR)
             .build();
 
     @Test
     public void 회사_랭크_변경하기(){
-        when(companyFacade.getCompany(anyString()))
-                .thenReturn(company);
+        String juniorCompanyName = "naver";
+        String seniorCompanyName = "google";
 
         when(companyRepository.findByName(anyString()))
                 .thenReturn(Optional.of(company));
 
-        assertEquals(Rank.SENIOR, senior.getRankValue());
+        when(companyRepository.findByName(juniorCompanyName))
+                .thenReturn(Optional.of(junior));
 
-        assertEquals(Rank.JUNIOR, junior.getRankValue());
+        when(companyRepository.findByName(seniorCompanyName))
+                .thenReturn(Optional.of(senior));
 
-        senior.updateRank(Rank.JUNIOR);
+        when(companyFacade.getCompany(anyString()))
+                .thenReturn(company);
 
-        junior.updateRank(Rank.SENIOR);
+        when(companyFacade.getCompany(juniorCompanyName))
+                .thenReturn(junior);
 
-        assertThat(senior.getRankValue()).isEqualTo(Rank.JUNIOR);
+        when(companyFacade.getCompany(seniorCompanyName))
+                .thenReturn(senior);
 
-        assertThat(junior.getRankValue()).isEqualTo(Rank.SENIOR);
+        changeRankService.execute(juniorCompanyName);
+
+        changeRankService.execute(seniorCompanyName);
+
+        assertEquals(Rank.JUNIOR,senior.getRankValue());
+
+        assertEquals(Rank.SENIOR,junior.getRankValue());
     }
 
 }
