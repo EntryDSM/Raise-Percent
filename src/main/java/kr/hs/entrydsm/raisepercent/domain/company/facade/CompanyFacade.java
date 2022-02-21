@@ -2,12 +2,9 @@ package kr.hs.entrydsm.raisepercent.domain.company.facade;
 
 import kr.hs.entrydsm.raisepercent.domain.company.domain.Company;
 import kr.hs.entrydsm.raisepercent.domain.company.domain.repositories.CompanyRepository;
-import kr.hs.entrydsm.raisepercent.global.exception.CompanyNotFoundException;
-import kr.hs.entrydsm.raisepercent.global.util.UUIDUtil;
+import kr.hs.entrydsm.raisepercent.domain.company.exception.CompanyNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Component

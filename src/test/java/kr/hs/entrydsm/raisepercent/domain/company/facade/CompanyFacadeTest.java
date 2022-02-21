@@ -2,7 +2,7 @@ package kr.hs.entrydsm.raisepercent.domain.company.facade;
 
 import kr.hs.entrydsm.raisepercent.domain.company.domain.Company;
 import kr.hs.entrydsm.raisepercent.domain.company.domain.repositories.CompanyRepository;
-import kr.hs.entrydsm.raisepercent.global.exception.CompanyNotFoundException;
+import kr.hs.entrydsm.raisepercent.domain.company.exception.CompanyNotFoundException;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

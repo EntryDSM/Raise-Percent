@@ -1,4 +1,4 @@
-package kr.hs.entrydsm.raisepercent.global.exception;
+package kr.hs.entrydsm.raisepercent.domain.company.exception;
 
 import kr.hs.entrydsm.raisepercent.global.error.exception.ErrorCode;
 import kr.hs.entrydsm.raisepercent.global.error.exception.RaiseException;
