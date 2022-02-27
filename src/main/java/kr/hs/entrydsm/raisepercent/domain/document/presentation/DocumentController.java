@@ -5,9 +5,11 @@ import javax.validation.Valid;
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.request.CreateDocumentRequest;
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.request.UpdateDocumentRequest;
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response.CreateDocumentResponse;
+import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response.QueryDocumentDetailsResponse;
 import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response.SubmittedDocumentListResponse;
 import kr.hs.entrydsm.raisepercent.domain.document.service.ApproveStayDocumentService;
 import kr.hs.entrydsm.raisepercent.domain.document.service.CreateDocumentService;
+import kr.hs.entrydsm.raisepercent.domain.document.service.QueryPublicDocumentDetailsService;
 import kr.hs.entrydsm.raisepercent.domain.document.service.DeletePublicDocumentService;
 import kr.hs.entrydsm.raisepercent.domain.document.service.QuerySubmittedDocumentListService;
 import kr.hs.entrydsm.raisepercent.domain.document.service.SubmitDocumentService;
@@ -34,6 +36,7 @@ public class DocumentController {
 	private final QuerySubmittedDocumentListService querySubmittedDocumentListService;
 	private final ApproveStayDocumentService approveStayDocumentService;
 	private final SubmitDocumentService submitDocumentService;
+	private final QueryPublicDocumentDetailsService queryPublicDocumentDetailsService;
 	private final DeletePublicDocumentService deletePublicDocumentService;
 
 	@ResponseStatus(HttpStatus.CREATED)
@@ -66,6 +69,12 @@ public class DocumentController {
 		submitDocumentService.execute(documentId);
 	}
 
+
+	@GetMapping("/public/{public-document-id}")
+	public QueryDocumentDetailsResponse queryPublicDocumentDetails(@PathVariable("public-document-id") String documentId) {
+		return queryPublicDocumentDetailsService.execute(documentId);
+	}
+  
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/public/{public-document-id}")
 	public void deletePublicDocument(@PathVariable("public-document-id") String documentId) {

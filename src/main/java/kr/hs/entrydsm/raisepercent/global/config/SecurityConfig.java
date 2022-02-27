@@ -48,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/documents/submit").hasRole("ROOT")
                 .antMatchers(HttpMethod.POST, "/documents/local/{local-document-id}").hasRole("STUDENT")
                 .antMatchers(HttpMethod.PATCH, "/documents/local/{local-document-id}").hasRole("STUDENT")
+                .antMatchers(HttpMethod.GET, "/documents/public/{public-document-id}").hasAnyRole("STUDENT", "SENIOR", "TEACHER", "ROOT")
                 .antMatchers(HttpMethod.DELETE, "/documents/public/{public-document-id}").hasRole("STUDENT")
                 .antMatchers(HttpMethod.POST, "/tags").hasRole("ROOT")
                 .antMatchers(HttpMethod.DELETE, "/tags/{tag-id}").hasRole("ROOT")
