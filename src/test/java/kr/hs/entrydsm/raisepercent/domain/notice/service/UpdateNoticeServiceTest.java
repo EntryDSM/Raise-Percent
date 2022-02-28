@@ -17,7 +17,7 @@ import static org.mockito.Mockito.mock;
 
 
 public class UpdateNoticeServiceTest {
-    
+
     private static final NoticeFacade noticeFacade = mock(NoticeFacade.class);
 
     private static final UpdateNoticeService updateNoticeService = new UpdateNoticeService(noticeFacade);
@@ -36,7 +36,7 @@ public class UpdateNoticeServiceTest {
 
         when(noticeFacade.getNotice(id))
                 .thenReturn(notice);
-
+        
         updateNoticeService.execute(id,updateNoticeRequest);
 
     }
