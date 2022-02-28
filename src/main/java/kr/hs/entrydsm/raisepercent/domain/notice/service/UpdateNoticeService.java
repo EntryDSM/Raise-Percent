@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 public class UpdateNoticeService {
 
     private final NoticeFacade noticeFacade;
-    private final NoticeRepository noticeRepository;
 
     public void execute(String noticeId, UpdateNoticeRequest updateNoticeRequest){
 
