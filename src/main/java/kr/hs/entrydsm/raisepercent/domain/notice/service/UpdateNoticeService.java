@@ -13,7 +13,7 @@ public class UpdateNoticeService {
 
     private final NoticeFacade noticeFacade;
 
-    public void execute(String noticeId, UpdateNoticeRequest updateNoticeRequest){
+    public void execute(String noticeId, UpdateNoticeRequest updateNoticeRequest) {
 
         Notice notice = noticeFacade.getNotice(noticeId);
 

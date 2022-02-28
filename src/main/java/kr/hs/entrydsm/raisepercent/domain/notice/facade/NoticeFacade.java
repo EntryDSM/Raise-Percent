@@ -13,7 +13,7 @@ public class NoticeFacade {
 
     private final NoticeRepository noticeRepository;
 
-    public Notice getNotice(String noticeId){
+    public Notice getNotice(String noticeId) {
         return noticeRepository.findById(UUIDUtil.convertToUUID(noticeId))
                 .orElseThrow(() -> NoticeNotFoundException.EXCEPTION);
     }

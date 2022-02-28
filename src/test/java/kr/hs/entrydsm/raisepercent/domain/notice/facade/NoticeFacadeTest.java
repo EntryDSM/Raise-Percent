@@ -30,7 +30,7 @@ public class NoticeFacadeTest {
     private static final String noneExistId = "000e1234-a89c-32a3-a456-426614174000";
 
     @Test
-    void 공지_가져오기(){
+    void 공지_가져오기() {
         Notice notice = Notice.builder().build();
 
         when(noticeRepository.findById(UUIDUtil.convertToUUID(id)))
@@ -42,7 +42,7 @@ public class NoticeFacadeTest {
     }
 
     @Test
-    void 공지_존재_예외(){
+    void 공지_존재_예외() {
         when(noticeRepository.findById(UUIDUtil.convertToUUID(noneExistId)))
                 .thenReturn(Optional.empty());
 

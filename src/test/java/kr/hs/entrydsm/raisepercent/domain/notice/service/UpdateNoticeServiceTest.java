@@ -27,7 +27,7 @@ public class UpdateNoticeServiceTest {
     private static final String id = "123e4567-e89b-12d3-a456-426614174000";
 
     @Test
-    void 공지사항_내부_값_수정(){
+    void 공지사항_내부_값_수정() {
 
         Notice notice = Notice.builder()
                 .title("긴급 공지입니다")
