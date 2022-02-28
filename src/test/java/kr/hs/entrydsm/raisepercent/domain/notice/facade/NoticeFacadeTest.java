@@ -7,13 +7,11 @@ import kr.hs.entrydsm.raisepercent.global.util.UUIDUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
 
@@ -36,7 +34,7 @@ public class NoticeFacadeTest {
         when(noticeRepository.findById(UUIDUtil.convertToUUID(id)))
                 .thenReturn(Optional.of(notice));
 
-        Notice findNotice = noticeFacade.getNotice(id);
+        Notice findNotice = noticeFacade.getNoticeById(id);
 
         assertEquals(notice,findNotice);
     }
@@ -46,7 +44,7 @@ public class NoticeFacadeTest {
         when(noticeRepository.findById(UUIDUtil.convertToUUID(noneExistId)))
                 .thenReturn(Optional.empty());
 
-        assertThrows(NoticeNotFoundException.class, () -> noticeFacade.getNotice(noneExistId));
+        assertThrows(NoticeNotFoundException.class, () -> noticeFacade.getNoticeById(noneExistId));
     }
 
 }

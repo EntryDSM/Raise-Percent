@@ -1,13 +1,9 @@
 package kr.hs.entrydsm.raisepercent.domain.notice.service;
 
 import kr.hs.entrydsm.raisepercent.domain.notice.domain.Notice;
-import kr.hs.entrydsm.raisepercent.domain.notice.domain.repositories.NoticeRepository;
 import kr.hs.entrydsm.raisepercent.domain.notice.facade.NoticeFacade;
 import kr.hs.entrydsm.raisepercent.domain.notice.presentation.dto.request.UpdateNoticeRequest;
-import kr.hs.entrydsm.raisepercent.global.util.UUIDUtil;
 import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -34,7 +30,7 @@ public class UpdateNoticeServiceTest {
                 .content("사실 구라입니다")
                 .build();
 
-        when(noticeFacade.getNotice(id))
+        when(noticeFacade.getNoticeById(id))
                 .thenReturn(notice);
         
         updateNoticeService.execute(id,updateNoticeRequest);
