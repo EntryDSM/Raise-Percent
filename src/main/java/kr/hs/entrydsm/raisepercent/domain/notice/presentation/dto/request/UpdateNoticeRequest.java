@@ -1,13 +1,13 @@
 package kr.hs.entrydsm.raisepercent.domain.notice.presentation.dto.request;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class UpdateNoticeRequest {
 
     @NotBlank(message = "title은 비어있으면 안됩니다.")
