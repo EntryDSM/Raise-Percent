@@ -42,7 +42,8 @@ public class NoticeController {
 
     @PatchMapping("/{notice-id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateNotice(@PathVariable("notice-id")String noticeId, @RequestBody UpdateNoticeRequest updateNoticeRequest) {
+    public void updateNotice(@PathVariable("notice-id")String noticeId,
+                             @RequestBody @Valid UpdateNoticeRequest updateNoticeRequest) {
         updateNoticeService.execute(noticeId,updateNoticeRequest);
     }
 
