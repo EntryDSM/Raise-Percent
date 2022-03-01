@@ -12,8 +12,8 @@ public class QueryUserAuthLinkService {
     private final DsmAuthProperties dsmAuthProperties;
 
     public UserAuthLinkResponse execute() {
-        return UserAuthLinkResponse.builder().link(dsmAuthProperties.getBaseUrl() + "external/login?redirect_url=" +
-                dsmAuthProperties.getRedirectUrl() + "&client_id=" + dsmAuthProperties.getClientId()).build();
+        return UserAuthLinkResponse.builder().link(String.format(dsmAuthProperties.getFormat(),
+                dsmAuthProperties.getRedirectUrl(), dsmAuthProperties.getClientId())).build();
     }
 
 }

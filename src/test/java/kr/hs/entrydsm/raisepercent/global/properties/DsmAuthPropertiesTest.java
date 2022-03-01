@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DsmAuthPropertiesTest {
 
-    private static final String baseUrl = "baseUrl";
+    private static final String format = "baseUrl%s%s";
 
     private static final String clientId = "entrydsm";
 
@@ -15,11 +15,11 @@ class DsmAuthPropertiesTest {
 
     private static final String redirectUrl = "redirectUrl";
 
-    private static final DsmAuthProperties dsmAuthProperties = new DsmAuthProperties(baseUrl, clientId, clientSecret, redirectUrl);
+    private static final DsmAuthProperties dsmAuthProperties = new DsmAuthProperties(format, clientId, clientSecret, redirectUrl);
 
     @Test
     void 기본_링크_가져오기() {
-        assertThat(dsmAuthProperties.getBaseUrl()).isEqualTo(baseUrl);
+        assertThat(dsmAuthProperties.getFormat()).isEqualTo(format);
     }
 
     @Test
