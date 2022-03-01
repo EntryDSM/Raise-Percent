@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @ConfigurationProperties("auth.dsm")
 public class DsmAuthProperties {
 
-    private final String baseUrl;
+    private final String format;
     private final String clientId;
     private final String clientSecret;
     private final String redirectUrl;
