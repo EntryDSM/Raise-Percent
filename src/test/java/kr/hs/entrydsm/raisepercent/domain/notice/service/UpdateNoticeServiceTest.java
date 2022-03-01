@@ -1,20 +1,24 @@
 package kr.hs.entrydsm.raisepercent.domain.notice.service;
 
 import kr.hs.entrydsm.raisepercent.domain.notice.domain.Notice;
+import kr.hs.entrydsm.raisepercent.domain.notice.domain.repositories.NoticeRepository;
 import kr.hs.entrydsm.raisepercent.domain.notice.facade.NoticeFacade;
 import kr.hs.entrydsm.raisepercent.domain.notice.presentation.dto.request.UpdateNoticeRequest;
+import kr.hs.entrydsm.raisepercent.global.util.UUIDUtil;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
 
 
 public class UpdateNoticeServiceTest {
 
-    private static final NoticeFacade noticeFacade = mock(NoticeFacade.class);
+    private static final NoticeRepository noticeRepository = mock(NoticeRepository.class);
+
+    private static final NoticeFacade noticeFacade = new NoticeFacade(noticeRepository);
 
     private static final UpdateNoticeService updateNoticeService = new UpdateNoticeService(noticeFacade);
 
@@ -30,10 +34,16 @@ public class UpdateNoticeServiceTest {
                 .content("사실 구라입니다")
                 .build();
 
-        when(noticeFacade.getNoticeById(id))
-                .thenReturn(notice);
+        when(noticeRepository.findById(UUIDUtil.convertToUUID(id)))
+                .thenReturn(Optional.of(notice));
         
         updateNoticeService.execute(id,updateNoticeRequest);
+
+        Notice changedNotice = noticeFacade.getNoticeById(id);
+
+        assertEquals(updateNoticeRequest.getTitle(),changedNotice.getTitle());
+
+        assertEquals(updateNoticeRequest.getContent(),changedNotice.getContent());
 
     }
 
