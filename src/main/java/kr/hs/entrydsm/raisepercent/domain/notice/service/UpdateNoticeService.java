@@ -19,9 +19,7 @@ public class UpdateNoticeService {
 
         Notice notice = noticeFacade.getNoticeById(noticeId);
 
-        notice.updateTitle(updateNoticeRequest.getTitle());
-
-        notice.updateContent(updateNoticeRequest.getContent());
+        notice.updateTitleAndContent(updateNoticeRequest);
     }
 
 }
