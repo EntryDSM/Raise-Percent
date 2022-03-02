@@ -1,15 +1,19 @@
 package kr.hs.entrydsm.raisepercent.domain.student.presentation;
 
+import kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.request.CodeRequest;
 import kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.request.RegisterTagRequest;
 import kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.request.UpdatePositionRequest;
 import kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.response.BookmarkListResponse;
 import kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.response.ProfileResponse;
+import kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.response.TokenResponse;
 import kr.hs.entrydsm.raisepercent.domain.student.service.QueryBookmarkService;
 import kr.hs.entrydsm.raisepercent.domain.student.service.QueryStudentProfileService;
 import kr.hs.entrydsm.raisepercent.domain.student.service.RegisterTagService;
 import kr.hs.entrydsm.raisepercent.domain.student.service.UpdatePositionService;
+import kr.hs.entrydsm.raisepercent.domain.student.service.StudentAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +34,7 @@ public class StudentController {
     private final RegisterTagService registerTagService;
     private final UpdatePositionService updatePositionService;
     private final QueryBookmarkService queryBookmarkService;
+    private final StudentAuthService studentAuthService;
 
     @GetMapping("/{student-email}")
     public ProfileResponse queryStudentProfile(@PathVariable("student-email") String email) {
@@ -53,4 +58,8 @@ public class StudentController {
         return queryBookmarkService.execute();
     }
 
+    @PostMapping("/auth")
+    public ResponseEntity<TokenResponse> userAuth(@RequestBody CodeRequest request) {
+        return studentAuthService.execute(request.getCode());
+    }
 }
