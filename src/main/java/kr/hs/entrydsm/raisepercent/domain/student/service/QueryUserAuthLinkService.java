@@ -1,6 +1,6 @@
-package kr.hs.entrydsm.raisepercent.domain.user.service;
+package kr.hs.entrydsm.raisepercent.domain.student.service;
 
-import kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.response.UserAuthLinkResponse;
+import kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.response.UserAuthLinkResponse;
 import kr.hs.entrydsm.raisepercent.global.properties.DsmAuthProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

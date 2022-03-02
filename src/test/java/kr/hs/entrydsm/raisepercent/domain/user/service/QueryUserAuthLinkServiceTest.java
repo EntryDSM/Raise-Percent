@@ -1,5 +1,6 @@
 package kr.hs.entrydsm.raisepercent.domain.user.service;
 
+import kr.hs.entrydsm.raisepercent.domain.student.service.QueryUserAuthLinkService;
 import kr.hs.entrydsm.raisepercent.global.properties.DsmAuthProperties;
 import org.junit.jupiter.api.Test;
 

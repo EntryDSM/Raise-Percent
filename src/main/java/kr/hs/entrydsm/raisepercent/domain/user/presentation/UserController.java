@@ -3,10 +3,9 @@ package kr.hs.entrydsm.raisepercent.domain.user.presentation;
 import kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.request.UpdateDeviceTokenRequest;
 import kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.request.UpdateInformationRequest;
 import kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.response.NotificationListResponse;
-import kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.response.UserAuthLinkResponse;
 import kr.hs.entrydsm.raisepercent.domain.user.service.CheckNotificationService;
 import kr.hs.entrydsm.raisepercent.domain.user.service.QueryNotificationListService;
-import kr.hs.entrydsm.raisepercent.domain.user.service.QueryUserAuthLinkService;
+import kr.hs.entrydsm.raisepercent.domain.student.service.QueryUserAuthLinkService;
 import kr.hs.entrydsm.raisepercent.domain.user.service.UpdateDeviceTokenService;
 import kr.hs.entrydsm.raisepercent.domain.user.service.UpdateInformationService;
 import lombok.RequiredArgsConstructor;
@@ -54,11 +53,6 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void checkNotification(@PathVariable("notification-id") String notificationId) {
         checkNotificationService.execute(notificationId);
-    }
-
-    @GetMapping("/auth")
-    public UserAuthLinkResponse queryUserAuthLink() {
-        return queryUserAuthLinkService.execute();
     }
 
 }

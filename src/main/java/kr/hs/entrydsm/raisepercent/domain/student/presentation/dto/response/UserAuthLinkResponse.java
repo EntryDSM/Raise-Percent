@@ -1,4 +1,4 @@
-package kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.response;
+package kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

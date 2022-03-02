@@ -1,5 +1,6 @@
 package kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.response;
 
+import kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.response.UserAuthLinkResponse;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
