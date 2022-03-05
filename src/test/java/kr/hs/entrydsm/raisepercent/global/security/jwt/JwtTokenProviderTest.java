@@ -70,10 +70,6 @@ class JwtTokenProviderTest {
 
         given(jwtProperties.getSecretKey())
                 .willReturn("SECRETKEY");
-        given(jwtProperties.getAccessExp())
-                .willReturn(100000000L);
-        given(authDetailsService.loadUserByUsername(email, role))
-                .willReturn(new AuthDetails(email, Type.STUDENT));
 
         //when
         String refreshToken = jwtTokenProvider.generateRefreshToken(email, role);
@@ -92,8 +88,6 @@ class JwtTokenProviderTest {
                 .willReturn("SECRETKEY");
         given(jwtProperties.getRefreshExp())
                 .willReturn(100000000L);
-        given(authDetailsService.loadUserByUsername(email, role))
-                .willReturn(new AuthDetails(email, Type.STUDENT));
 
         //when
         String refreshToken = jwtTokenProvider.generateRefreshToken(email, role);
@@ -133,16 +127,16 @@ class JwtTokenProviderTest {
         //given
         String email = "test@gmail.com";
         TokenRole role = TokenRole.STUDENT;
-        String accessToken = jwtTokenProvider.generateAccessToken(email, role);
 
         given(jwtProperties.getSecretKey())
-                .willReturn("SECRETKEY");
+            .willReturn("SECRETKEY");
         given(jwtProperties.getAccessExp())
-                .willReturn(10L);
-        given(authDetailsService.loadUserByUsername(email, role))
-                .willReturn(new AuthDetails(email, Type.STUDENT));
+            .willReturn(1L);
 
-        //when then
+        //when
+        String accessToken = jwtTokenProvider.generateAccessToken(email, role);
+
+        //then
         assertThrows(ExpiredTokenException.class, () -> jwtTokenProvider.getAuthentication(accessToken));
     }
 
@@ -182,10 +176,12 @@ class JwtTokenProviderTest {
 
         given(jwtProperties.getHeader())
                 .willReturn(header);
-        given(jwtProperties.getPrefix())
-                .willReturn(prefix);
         given(request.getHeader(header))
                 .willReturn(token);
+        if (token != null) {
+            given(jwtProperties.getPrefix())
+                .willReturn(prefix);
+        }
 
         //when then
         assertNull(jwtTokenProvider.resolveToken(request));
