@@ -1,6 +1,11 @@
 package kr.hs.entrydsm.raisepercent.global.security.jwt;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,48 +17,62 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.BDDMockito.given;
 
+@ExtendWith(MockitoExtension.class)
 class JwtTokenFilterTest {
 
-    private static final JwtTokenProvider jwtTokenProvider = mock(JwtTokenProvider.class);
+    @Mock
+    private JwtTokenProvider jwtTokenProvider;
 
-    private static final JwtTokenFilter jwtTokenFilter = new JwtTokenFilter(jwtTokenProvider);
+    @InjectMocks
+    private JwtTokenFilter jwtTokenFilter;
+
+    @Mock
+    private HttpServletRequest request;
+
+    @Mock
+    private HttpServletResponse response;
+
+    @Mock
+    private FilterChain filterChain;
+
+    @BeforeEach
+    void securityContextConfig() {
+        SecurityContextHolder.getContext().setAuthentication(null);
+    }
 
     @Test
     void 잘못된_토큰() throws ServletException, IOException {
-        SecurityContextHolder.getContext().setAuthentication(null);
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpServletResponse response = mock(HttpServletResponse.class);
-        FilterChain filterChain = mock(FilterChain.class);
+        //given
+        given(jwtTokenProvider.resolveToken(request))
+                .willReturn(null);
 
-        when(jwtTokenProvider.resolveToken(request))
-                .thenReturn(null);
-
+        //when
         jwtTokenFilter.doFilterInternal(request, response, filterChain);
 
+        //then
         assertNull(SecurityContextHolder.getContext().getAuthentication());
     }
 
     @Test
     void 올바른_토큰() throws ServletException, IOException {
-        SecurityContextHolder.getContext().setAuthentication(null);
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpServletResponse response = mock(HttpServletResponse.class);
-        FilterChain filterChain = mock(FilterChain.class);
+        //given
         String token = "token";
         Authentication authentication = new UsernamePasswordAuthenticationToken(null, null, null);
 
-        when(jwtTokenProvider.resolveToken(request))
-                .thenReturn(token);
-        when(jwtTokenProvider.getAuthentication(token))
-                .thenReturn(authentication);
+        given(jwtTokenProvider.resolveToken(request))
+                .willReturn(token);
+        given(jwtTokenProvider.getAuthentication(token))
+                .willReturn(authentication);
 
+        //when
         jwtTokenFilter.doFilterInternal(request, response, filterChain);
 
-        assertEquals(authentication, SecurityContextHolder.getContext().getAuthentication());
+        //then
+        assertThat(authentication).isEqualTo(SecurityContextHolder.getContext().getAuthentication());
     }
 
 }

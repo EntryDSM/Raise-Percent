@@ -6,17 +6,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GoogleCodeRequestTest {
 
-    private static final String code = "A2dg1F";
+    private final String code = "A2dg1F";
 
-    private static final String clientId = "asdfass1";
+    private final String clientId = "asdfass1";
 
-    private static final String clientSecret = "asdf12134as";
+    private final String clientSecret = "asdf12134as";
 
-    private static final String redirectUri = "https://www.google.co.kr";
+    private final String redirectUri = "https://www.google.co.kr";
 
-    private static final String grantType = "authorization_code";
+    private final String grantType = "authorization_code";
 
-    private static final GoogleCodeRequest request = GoogleCodeRequest.builder()
+    private final GoogleCodeRequest request = GoogleCodeRequest.builder()
             .code(code)
             .clientId(clientId)
             .clientSecret(clientSecret)

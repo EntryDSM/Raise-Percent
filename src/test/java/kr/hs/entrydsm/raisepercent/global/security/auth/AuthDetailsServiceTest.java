@@ -3,29 +3,37 @@ package kr.hs.entrydsm.raisepercent.global.security.auth;
 import kr.hs.entrydsm.raisepercent.global.facade.AuthFacade;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.type.TokenRole;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.GrantedAuthority;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 
+@ExtendWith(MockitoExtension.class)
 class AuthDetailsServiceTest {
 
-    private AuthFacade authFacade = mock(AuthFacade.class);
+    @Mock
+    private AuthFacade authFacade;
 
-    private AuthDetailsService authDetailsService = new AuthDetailsService(authFacade);
+    @InjectMocks
+    private AuthDetailsService authDetailsService;
 
     @Test
     void 유저_인증객체_가져오기() {
+        //given
         String email = "test@gmail.com";
         TokenRole role = TokenRole.TEACHER;
 
-        when(authFacade.queryUserRole(email, role))
-                .thenReturn(Type.ROOT);
+        given(authFacade.queryUserRole(email, role))
+                .willReturn(Type.ROOT);
 
+        //when then
         for (GrantedAuthority authority : authDetailsService.loadUserByUsername(email, role)
                      .getAuthorities()) {
-            assertEquals(Type.ROOT.name(), authority.getAuthority());
+            assertThat(Type.ROOT.name()).isEqualTo(authority.getAuthority());
         }
     }
 

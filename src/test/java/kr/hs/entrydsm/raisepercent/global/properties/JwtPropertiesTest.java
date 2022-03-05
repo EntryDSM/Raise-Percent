@@ -4,49 +4,48 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Base64;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class JwtPropertiesTest {
 
-    private static final Integer MICORSECPERSEC = 1000;
+    private final String secretKey = "test";
 
-    private static final String secretKey = "test";
+    private final Long accessExp = 1000L;
 
-    private static final Long accessExp = 1000L;
+    private final Long refreshExp = 2000L;
 
-    private static final Long refreshExp = 2000L;
+    private final String header = "Authorization";
 
-    private static final String header = "Authorization";
+    private final String prefix = "Bearer";
 
-    private static final String prefix = "Bearer";
-
-    private static final JwtProperties jwtProperties = new JwtProperties(secretKey, accessExp, refreshExp, header, prefix);
+    private final JwtProperties jwtProperties = new JwtProperties(secretKey, accessExp, refreshExp, header, prefix);
 
     @Test
     void 정적_변수_확인() {
-        assertEquals("ACCESS", JwtProperties.ACCESS_TYPE);
-        assertEquals("REFRESH", JwtProperties.REFRESH_TYPE);
+        assertThat("ACCESS").isEqualTo(JwtProperties.ACCESS_TYPE);
+        assertThat("REFRESH").isEqualTo(JwtProperties.REFRESH_TYPE);
     }
 
     @Test
     void 시크릿키_가져오기() {
-        assertEquals(Base64.getEncoder().encodeToString(secretKey.getBytes()), jwtProperties.getSecretKey());
+        assertThat(Base64.getEncoder().encodeToString(secretKey.getBytes())).isEqualTo(jwtProperties.getSecretKey());
     }
 
     @Test
     void 만료_시간_가져오기() {
-        assertEquals(accessExp * MICORSECPERSEC, jwtProperties.getAccessExp());
-        assertEquals(refreshExp * MICORSECPERSEC, jwtProperties.getRefreshExp());
+        Integer MICORSECPERSEC = 1000;
+        assertThat(accessExp * MICORSECPERSEC).isEqualTo(jwtProperties.getAccessExp());
+        assertThat(refreshExp * MICORSECPERSEC).isEqualTo(jwtProperties.getRefreshExp());
     }
 
     @Test
     void 헤더_가져오기() {
-        assertEquals(header, jwtProperties.getHeader());
+        assertThat(header).isEqualTo(jwtProperties.getHeader());
     }
 
     @Test
     void 접두사_가져오기() {
-        assertEquals(prefix, jwtProperties.getPrefix());
+        assertThat(prefix).isEqualTo(jwtProperties.getPrefix());
     }
 
 }

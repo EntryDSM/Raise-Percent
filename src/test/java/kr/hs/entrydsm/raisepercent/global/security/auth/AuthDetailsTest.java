@@ -3,21 +3,23 @@ package kr.hs.entrydsm.raisepercent.global.security.auth;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AuthDetailsTest {
 
-    private static final String email = "test@gmail.com";
+    private final String email = "test@gmail.com";
 
-    private static final Type role = Type.ROOT;
+    private final Type role = Type.ROOT;
 
-    private static final AuthDetails authDetails = new AuthDetails(email, role);
+    private final AuthDetails authDetails = new AuthDetails(email, role);
 
 
     @Test
     void 인증객체_권한_가져오기() {
         for(GrantedAuthority authority : authDetails.getAuthorities()) {
-            assertEquals(role.name(), authority.getAuthority());
+            assertThat(role.name()).isEqualTo(authority.getAuthority());
         }
     }
 
@@ -28,7 +30,7 @@ class AuthDetailsTest {
 
     @Test
     void 인증객체_이름_가져오기() {
-        assertEquals(email, authDetails.getUsername());
+        assertThat(email).isEqualTo(authDetails.getUsername());
     }
 
     @Test
