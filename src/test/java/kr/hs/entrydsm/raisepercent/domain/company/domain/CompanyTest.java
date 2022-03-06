@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -31,13 +31,13 @@ class CompanyTest {
 
     @Test
     void 회사_이름_가져오기() {
-        assertEquals(name, company.getName());
+        assertThat(name).isEqualTo(company.getName());
     }
 
     @Test
     @Order(1)
     void 회사_등급_가져오기() {
-        assertEquals(rank, company.getRankValue());
+        assertThat(rank).isEqualTo(company.getRankValue());
     }
 
     @Test
@@ -45,7 +45,7 @@ class CompanyTest {
     void 회사_등급_수정() {
         Rank rank = Rank.SENIOR;
         company.updateRank(rank);
-        assertEquals(rank, company.getRankValue());
+        assertThat(rank).isEqualTo(company.getRankValue());
     }
 
 }

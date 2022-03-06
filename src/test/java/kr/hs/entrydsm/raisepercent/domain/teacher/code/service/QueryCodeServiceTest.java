@@ -10,35 +10,40 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class QueryCodeServiceTest {
 
-    private static final String codeId = "TEACHERVERIFICATIONCODE";
+    private final String codeId = "TEACHERVERIFICATIONCODE";
 
-    private static final CodeRepository codeRepository = mock(CodeRepository.class);
+    private final CodeRepository codeRepository = mock(CodeRepository.class);
 
-    private static final QueryCodeService queryCodeService = new QueryCodeService(codeRepository);
+    private final QueryCodeService queryCodeService = new QueryCodeService(codeRepository);
 
     @Test
     void 코드_출력() {
+        //given
         ReflectionTestUtils.setField(queryCodeService, "id", codeId);
         Code code = Code.builder().value("codeValue").build();
 
-        when(codeRepository.findById(codeId))
-                .thenReturn(Optional.of(code));
+        given(codeRepository.findById(codeId))
+                .willReturn(Optional.of(code));
 
+        //when
         String retCode = queryCodeService.execute();
 
+        //then
         assertEquals(code.getValue(), retCode);
     }
 
     @Test
     void 코드_없음_예외() {
-        when(codeRepository.findById(codeId))
-                .thenReturn(Optional.empty());
+        //given
+        given(codeRepository.findById(codeId))
+                .willReturn(Optional.empty());
 
+        //when then
         assertThrows(CodeNotFoundException.class, queryCodeService::execute);
     }
 

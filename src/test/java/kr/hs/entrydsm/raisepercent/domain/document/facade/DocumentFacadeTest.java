@@ -15,69 +15,87 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class DocumentFacadeTest {
 
     private static final UUID id = UUIDUtil.convertToUUID("550e8400-e29b-41d4-a716-446655440000");
 
-    private static final DocumentRepository documentRepository = mock(DocumentRepository.class);
+    @Mock
+    private DocumentRepository documentRepository;
 
-    private static final SubmittedDocumentRepository submittedDocumentRepository = mock(SubmittedDocumentRepository.class);
+    @Mock
+    private SubmittedDocumentRepository submittedDocumentRepository;
 
-    private static final DocumentFacade documentFacade = new DocumentFacade(documentRepository, submittedDocumentRepository);
+    @InjectMocks
+    private DocumentFacade documentFacade;
 
-    private static final SubmittedDocument submittedDocument = mock(SubmittedDocument.class);
+    @Mock
+    private SubmittedDocument submittedDocument;
 
     @Test
     void 문서_정보_가져오기() {
+        //given
         Document document = Document.builder().build();
 
-        when(documentRepository.findById(id))
-                .thenReturn(Optional.of(document));
+        given(documentRepository.findById(id))
+                .willReturn(Optional.of(document));
 
+        //when
         Document retDocument = documentFacade.getDocument(id);
 
+        //then
         assertEquals(document, retDocument);
     }
 
     @Test
     void 문서_정보_없음() {
-        when(documentRepository.findById(id))
-                .thenReturn(Optional.empty());
+        //given
+        given(documentRepository.findById(id))
+                .willReturn(Optional.empty());
 
+        //when then
         assertThrows(DocumentNotFoundException.class, () -> documentFacade.getDocument(any()));
     }
 
     @Test
     void 제출한_문서_리스트_가져오기() {
+        //given
         List<SubmittedDocument> documents = new ArrayList<>();
 
         String name = DocumentUserConstant.name;
         String number = DocumentUserConstant.number;
 
-        when(submittedDocument.getStudentName())
-                .thenReturn(name);
+        given(submittedDocument.getStudentName())
+                .willReturn(name);
 
-        when(submittedDocument.getStudentNumber())
-                .thenReturn(number);
+        given(submittedDocument.getStudentNumber())
+                .willReturn(number);
 
         documents.add(submittedDocument);
 
-        when(submittedDocumentRepository.findAll())
-                .thenReturn(documents);
+        given(submittedDocumentRepository.findAll())
+                .willReturn(documents);
 
-        when(submittedDocument.getId())
-                .thenReturn(id);
+        given(submittedDocument.getId())
+                .willReturn(id);
 
+        //when
         List<SubmittedDocumentElement> retDocumentElements = documentFacade.querySubmittedDocumentList();
 
+        //then
         retDocumentElements.forEach(element -> {
             assertThat(element.getName()).isEqualTo(name);
             assertThat(element.getNumber()).isEqualTo(number);
@@ -87,15 +105,19 @@ class DocumentFacadeTest {
 
     @Test
     void 문서_비어있음() {
+        //given
         List<StayDocument> documentList = new ArrayList<>();
 
+        //when then
         assertThrows(DocumentNotFoundException.class, () -> documentFacade.assertNotEmpty(documentList));
     }
 
     @Test
     void 문서_비어있지_않음() {
+        //given
         List<StayDocument> documentList = List.of(StayDocument.builder().build());
 
+        //when then
         documentFacade.assertNotEmpty(documentList);
     }
 

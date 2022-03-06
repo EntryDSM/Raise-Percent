@@ -3,17 +3,17 @@ package kr.hs.entrydsm.raisepercent.domain.document.domain;
 import kr.hs.entrydsm.raisepercent.global.entity.DocumentContentId;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class StayDocumentTest {
 
-    private static final DocumentContentId contentId = DocumentContentId.builder()
+    private final DocumentContentId contentId = DocumentContentId.builder()
             .build();
 
-    private static final String content = "Test content";
+    private final String content = "Test content";
 
-    private static final StayDocument stayDocument = StayDocument.builder()
+    private final StayDocument stayDocument = StayDocument.builder()
             .id(contentId)
             .content(content)
             .build();
@@ -27,12 +27,12 @@ class StayDocumentTest {
 
     @Test
     void 대기문서_아이디_가져오기() {
-        assertEquals(contentId, stayDocument.getId());
+        assertThat(contentId).isEqualTo(stayDocument.getId());
     }
 
     @Test
     void 대기문서_내용_가져오기() {
-        assertEquals(content, stayDocument.getContent());
+        assertThat(content).isEqualTo(stayDocument.getContent());
     }
 
 }

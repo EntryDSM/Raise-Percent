@@ -7,22 +7,23 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class NoticeTest {
 
-    private static final String title = "Test title";
+    private final String title = "Test title";
 
-    private static final String content = "Test content";
+    private final String content = "Test content";
 
-    private static final Scope scope = Scope.ALL;
+    private final Scope scope = Scope.ALL;
 
-    private static final Teacher teacher = Teacher.builder()
+    private final Teacher teacher = Teacher.builder()
             .build();
 
-    private static final Notice notice = Notice.builder()
+    private final Notice notice = Notice.builder()
             .title(title)
             .content(content)
             .scope(scope)
@@ -43,37 +44,37 @@ class NoticeTest {
     @Test
     @Order(1)
     void 공지_제목_가져오기() {
-        assertEquals(title, notice.getTitle());
+        assertThat(title).isEqualTo(notice.getTitle());
     }
 
     @Test
     @Order(2)
     void 공지_내용_가져오기() {
-        assertEquals(content, notice.getContent());
+        assertThat(content).isEqualTo(notice.getContent());
     }
 
     @Test
     void 공지_범위_가져오기() {
-        assertEquals(scope, notice.getScope());
+        assertThat(scope).isEqualTo(notice.getScope());
     }
 
     @Test
     void 공지_선생님_가져오기() {
-        assertEquals(teacher, notice.getTeacher());
+        assertThat(teacher).isEqualTo(notice.getTeacher());
     }
 
     @Test
     void 공지_제목_수정() {
         String title = "Updated title";
         notice.updateTitle(title);
-        assertEquals(title, notice.getTitle());
+        assertThat(title).isEqualTo(notice.getTitle());
     }
 
     @Test
     void 공지_내용_수정() {
         String content = "Updated content";
         notice.updateContent(content);
-        assertEquals(content, notice.getContent());
+        assertThat(content).isEqualTo(notice.getContent());
     }
 
     @Test
@@ -95,7 +96,7 @@ class NoticeTest {
                 .scope(scope)
                 .teacher(teacher)
                 .build();
-        assertEquals(scope, notice.getScope());
+        assertThat(scope).isEqualTo(notice.getScope());
     }
 
 }

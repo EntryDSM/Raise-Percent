@@ -13,24 +13,35 @@ import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class ShowFeedbackServiceTest {
 
-    private final FeedbackFacade feedbackFacade = mock(FeedbackFacade.class);
+    @Mock
+    private FeedbackFacade feedbackFacade;
 
-    private final AuthFacade authFacade = mock(AuthFacade.class);
+    @Mock
+    private AuthFacade authFacade;
 
-    private final StudentFacade studentFacade = mock(StudentFacade.class);
+    @Mock
+    private StudentFacade studentFacade;
 
-    private final ShowFeedbackService service = new ShowFeedbackService(feedbackFacade, authFacade, studentFacade);
+    @InjectMocks
+    private ShowFeedbackService service;
 
     @Test
     void 피드백_보기() {
+        //given
         String id = String.valueOf(UUID.randomUUID());
         String content = "content";
 
@@ -45,22 +56,25 @@ public class ShowFeedbackServiceTest {
                 .document(document)
                 .build();
 
-        when(feedbackFacade.getFeedback(UUID.fromString(id)))
-                .thenReturn(feedback);
+        given(feedbackFacade.getFeedback(UUID.fromString(id)))
+                .willReturn(feedback);
 
-        when(authFacade.getCurrentDetails())
-                .thenReturn(new AuthDetails("email@dsm.hs.kr", Type.STUDENT));
+        given(authFacade.getCurrentDetails())
+                .willReturn(new AuthDetails("email@dsm.hs.kr", Type.STUDENT));
 
-        when(studentFacade.getCurrentStudent())
-                .thenReturn(student);
+        given(studentFacade.getCurrentStudent())
+                .willReturn(student);
 
+        //when
         ShowFeedbackResponse response = service.execute(id);
 
+        //then
         assertThat(response.getContent()).isEqualTo(content);
     }
 
     @Test
     void 피드백_보기_실패() {
+        //given
         String id = String.valueOf(UUID.randomUUID());
 
         Student student = Student.builder().build();
@@ -75,15 +89,16 @@ public class ShowFeedbackServiceTest {
                 .document(document)
                 .build();
 
-        when(feedbackFacade.getFeedback(UUID.fromString(id)))
-                .thenReturn(feedback);
+        given(feedbackFacade.getFeedback(UUID.fromString(id)))
+                .willReturn(feedback);
 
-        when(authFacade.getCurrentDetails())
-                .thenReturn(new AuthDetails("email@dsm.hs.kr", Type.STUDENT));
+        given(authFacade.getCurrentDetails())
+                .willReturn(new AuthDetails("email@dsm.hs.kr", Type.STUDENT));
 
-        when(studentFacade.getCurrentStudent())
-                .thenReturn(student2);
+        given(studentFacade.getCurrentStudent())
+                .willReturn(student2);
 
+        //when then
         assertThrows(InvalidRoleException.class, () -> service.execute(id));
     }
 }

@@ -4,45 +4,46 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProfileResponseTest {
 
-    private static final String name = "test";
+    private final String name = "test";
 
-    private static final String contactEmail = "test@gmail.com";
+    private final String contactEmail = "test@gmail.com";
 
-    private static final String contactTel = "01051039555";
+    private final String contactTel = "01051039555";
 
-    private static final String position = "Backend";
+    private final String position = "Backend";
 
-    private static final List<String> tags = List.of("test", "te");
+    private final List<String> tags = List.of("test", "te");
 
-    private static final ProfileResponse response = new ProfileResponse(name, contactEmail, contactTel, position, tags);
+    private final ProfileResponse response = new ProfileResponse(name, contactEmail, contactTel, position, tags);
 
     @Test
     void 이름_가져오기() {
-        assertEquals(name, response.getName());
+        assertThat(name).isEqualTo(response.getName());
     }
 
     @Test
     void 이메일_가져오기() {
-        assertEquals(contactEmail, response.getContactEmail());
+        assertThat(contactEmail).isEqualTo(response.getContactEmail());
     }
 
     @Test
     void 전화번호_가져오기() {
-        assertEquals(contactTel, response.getContactTel());
+        assertThat(contactTel).isEqualTo(response.getContactTel());
     }
 
     @Test
     void 포지션_가져오기() {
-        assertEquals(position, response.getPosition());
+        assertThat(position).isEqualTo(response.getPosition());
     }
 
     @Test
     void 태그_가져오기() {
-        assertEquals(tags, response.getTags());
+        assertThat(tags).isEqualTo(response.getTags());
     }
 
 }

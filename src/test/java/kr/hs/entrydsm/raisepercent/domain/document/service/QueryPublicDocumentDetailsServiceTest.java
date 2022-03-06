@@ -3,9 +3,8 @@ package kr.hs.entrydsm.raisepercent.domain.document.service;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,32 +24,46 @@ import kr.hs.entrydsm.raisepercent.global.facade.AuthFacade;
 import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetails;
 import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class QueryPublicDocumentDetailsServiceTest {
 
-	private static final PublicDocumentRepository publicDocumentRepository = mock(PublicDocumentRepository.class);
+	@Mock
+	private PublicDocumentRepository publicDocumentRepository;
 
-	private static final DocumentFacade documentFacade = mock(DocumentFacade.class);
+	@Mock
+	private DocumentFacade documentFacade;
 
-	private static final AuthFacade authFacade = mock(AuthFacade.class);
+	@Mock
+	private AuthFacade authFacade;
 
-	private static final StudentFacade studentFacade = mock(StudentFacade.class);
+	@Mock
+	private StudentFacade studentFacade;
 
-	private static final QueryPublicDocumentDetailsService service = new QueryPublicDocumentDetailsService(publicDocumentRepository, documentFacade, authFacade, studentFacade);
+	@InjectMocks
+	private QueryPublicDocumentDetailsService service;
 
-	private static final AuthDetails authDetails = mock(AuthDetails.class);
+	@Mock
+	private AuthDetails authDetails;
 
-	private static final Document document = UpdateDocumentServiceTest.document;
+	private final Document document = UpdateDocumentServiceTest.document;
 
-	private static final Student student = UpdateDocumentServiceTest.student;
+	private final Student student = UpdateDocumentServiceTest.student;
 
-	private static final UUID uuid = UUID.randomUUID();
+	private final UUID uuid = UUID.randomUUID();
 
-	private static final Integer page = 1;
+	private final Integer page = 1;
 
-	private static final String content = "test";
+	private final String content = "test";
 
-	private static final PublicDocument publicDocument = PublicDocument.builder()
+	private final PublicDocument publicDocument = PublicDocument.builder()
 		.id(DocumentContentId.builder()
 			.page(page)
 			.document(document)
@@ -60,69 +73,77 @@ class QueryPublicDocumentDetailsServiceTest {
 
 	@Test
 	void 공개_문서_상세() {
-
-		when(documentFacade.getDocument(uuid))
-			.thenReturn(document);
-		when(authFacade.getCurrentDetails())
-			.thenReturn(authDetails);
-		when(authFacade.getCurrentDetails().getRole())
-			.thenReturn(Type.ROOT);
-		when(publicDocumentRepository.findByIdDocumentId(uuid))
-			.thenReturn(List.of(publicDocument));
+		//given
+		given(documentFacade.getDocument(uuid))
+			.willReturn(document);
+		given(authFacade.getCurrentDetails())
+			.willReturn(authDetails);
+		given(authFacade.getCurrentDetails().getRole())
+			.willReturn(Type.ROOT);
+		given(publicDocumentRepository.findByIdDocumentId(uuid))
+			.willReturn(List.of(publicDocument));
 
 		QueryDocumentDetailsElement element = QueryDocumentDetailsElement.builder()
 			.page(page)
 			.content(content)
 			.build();
 
+		//when
 		QueryDocumentDetailsResponse response = service.execute(uuid.toString());
 
+		//then
 		assertThat(response).usingRecursiveComparison().isEqualTo(new QueryDocumentDetailsResponse(List.of(element)));
 	}
 
 	@Test
 	void 권한없는_학생() {
+		//given
 		Student student = Student.builder().build();
 
-		when(documentFacade.getDocument(uuid))
-			.thenReturn(document);
-		when(authFacade.getCurrentDetails())
-			.thenReturn(authDetails);
-		when(authFacade.getCurrentDetails().getRole())
-			.thenReturn(Type.STUDENT);
-		when(studentFacade.getCurrentStudent())
-			.thenReturn(student);
+		given(documentFacade.getDocument(uuid))
+			.willReturn(document);
+		given(authFacade.getCurrentDetails())
+			.willReturn(authDetails);
+		given(authFacade.getCurrentDetails().getRole())
+			.willReturn(Type.STUDENT);
+		given(studentFacade.getCurrentStudent())
+			.willReturn(student);
 
+		//when then
 		assertThrows(InvalidRoleException.class, () -> service.execute(uuid.toString()));
 	}
 
 	@Test
 	void 권한있는_학생() {
-		when(documentFacade.getDocument(uuid))
-			.thenReturn(document);
-		when(authFacade.getCurrentDetails())
-			.thenReturn(authDetails);
-		when(authFacade.getCurrentDetails().getRole())
-			.thenReturn(Type.STUDENT);
-		when(studentFacade.getCurrentStudent())
-			.thenReturn(student);
+		//given
+		given(documentFacade.getDocument(uuid))
+			.willReturn(document);
+		given(authFacade.getCurrentDetails())
+			.willReturn(authDetails);
+		given(authFacade.getCurrentDetails().getRole())
+			.willReturn(Type.STUDENT);
+		given(studentFacade.getCurrentStudent())
+			.willReturn(student);
 
+		//when then
 		assertDoesNotThrow(() -> service.execute(uuid.toString()));
 	}
 
 	@Test
 	void 빈_문서() {
+		//given
 		List<PublicDocument> publicDocumentList = new ArrayList<>();
 
-		when(documentFacade.getDocument(uuid))
-			.thenReturn(document);
-		when(authFacade.getCurrentDetails())
-			.thenReturn(authDetails);
-		when(authFacade.getCurrentDetails().getRole())
-			.thenReturn(Type.ROOT);
-		when(publicDocumentRepository.findByIdDocumentId(uuid))
-			.thenReturn(publicDocumentList);
+		given(documentFacade.getDocument(uuid))
+			.willReturn(document);
+		given(authFacade.getCurrentDetails())
+			.willReturn(authDetails);
+		given(authFacade.getCurrentDetails().getRole())
+			.willReturn(Type.ROOT);
+		given(publicDocumentRepository.findByIdDocumentId(uuid))
+			.willReturn(publicDocumentList);
 
+		//when then
 		willThrow(DocumentNotFoundException.class).given(documentFacade).assertNotEmpty(publicDocumentList);
 	}
 }

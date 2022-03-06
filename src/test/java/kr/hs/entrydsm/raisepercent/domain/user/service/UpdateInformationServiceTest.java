@@ -4,37 +4,47 @@ import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
 import kr.hs.entrydsm.raisepercent.domain.user.facade.UserFacade;
 import kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.request.UpdateInformationRequest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 
+@ExtendWith(MockitoExtension.class)
 class UpdateInformationServiceTest {
 
-    private static final UserFacade userFacade = mock(UserFacade.class);
+    @Mock
+    private UserFacade userFacade;
 
-    private static final UpdateInformationRequest request = mock(UpdateInformationRequest.class);
+    @Mock
+    private UpdateInformationRequest request;
 
-    private static final UpdateInformationService service = new UpdateInformationService(userFacade);
+    @InjectMocks
+    private UpdateInformationService service;
 
     @Test
     void 유저_정보_갱신() {
+        //given
         String contactEmail = "test@gmail.com";
         String contactTel = "01011112222";
 
         User user = User.builder().build();
 
-        when(userFacade.getCurrentUser())
-            .thenReturn(user);
-        when(request.getContactEmail())
-                .thenReturn(contactEmail);
-        when(request.getContactTel())
-                .thenReturn(contactTel);
+        given(userFacade.getCurrentUser())
+            .willReturn(user);
+        given(request.getContactEmail())
+                .willReturn(contactEmail);
+        given(request.getContactTel())
+                .willReturn(contactTel);
 
+        //when
         service.execute(request);
 
-        assertEquals(contactEmail, user.getContactEmail());
-        assertEquals(contactTel, user.getContactTel());
+        //then
+        assertThat(contactEmail).isEqualTo(user.getContactEmail());
+        assertThat(contactTel).isEqualTo(user.getContactTel());
     }
 
 }

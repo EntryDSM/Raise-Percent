@@ -4,17 +4,17 @@ import kr.hs.entrydsm.raisepercent.domain.document.domain.types.DocumentType;
 import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class DocumentTest {
 
-    private static final DocumentType DOCUMENT_TYPE = DocumentType.RESUME;
+    private final DocumentType DOCUMENT_TYPE = DocumentType.RESUME;
 
-    private static final Student student = Student.builder()
+    private final Student student = Student.builder()
             .build();
 
-    private static final Document document = Document.builder()
+    private final Document document = Document.builder()
             .documentType(DOCUMENT_TYPE)
             .student(student)
             .build();
@@ -30,12 +30,12 @@ class DocumentTest {
 
     @Test
     void 학생_가져오기() {
-        assertEquals(student, document.getStudent());
+        assertThat(student).isEqualTo(document.getStudent());
     }
 
     @Test
     void 종류_가져오기() {
-        assertEquals(DOCUMENT_TYPE, document.getDocumentType());
+        assertThat(DOCUMENT_TYPE).isEqualTo(document.getDocumentType());
     }
 
     @Test
@@ -45,7 +45,7 @@ class DocumentTest {
                 .student(student)
                 .documentType(documentType)
                 .build();
-        assertEquals(documentType, document.getDocumentType());
+        assertThat(documentType).isEqualTo(document.getDocumentType());
     }
 
 }

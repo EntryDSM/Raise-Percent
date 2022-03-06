@@ -10,44 +10,54 @@ import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
-public class TeacherFacadeTest {
+@ExtendWith(MockitoExtension.class)
+class TeacherFacadeTest {
     final String email = "test@dsm.hs.kr";
 
-    private static final AuthFacade authFacade = mock(AuthFacade.class);
+    @Mock
+    private AuthFacade authFacade;
 
-    private static final TeacherRepository teacherRepository = mock(TeacherRepository.class);
+    @Mock
+    private TeacherRepository teacherRepository;
 
-    private static final TeacherFacade teacherFacade = new TeacherFacade(authFacade, teacherRepository);
-
+    @InjectMocks
+    private TeacherFacade teacherFacade;
 
     @Test
     void 선생님_정보_가져오기() {
+        //given
         Teacher teacher = Teacher.builder()
                 .role(Role.TEACHER)
                 .build();
 
-        when(authFacade.getCurrentDetails())
-                .thenReturn(new AuthDetails(email, Type.TEACHER));
-        when(teacherRepository.findById(email))
-                .thenReturn(Optional.of(teacher));
+        given(authFacade.getCurrentDetails())
+                .willReturn(new AuthDetails(email, Type.TEACHER));
+        given(teacherRepository.findById(email))
+                .willReturn(Optional.of(teacher));
 
-        assertEquals(teacher, teacherFacade.getCurrentTeacher());
+        //when then
+        assertThat(teacher).isEqualTo(teacherFacade.getCurrentTeacher());
     }
 
     @Test
     void 선생님_정보_예외() {
-        when(authFacade.getCurrentDetails())
-                .thenReturn(new AuthDetails(email, Type.TEACHER));
-        when(teacherRepository.findById(anyString()))
-                .thenReturn(Optional.empty());
+        //given
+        given(authFacade.getCurrentDetails())
+                .willReturn(new AuthDetails(email, Type.TEACHER));
+        given(teacherRepository.findById(anyString()))
+                .willReturn(Optional.empty());
 
+        //when then
         assertThrows(TeacherNotFoundException.class, teacherFacade::getCurrentTeacher);
     }
 

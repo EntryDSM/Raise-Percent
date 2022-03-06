@@ -2,15 +2,15 @@ package kr.hs.entrydsm.raisepercent.domain.document.domain;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class SubmittedDocumentTest {
 
-    private static final Document document = Document.builder()
+    private final Document document = Document.builder()
             .build();
 
-    private static final SubmittedDocument submittedDocument = SubmittedDocument.builder()
+    private final SubmittedDocument submittedDocument = SubmittedDocument.builder()
             .document(document)
             .build();
 
@@ -23,7 +23,7 @@ class SubmittedDocumentTest {
 
     @Test
     void 제출한문서_문서_가져오기() {
-        assertEquals(document, submittedDocument.getDocument());
+        assertThat(document).isEqualTo(submittedDocument.getDocument());
     }
 
 }
