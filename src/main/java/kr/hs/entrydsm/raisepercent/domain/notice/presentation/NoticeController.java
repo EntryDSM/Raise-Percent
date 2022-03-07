@@ -4,10 +4,7 @@ import kr.hs.entrydsm.raisepercent.domain.notice.presentation.dto.request.Regist
 import kr.hs.entrydsm.raisepercent.domain.notice.presentation.dto.request.UpdateNoticeRequest;
 import kr.hs.entrydsm.raisepercent.domain.notice.presentation.dto.response.NoticeDetailsResponse;
 import kr.hs.entrydsm.raisepercent.domain.notice.presentation.dto.response.NoticeListResponse;
-import kr.hs.entrydsm.raisepercent.domain.notice.service.NoticeListService;
-import kr.hs.entrydsm.raisepercent.domain.notice.service.RegistrationNoticeService;
-import kr.hs.entrydsm.raisepercent.domain.notice.service.ShowNoticeDetailsService;
-import kr.hs.entrydsm.raisepercent.domain.notice.service.UpdateNoticeService;
+import kr.hs.entrydsm.raisepercent.domain.notice.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +20,7 @@ public class NoticeController {
     private final ShowNoticeDetailsService showNoticeDetailsService;
     private final NoticeListService noticeListService;
     private final UpdateNoticeService updateNoticeService;
+    private final DeleteNoticeService deleteNoticeService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -45,6 +43,12 @@ public class NoticeController {
     public void updateNotice(@PathVariable("notice-id")String noticeId,
                              @RequestBody @Valid UpdateNoticeRequest updateNoticeRequest) {
         updateNoticeService.execute(noticeId,updateNoticeRequest);
+    }
+
+    @DeleteMapping("/{notice-id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteNotice(@PathVariable("notice-id")String noticeId) {
+        deleteNoticeService.execute(noticeId);
     }
 
 }
