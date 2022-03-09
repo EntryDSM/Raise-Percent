@@ -59,7 +59,7 @@ public class StudentController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<TokenResponse> userAuth(@RequestBody CodeRequest request) {
+    public ResponseEntity<TokenResponse> userAuth(@RequestBody @Valid CodeRequest request) {
         return studentAuthService.execute(request.getCode());
     }
 }
