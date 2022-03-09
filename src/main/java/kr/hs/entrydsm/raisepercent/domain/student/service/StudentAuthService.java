@@ -62,8 +62,10 @@ public class StudentAuthService {
                         .build()
         );
 
-        return new ResponseEntity<>(new TokenResponse(jwtTokenProvider.generateAccessToken(response.getEmail(),
-                TokenRole.STUDENT), refreshToken, response.getEmail()), HttpStatus.valueOf(status));
+        return new ResponseEntity<>(TokenResponse.builder()
+                .accessToken(jwtTokenProvider.generateAccessToken(response.getEmail(), TokenRole.STUDENT))
+                .refreshToken(refreshToken)
+                .email(response.getEmail()).build(), HttpStatus.valueOf(status));
     }
 
 }

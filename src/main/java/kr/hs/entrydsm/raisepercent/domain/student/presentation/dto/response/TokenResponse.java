@@ -1,10 +1,10 @@
 package kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.response;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
+@Builder
 public class TokenResponse {
 
     private final String accessToken;
