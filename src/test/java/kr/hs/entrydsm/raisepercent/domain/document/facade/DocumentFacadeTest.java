@@ -67,7 +67,7 @@ class DocumentFacadeTest {
                 .willReturn(Optional.empty());
 
         //when then
-        assertThrows(DocumentNotFoundException.class, () -> documentFacade.getDocument(any()));
+        assertThrows(DocumentNotFoundException.class, () -> documentFacade.getDocument(id));
     }
 
     @Test
