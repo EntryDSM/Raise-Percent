@@ -9,6 +9,8 @@ import kr.hs.entrydsm.raisepercent.domain.teacher.domain.repositories.TeacherRep
 import kr.hs.entrydsm.raisepercent.domain.user.domain.RefreshToken;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.repositories.RefreshTokenRepository;
+import kr.hs.entrydsm.raisepercent.domain.user.exception.TokenNotFoundException;
+import kr.hs.entrydsm.raisepercent.global.exception.UserNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.properties.JwtProperties;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.JwtTokenProvider;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.dto.TokenResponse;
@@ -17,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -156,6 +159,41 @@ class UserRefreshTokenServiceTest {
 
         assertThat(response.getAccessToken()).isEqualTo(newAccessToken);
         assertThat(response.getRefreshToken()).isEqualTo(newRefreshToken);
+    }
+
+    @Test
+    void 토큰_예외() {
+        String token = "refreshToken";
+
+        when(refreshTokenRepository.findByToken(token))
+                .thenReturn(Optional.empty());
+
+        assertThrows(TokenNotFoundException.class, () -> service.execute(token));
+    }
+
+    @Test
+    void 유저_예외() {
+        String email = "test@test.com";
+        String token = "refreshToken";
+
+        RefreshToken getRefreshToken = RefreshToken.builder()
+                .email(email)
+                .token(token)
+                .build();
+
+        when(refreshTokenRepository.findByToken(token))
+                .thenReturn(Optional.of(getRefreshToken));
+
+        when(studentRepository.findById(email))
+                .thenReturn(Optional.empty());
+
+        when(teacherRepository.findById(email))
+                .thenReturn(Optional.empty());
+
+        when(hrRepository.findById(email))
+                .thenReturn(Optional.empty());
+
+        assertThrows(UserNotFoundException.class, () -> service.execute(token));
     }
 
 }
