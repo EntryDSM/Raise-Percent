@@ -5,7 +5,7 @@ import kr.hs.entrydsm.raisepercent.domain.student.domain.repositories.StudentRep
 import kr.hs.entrydsm.raisepercent.domain.teacher.domain.repositories.TeacherRepository;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.RefreshToken;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.repositories.RefreshTokenRepository;
-import kr.hs.entrydsm.raisepercent.domain.user.exception.TokenNotFoundException;
+import kr.hs.entrydsm.raisepercent.global.exception.InvalidTokenException;
 import kr.hs.entrydsm.raisepercent.global.exception.UserNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.properties.JwtProperties;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.JwtTokenProvider;
@@ -29,7 +29,7 @@ public class UserRefreshTokenService {
     @Transactional
     public TokenResponse execute(String token) {
         RefreshToken refreshToken = refreshTokenRepository.findByToken(token)
-                .orElseThrow(() -> TokenNotFoundException.EXCEPTION);
+                .orElseThrow(() -> InvalidTokenException.EXCEPTION);
 
         TokenResponse newToken = token(refreshToken.getEmail());
         refreshToken.updateToken(newToken.getRefreshToken(), jwtProperties.getRefreshExp() * 1000);
