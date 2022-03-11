@@ -28,6 +28,10 @@ public class UserRefreshTokenService {
 
     @Transactional
     public TokenResponse execute(String token) {
+        if (jwtTokenProvider.isRefreshToken(token)) {
+            throw InvalidTokenException.EXCEPTION;
+        }
+
         RefreshToken refreshToken = refreshTokenRepository.findByToken(token)
                 .orElseThrow(() -> InvalidTokenException.EXCEPTION);
 
