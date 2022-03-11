@@ -36,7 +36,6 @@ public enum ErrorCode {
     CODE_NOT_FOUND(404, "TEACHER-404-1", "Code not found"),
     TAG_NOT_FOUND(404, "TAG-404-1", "Tag not found."),
     NOTIFICATION_NOT_FOUND(404, "NOTIFICATION-404-1", "Notification not found"),
-    TOKEN_NOT_FOUND(404, "USER-404-1", "Token not found"),
 
     ALREADY_REGISTERED_TAG(409, "TAG-409-1", "Already registered tag."),
 
