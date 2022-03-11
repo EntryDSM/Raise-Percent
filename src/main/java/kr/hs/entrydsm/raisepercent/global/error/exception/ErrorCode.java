@@ -26,6 +26,7 @@ public enum ErrorCode {
     FEEDBACK_NOT_FOUND(404, "FEEDBACK-404-1", "Feedback not found."),
     NOTICE_NOT_FOUND(404, "NOTICE-404-1", "Notice not found"),
     COMPANY_NOT_FOUND(404,"COMPANY-404-1","Company not found"),
+    TOKEN_NOT_FOUND(404, "USER-404-1", "Token not found"),
 
     CODE_NOT_MATCH(401, "TEACHER-401-1", "Code not match"),
     CODE_NOT_FOUND(404, "TEACHER-404-1", "Code not found"),
