@@ -6,8 +6,10 @@ import kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.response.Book
 import kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.response.ProfileResponse;
 import kr.hs.entrydsm.raisepercent.domain.student.service.QueryBookmarkService;
 import kr.hs.entrydsm.raisepercent.domain.student.service.QueryStudentProfileService;
+import kr.hs.entrydsm.raisepercent.domain.student.service.QueryUserAuthLinkService;
 import kr.hs.entrydsm.raisepercent.domain.student.service.RegisterTagService;
 import kr.hs.entrydsm.raisepercent.domain.student.service.UpdatePositionService;
+import kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.response.UserAuthLinkResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +32,7 @@ public class StudentController {
     private final RegisterTagService registerTagService;
     private final UpdatePositionService updatePositionService;
     private final QueryBookmarkService queryBookmarkService;
+    private final QueryUserAuthLinkService queryUserAuthLinkService;
 
     @GetMapping("/{student-email}")
     public ProfileResponse queryStudentProfile(@PathVariable("student-email") String email) {
@@ -51,6 +54,11 @@ public class StudentController {
     @GetMapping("/bookmark")
     public BookmarkListResponse queryBookmark() {
         return queryBookmarkService.execute();
+    }
+
+    @GetMapping("/auth")
+    public UserAuthLinkResponse queryUserAuthLink() {
+        return queryUserAuthLinkService.execute();
     }
 
 }
