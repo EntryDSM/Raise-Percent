@@ -8,13 +8,17 @@ import kr.hs.entrydsm.raisepercent.domain.user.service.QueryNotificationListServ
 import kr.hs.entrydsm.raisepercent.domain.student.service.QueryUserAuthLinkService;
 import kr.hs.entrydsm.raisepercent.domain.user.service.UpdateDeviceTokenService;
 import kr.hs.entrydsm.raisepercent.domain.user.service.UpdateInformationService;
+import kr.hs.entrydsm.raisepercent.domain.user.service.UserRefreshTokenService;
+import kr.hs.entrydsm.raisepercent.global.security.jwt.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +35,7 @@ public class UserController {
     private final QueryNotificationListService queryNotificationListService;
     private final CheckNotificationService checkNotificationService;
     private final QueryUserAuthLinkService queryUserAuthLinkService;
+    private final UserRefreshTokenService userRefreshTokenService;
 
     @PatchMapping("/information")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -53,6 +58,11 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void checkNotification(@PathVariable("notification-id") String notificationId) {
         checkNotificationService.execute(notificationId);
+    }
+
+    @PutMapping("/token")
+    public TokenResponse userTokenRefresh(@RequestHeader("Refresh-Token") String refreshToken) {
+        return userRefreshTokenService.execute(refreshToken);
     }
 
 }
