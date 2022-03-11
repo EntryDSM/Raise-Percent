@@ -9,7 +9,7 @@ import kr.hs.entrydsm.raisepercent.domain.teacher.domain.repositories.TeacherRep
 import kr.hs.entrydsm.raisepercent.domain.user.domain.RefreshToken;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.repositories.RefreshTokenRepository;
-import kr.hs.entrydsm.raisepercent.domain.user.exception.TokenNotFoundException;
+import kr.hs.entrydsm.raisepercent.global.exception.InvalidTokenException;
 import kr.hs.entrydsm.raisepercent.global.exception.UserNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.properties.JwtProperties;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.JwtTokenProvider;
@@ -168,7 +168,7 @@ class UserRefreshTokenServiceTest {
         when(refreshTokenRepository.findByToken(token))
                 .thenReturn(Optional.empty());
 
-        assertThrows(TokenNotFoundException.class, () -> service.execute(token));
+        assertThrows(InvalidTokenException.class, () -> service.execute(token));
     }
 
     @Test
