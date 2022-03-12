@@ -28,7 +28,7 @@ public class UserRefreshTokenService {
 
     @Transactional
     public TokenResponse execute(String token) {
-        if (jwtTokenProvider.isRefreshToken(token)) {
+        if (!jwtTokenProvider.isRefreshToken(token)) {
             throw InvalidTokenException.EXCEPTION;
         }
 
