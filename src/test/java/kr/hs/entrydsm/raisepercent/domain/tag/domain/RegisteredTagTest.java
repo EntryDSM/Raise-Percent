@@ -3,18 +3,18 @@ package kr.hs.entrydsm.raisepercent.domain.tag.domain;
 import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class RegisteredTagTest {
 
-    private static final Tag tag = Tag.builder()
+    private final Tag tag = Tag.builder()
             .build();
 
-    private static final Student student = Student.builder()
+    private final Student student = Student.builder()
             .build();
 
-    private static final RegisteredTag registeredTag = RegisteredTag.builder()
+    private final RegisteredTag registeredTag = RegisteredTag.builder()
             .tag(tag)
             .student(student)
             .build();
@@ -29,12 +29,12 @@ class RegisteredTagTest {
 
     @Test
     void 태그_가져오기() {
-        assertEquals(tag, registeredTag.getTag());
+        assertThat(tag).isEqualTo(registeredTag.getTag());
     }
 
     @Test
     void 학생_가져오기() {
-        assertEquals(student, registeredTag.getStudent());
+        assertThat(student).isEqualTo(registeredTag.getStudent());
     }
 
 }

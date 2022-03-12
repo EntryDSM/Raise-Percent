@@ -18,31 +18,40 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 import java.util.UUID;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 
+@ExtendWith(MockitoExtension.class)
 class ShowNoticeDetailsServiceTest {
 
-    private static final NoticeRepository noticeRepository = mock(NoticeRepository.class);
+    @Mock
+    private NoticeRepository noticeRepository;
 
-    private static final UserFacade userFacade = mock(UserFacade.class);
+    @Mock
+    private UserFacade userFacade;
 
-    private static final HrRepository hrRepository = mock(HrRepository.class);
+    @Mock
+    private HrRepository hrRepository;
 
-    private static final StudentRepository studentRepository = mock(StudentRepository.class);
+    @Mock
+    private StudentRepository studentRepository;
 
-    private static final ShowNoticeDetailsService service =
-            new ShowNoticeDetailsService(noticeRepository, userFacade, hrRepository, studentRepository);
+    @InjectMocks
+    private ShowNoticeDetailsService service;
 
-    private static final String id = String.valueOf(UUID.randomUUID());
+    private final String id = String.valueOf(UUID.randomUUID());
 
-    private static final String email = "test@test.com";
+    private final String email = "test@test.com";
 
     @Test
     void 공지사항_상세보기_학생() {
+        //given
         Teacher teacher = Teacher.builder().build();
 
         Notice notice = Notice.builder()
@@ -65,8 +74,10 @@ class ShowNoticeDetailsServiceTest {
         given(noticeRepository.findById(UUIDUtil.convertToUUID(id)))
                 .willReturn(Optional.of(notice));
 
+        //when
         NoticeDetailsResponse response = service.execute(id);
 
+        //then
         assertThat(response.getTitle()).isEqualTo(notice.getTitle());
         assertThat(response.getContent()).isEqualTo(notice.getContent());
         assertThat(response.getScope()).isEqualTo(notice.getScope());
@@ -76,6 +87,7 @@ class ShowNoticeDetailsServiceTest {
 
     @Test
     void 공지사항_상세보기_회사() {
+        //given
         Teacher teacher = Teacher.builder().build();
 
         Notice notice = Notice.builder()
@@ -98,8 +110,10 @@ class ShowNoticeDetailsServiceTest {
         given(noticeRepository.findById(UUIDUtil.convertToUUID(id)))
                 .willReturn(Optional.of(notice));
 
+        //when
         NoticeDetailsResponse response = service.execute(id);
 
+        //then
         assertThat(response.getTitle()).isEqualTo(notice.getTitle());
         assertThat(response.getContent()).isEqualTo(notice.getContent());
         assertThat(response.getScope()).isEqualTo(notice.getScope());
@@ -109,6 +123,7 @@ class ShowNoticeDetailsServiceTest {
 
     @Test
     void 공지사항_스코프_예외_학생() {
+        //given
         Teacher teacher = Teacher.builder().build();
 
         Notice notice = Notice.builder()
@@ -127,11 +142,13 @@ class ShowNoticeDetailsServiceTest {
         given(noticeRepository.findById(UUIDUtil.convertToUUID(id)))
                 .willReturn(Optional.of(notice));
 
+        //when then
         assertThrows(InvalidRoleException.class, () -> service.execute(id));
     }
 
     @Test
     void 공지사항_스코프_예외_회사() {
+        //given
         Teacher teacher = Teacher.builder().build();
 
         Notice notice = Notice.builder()
@@ -150,14 +167,17 @@ class ShowNoticeDetailsServiceTest {
         given(noticeRepository.findById(UUIDUtil.convertToUUID(id)))
                 .willReturn(Optional.of(notice));
 
+        //when then
         assertThrows(InvalidRoleException.class, () -> service.execute(id));
     }
 
     @Test
     void 공시사항_존재하지_않음_예외() {
+        //given
         given(noticeRepository.findById(UUIDUtil.convertToUUID(id)))
                 .willReturn(Optional.empty());
 
+        //when then
         assertThrows(NoticeNotFoundException.class, () -> service.execute(id));
 
     }

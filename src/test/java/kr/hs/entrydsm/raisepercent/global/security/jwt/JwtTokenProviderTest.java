@@ -11,6 +11,10 @@ import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetailsService;
 import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.type.TokenRole;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -18,102 +22,113 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class JwtTokenProviderTest {
 
-    private static final JwtProperties jwtProperties = mock(JwtProperties.class);
+    @Mock
+    private JwtProperties jwtProperties;
 
-    private static final AuthDetailsService authDetailsService = mock(AuthDetailsService.class);
+    @Mock
+    private AuthDetailsService authDetailsService;
 
-    private static final JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(jwtProperties, authDetailsService);
+    @InjectMocks
+    private JwtTokenProvider jwtTokenProvider;
 
     @Test
     void 엑세스키_발급_인증() {
+        //given
         String email = "test@gmail.com";
         TokenRole role = TokenRole.STUDENT;
 
-        when(jwtProperties.getSecretKey())
-                .thenReturn("SECRETKEY");
-        when(jwtProperties.getAccessExp())
-                .thenReturn(100000000L);
-        when(authDetailsService.loadUserByUsername(email, role))
-                .thenReturn(new AuthDetails(email, Type.STUDENT));
+        given(jwtProperties.getSecretKey())
+                .willReturn("SECRETKEY");
+        given(jwtProperties.getAccessExp())
+                .willReturn(100000000L);
+        given(authDetailsService.loadUserByUsername(email, role))
+                .willReturn(new AuthDetails(email, Type.STUDENT));
 
-
+        //when
         String accessToken = jwtTokenProvider.generateAccessToken(email, role);
-
         Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
 
         assertEquals(email, authentication.getName());
         for (GrantedAuthority authority : authentication.getAuthorities()) {
             assertEquals(role.name(), authority.getAuthority());
+          
+        //then
+        assertThat(email).isEqualTo(authentication.getName());
+        for(GrantedAuthority authority : authentication.getAuthorities()) {
+            assertThat(role.name()).isEqualTo(authority.getAuthority());
         }
-
         assertFalse(jwtTokenProvider.isRefreshToken(accessToken));
     }
 
     @Test
     void 리프레시키_발급_인증() {
+        //given
         String email = "test@gmail.com";
         TokenRole role = TokenRole.STUDENT;
 
-        when(jwtProperties.getSecretKey())
-                .thenReturn("SECRETKEY");
-        when(jwtProperties.getAccessExp())
-                .thenReturn(100000000L);
-        when(authDetailsService.loadUserByUsername(email, role))
-                .thenReturn(new AuthDetails(email, Type.STUDENT));
+        given(jwtProperties.getSecretKey())
+                .willReturn("SECRETKEY");
 
-
+        //when
         String refreshToken = jwtTokenProvider.generateRefreshToken(email, role);
 
+        //then
         assertNotNull(refreshToken);
     }
 
     @Test
     void 리프레시토큰_예외() {
+        //given
         String email = "test@gmail.com";
         TokenRole role = TokenRole.STUDENT;
 
-        when(jwtProperties.getSecretKey())
-                .thenReturn("SECRETKEY");
-        when(jwtProperties.getRefreshExp())
-                .thenReturn(100000000L);
-        when(authDetailsService.loadUserByUsername(email, role))
-                .thenReturn(new AuthDetails(email, Type.STUDENT));
+        given(jwtProperties.getSecretKey())
+                .willReturn("SECRETKEY");
+        given(jwtProperties.getRefreshExp())
+                .willReturn(100000000L);
 
-
+        //when
         String refreshToken = jwtTokenProvider.generateRefreshToken(email, role);
 
+        //then
         assertThrows(InvalidTokenException.class, () -> jwtTokenProvider.getAuthentication(refreshToken));
     }
 
     @Test
     void 토큰_분리() {
+        //given
         HttpServletRequest request = mock(HttpServletRequest.class);
 
         String testToken = "TOKEN";
         String header = "Authorization";
         String prefix = "Bearer";
 
-        when(jwtProperties.getHeader())
-                .thenReturn(header);
-        when(jwtProperties.getPrefix())
-                .thenReturn(prefix);
+        given(jwtProperties.getHeader())
+                .willReturn(header);
+        given(jwtProperties.getPrefix())
+                .willReturn(prefix);
 
         String bearerToken = jwtProperties.getPrefix() + " " + testToken;
 
-        when(request.getHeader(header))
-                .thenReturn(bearerToken);
+        given(request.getHeader(header))
+                .willReturn(bearerToken);
 
-        assertEquals(testToken, jwtTokenProvider.resolveToken(request));
+        //when
+        String resolveToken = jwtTokenProvider.resolveToken(request);
+
+        //then
+        assertThat(testToken).isEqualTo(resolveToken);
     }
 
     @Test
@@ -135,29 +150,31 @@ class JwtTokenProviderTest {
 
     @Test
     void 인증_토큰_만료() {
+        //given
         String email = "test@gmail.com";
         TokenRole role = TokenRole.STUDENT;
 
-        when(jwtProperties.getSecretKey())
-                .thenReturn("SECRETKEY");
-        when(jwtProperties.getAccessExp())
-                .thenReturn(10L);
-        when(authDetailsService.loadUserByUsername(email, role))
-                .thenReturn(new AuthDetails(email, Type.STUDENT));
+        given(jwtProperties.getSecretKey())
+            .willReturn("SECRETKEY");
+        given(jwtProperties.getAccessExp())
+            .willReturn(1L);
 
-
+        //when
         String accessToken = jwtTokenProvider.generateAccessToken(email, role);
 
+        //then
         assertThrows(ExpiredTokenException.class, () -> jwtTokenProvider.getAuthentication(accessToken));
     }
 
     @Test
     void 잘못된_토큰() {
+        //given
         String accessToken = "ASDFAS";
 
-        when(jwtProperties.getSecretKey())
-                .thenReturn("SECRETKEY");
+        given(jwtProperties.getSecretKey())
+                .willReturn("SECRETKEY");
 
+        //when then
         assertThrows(InvalidTokenException.class, () -> jwtTokenProvider.getAuthentication(accessToken));
     }
 
@@ -177,19 +194,22 @@ class JwtTokenProviderTest {
     }
 
     private void 토큰_분리_실패(String token) {
+        //given
         HttpServletRequest request = mock(HttpServletRequest.class);
 
         String header = "Authorization";
         String prefix = "Bearer";
 
-        when(jwtProperties.getHeader())
-                .thenReturn(header);
-        when(jwtProperties.getPrefix())
-                .thenReturn(prefix);
+        given(jwtProperties.getHeader())
+                .willReturn(header);
+        given(request.getHeader(header))
+                .willReturn(token);
+        if (token != null) {
+            given(jwtProperties.getPrefix())
+                .willReturn(prefix);
+        }
 
-        when(request.getHeader(header))
-                .thenReturn(token);
-
+        //when then
         assertNull(jwtTokenProvider.resolveToken(request));
     }
 

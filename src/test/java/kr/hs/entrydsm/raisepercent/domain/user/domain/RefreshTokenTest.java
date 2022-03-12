@@ -5,18 +5,18 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class RefreshTokenTest {
 
-    private static final String email = "test@gmail.com";
+    private final String email = "test@gmail.com";
 
-    private static final String token = "1243.1asf.qwer";
+    private final String token = "1243.1asf.qwer";
 
-    private static final Long ttl = 1000L;
+    private final Long ttl = 1000L;
 
-    private static final RefreshToken refreshToken = RefreshToken.builder()
+    private final RefreshToken refreshToken = RefreshToken.builder()
             .email(email)
             .token(token)
             .ttl(ttl)
@@ -25,19 +25,19 @@ class RefreshTokenTest {
     @Test
     @Order(0)
     void 리프레시토큰_이메일_가져오기() {
-        assertEquals(email, refreshToken.getEmail());
+        assertThat(email).isEqualTo(refreshToken.getEmail());
     }
 
     @Test
     @Order(1)
     void 리프레시토큰_토큰_가져오기() {
-        assertEquals(token, refreshToken.getToken());
+        assertThat(token).isEqualTo(refreshToken.getToken());
     }
 
     @Test
     @Order(2)
     void 리프레시토큰_ttl_가져오기() {
-        assertEquals(ttl, refreshToken.getTtl());
+        assertThat(ttl).isEqualTo(refreshToken.getTtl());
     }
 
     @Test
@@ -46,8 +46,8 @@ class RefreshTokenTest {
         String token = "asdf.qwer.zxcv";
         Long ttl = 10L;
         refreshToken.updateToken(token, ttl);
-        assertEquals(token, refreshToken.getToken());
-        assertEquals(ttl, refreshToken.getTtl());
+        assertThat(token).isEqualTo(refreshToken.getToken());
+        assertThat(ttl).isEqualTo(refreshToken.getTtl());
     }
 
 }

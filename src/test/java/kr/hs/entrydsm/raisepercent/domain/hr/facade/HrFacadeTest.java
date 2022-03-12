@@ -10,44 +10,59 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 import java.util.Optional;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
-
+@ExtendWith(MockitoExtension.class)
 public class HrFacadeTest {
-    String email = "test@google.com";
-    private static final AuthFacade authFacade = mock(AuthFacade.class);
-    private static final HrRepository hrRepository = mock(HrRepository.class);
-    private static final HrFacade hrFacade = new HrFacade(hrRepository,authFacade);
+
+    private final String email = "test@google.com";
+
+    @Mock
+    private AuthFacade authFacade;
+
+    @Mock
+    private HrRepository hrRepository;
+
+    @InjectMocks
+    private HrFacade hrFacade;
 
     @Test
     void 인사담당자_정보_가져오기() {
+        //given
         Hr hr = Hr.builder().build();
 
-        when(authFacade.getCurrentDetails())
-                .thenReturn(new AuthDetails(email, Type.JUNIOR));
+        given(authFacade.getCurrentDetails())
+                .willReturn(new AuthDetails(email, Type.JUNIOR));
 
-        when(authFacade.getCurrentDetails())
-                .thenReturn(new AuthDetails(email, Type.SENIOR));
+        given(authFacade.getCurrentDetails())
+                .willReturn(new AuthDetails(email, Type.SENIOR));
 
-        when(hrRepository.findById(email))
-                .thenReturn(Optional.of(hr));
+        given(hrRepository.findById(email))
+                .willReturn(Optional.of(hr));
 
-        assertEquals(hr,hrFacade.getHr());
+        //when then
+        assertEquals(hr, hrFacade.getHr());
     }
 
     @Test
     void 인사담당자_예외() {
-        when(authFacade.getCurrentDetails())
-                .thenReturn(new AuthDetails(email,Type.SENIOR));
+        //given
+        given(authFacade.getCurrentDetails())
+                .willReturn(new AuthDetails(email,Type.SENIOR));
 
-        when(authFacade.getCurrentDetails())
-                .thenReturn(new AuthDetails(email,Type.JUNIOR));
+        given(authFacade.getCurrentDetails())
+                .willReturn(new AuthDetails(email,Type.JUNIOR));
 
-        when(hrRepository.findById(anyString()))
-                .thenReturn(Optional.empty());
+        given(hrRepository.findById(anyString()))
+                .willReturn(Optional.empty());
 
+        //when then
         assertThrows(HrNotFoundException.class, hrFacade::getHr);
 
     }

@@ -7,33 +7,43 @@ import kr.hs.entrydsm.raisepercent.global.util.UUIDUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
-public class UpdateFeedbackServiceTest {
+@ExtendWith(MockitoExtension.class)
+class UpdateFeedbackServiceTest {
 
-    private static final FeedbackFacade feedbackFacade = mock(FeedbackFacade.class);
+    @Mock
+    private FeedbackFacade feedbackFacade;
 
-    private static final UpdateFeedbackRequest request = mock(UpdateFeedbackRequest.class);
+    @Mock
+    private UpdateFeedbackRequest request;
 
-    private static final UpdateFeedbackService service = new UpdateFeedbackService(feedbackFacade);
+    @InjectMocks
+    private UpdateFeedbackService service;
 
     @Test
     void 피드백_수정하기() {
+        //given
         String id = String.valueOf(UUID.randomUUID());
         String content = "Test Content";
 
         Feedback feedback = Feedback.builder().build();
 
-        when(feedbackFacade.getFeedback(UUIDUtil.convertToUUID(id)))
-                .thenReturn(feedback);
-        when(request.getContent())
-                .thenReturn(content);
+        given(feedbackFacade.getFeedback(UUIDUtil.convertToUUID(id)))
+                .willReturn(feedback);
+        given(request.getContent())
+                .willReturn(content);
 
+        //when
         service.execute(id, request);
 
+        //then
         assertThat(content).isEqualTo(feedback.getContent());
     }
 }

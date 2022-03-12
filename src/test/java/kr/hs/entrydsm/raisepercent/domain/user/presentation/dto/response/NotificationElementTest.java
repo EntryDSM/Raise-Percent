@@ -4,25 +4,26 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class NotificationElementTest {
 
-    private static final String notificationId = "test notification";
+    private final String notificationId = "test notification";
 
-    private static final String icon = "test icon";
+    private final String icon = "test icon";
 
-    private static final String content = "test content";
+    private final String content = "test content";
 
-    private static final LocalDateTime createdAt = LocalDateTime.now();
+    private final LocalDateTime createdAt = LocalDateTime.now();
 
-    private static final boolean isWatch = false;
+    private final boolean isWatch = false;
 
-    private static final String type = "test";
+    private final String type = "test";
 
-    private static final String value = "test value";
+    private final String value = "test value";
 
-    private static final NotificationElement element = NotificationElement.builder()
+    private final NotificationElement element = NotificationElement.builder()
             .notificationId(notificationId)
             .icon(icon)
             .content(content)
@@ -34,37 +35,37 @@ class NotificationElementTest {
 
     @Test
     void 알림_아이디_가져오기() {
-        assertEquals(notificationId, element.getNotificationId());
+        assertThat(notificationId).isEqualTo(element.getNotificationId());
     }
 
     @Test
     void 알림_아이콘_가져오기() {
-        assertEquals(icon, element.getIcon());
+        assertThat(icon).isEqualTo(element.getIcon());
     }
 
     @Test
     void 알림_내용_가져오기() {
-        assertEquals(content, element.getContent());
+        assertThat(content).isEqualTo(element.getContent());
     }
 
     @Test
     void 알림_생성시간_가져오기() {
-        assertEquals(createdAt, element.getCreatedAt());
+        assertThat(createdAt).isEqualTo(element.getCreatedAt());
     }
 
     @Test
     void 알림_읽음여부_가져오기() {
-        assertEquals(isWatch, element.isWatch());
+        assertThat(isWatch).isEqualTo(element.isWatch());
     }
 
     @Test
     void 알림_타입_가져오기() {
-        assertEquals(type, element.getType());
+        assertThat(type).isEqualTo(element.getType());
     }
 
     @Test
     void 알림_값_가져오기() {
-        assertEquals(value, element.getValue());
+        assertThat(value).isEqualTo(element.getValue());
     }
 
 }

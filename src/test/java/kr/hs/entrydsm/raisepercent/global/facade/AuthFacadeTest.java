@@ -17,69 +17,87 @@ import kr.hs.entrydsm.raisepercent.global.security.auth.Type;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.type.TokenRole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
-public class AuthFacadeTest {
+@ExtendWith(MockitoExtension.class)
+class AuthFacadeTest {
 
-	private static final Authentication authentication = mock(Authentication.class);
+	@Mock
+	private Authentication authentication;
 
-	private static final AuthDetails authDetails = mock(AuthDetails.class);
+	@Mock
+	private AuthDetails authDetails;
 
-	private static final UserRepository userRepository = mock(UserRepository.class);
+	@Mock
+	private UserRepository userRepository;
 
-	private static final StudentRepository studentRepository = mock(StudentRepository.class);
+	@Mock
+	private StudentRepository studentRepository;
 
-	private static final TeacherRepository teacherRepository = mock(TeacherRepository.class);
+	@Mock
+	private TeacherRepository teacherRepository;
 
-	private static final HrRepository hrRepository = mock(HrRepository.class);
+	@Mock
+	private HrRepository hrRepository;
 
-	private static final AuthFacade authFacade = new AuthFacade(userRepository, studentRepository, teacherRepository, hrRepository);
+	@InjectMocks
+	private AuthFacade authFacade;
 
 	@BeforeEach
 	void securityContextConfig() {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-
 	}
 
 	@Test
 	void 학생_역할() {
+		//given
 		Student student = Student.builder()
 			.build();
 
-		when(studentRepository.findById(anyString()))
-			.thenReturn(Optional.of(student));
+		given(studentRepository.findById(anyString()))
+			.willReturn(Optional.of(student));
 
+		//when
 		Type type = authFacade.queryUserRole("test@gamil.com", TokenRole.STUDENT);
 
-		assertEquals(Type.STUDENT, type);
+		//then
+		assertThat(Type.STUDENT).isEqualTo(type);
 	}
 
 	@Test
 	void 선생님_역할() {
+		//given
 		Teacher teacher = Teacher.builder()
 			.role(Role.ROOT)
 			.build();
 
-		when(teacherRepository.findById(anyString()))
-			.thenReturn(Optional.of(teacher));
+		given(teacherRepository.findById(anyString()))
+			.willReturn(Optional.of(teacher));
 
+		//when
 		Type type = authFacade.queryUserRole("test@gmail.com", TokenRole.TEACHER);
 
-		assertEquals(Type.ROOT, type);
+		//then
+		assertThat(Type.ROOT).isEqualTo(type);
 	}
 
 	@Test
 	void 인사담당자_역할() {
+		//given
 		Company company = Company.builder()
 			.rankValue(Rank.SENIOR)
 			.build();
@@ -87,42 +105,52 @@ public class AuthFacadeTest {
 			.company(company)
 			.build();
 
-		when(hrRepository.findById(anyString()))
-			.thenReturn(Optional.of(hr));
+		given(hrRepository.findById(anyString()))
+			.willReturn(Optional.of(hr));
 
+		//when
 		Type type = authFacade.queryUserRole("test@gmail.com", TokenRole.HR_MANAGER);
 
-		assertEquals(Type.SENIOR, type);
+		//then
+		assertThat(Type.SENIOR).isEqualTo(type);
 	}
 
 	@Test
 	void 유저_역할() {
+		//given
 		User user = User.builder()
 			.build();
 
-		when(userRepository.findById(anyString()))
-			.thenReturn(Optional.of(user));
+		given(userRepository.findById(anyString()))
+			.willReturn(Optional.of(user));
 
+		//when
 		Type type = authFacade.queryUserRole("test@gmail.com", TokenRole.USER);
 
+		//then
 		assertNull(type);
 	}
 
 	@Test
 	void 현재_인증객체_가져오기() {
+		//given
+		given(authentication.getPrincipal())
+			.willReturn(authDetails);
 
-		when(authentication.getPrincipal())
-			.thenReturn(authDetails);
+		//when
+		AuthDetails currentDetails = authFacade.getCurrentDetails();
 
-		assertEquals(authDetails, authFacade.getCurrentDetails());
+		//then
+		assertThat(authDetails).isEqualTo(currentDetails);
 	}
 
 	@Test
 	void 인증객체_존재하지않음() {
-
+		//given
 		when(authentication.getPrincipal())
 			.thenReturn(null);
 
+		//when then
 		assertThrows(CredentialsNotFoundException.class, authFacade::getCurrentDetails);
 	}
 }

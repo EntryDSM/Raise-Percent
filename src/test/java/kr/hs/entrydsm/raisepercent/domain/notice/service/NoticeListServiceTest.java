@@ -7,30 +7,39 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class NoticeListServiceTest {
 
-    private static final NoticeRepository noticeRepository = mock(NoticeRepository.class);
+    @Mock
+    private NoticeRepository noticeRepository;
 
-    private static final NoticeListService service = new NoticeListService(noticeRepository);
+    @InjectMocks
+    private NoticeListService service;
 
     @Test
     void 공지사항_목록() {
+        //given
         List<Notice> arrayList = new ArrayList<>();
 
-        when(noticeRepository.findAll())
-                .thenReturn(arrayList);
+        given(noticeRepository.findAll())
+                .willReturn(arrayList);
 
+        //when
         NoticeListResponse response = service.execute();
 
+        //then
         assertThat(arrayList).isEqualTo(response.getNoticeList());
 
-        verify(noticeRepository, times(1)).findAll();
+        then(noticeRepository).should(times(1)).findAll();
     }
 }

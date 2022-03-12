@@ -4,20 +4,20 @@ import kr.hs.entrydsm.raisepercent.domain.hr.domain.Hr;
 import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class BookmarkTest {
 
-    private static final Hr hr = Hr.builder()
+    private final Hr hr = Hr.builder()
             .build();
 
-    private static final Student student = Student.builder()
+    private final Student student = Student.builder()
             .build();
 
-    private static final String companyName = "Test name";
+    private final String companyName = "Test name";
 
-    private static final Bookmark bookmark = Bookmark.builder()
+    private final Bookmark bookmark = Bookmark.builder()
             .hr(hr)
             .student(student)
             .companyName(companyName)
@@ -35,17 +35,17 @@ class BookmarkTest {
 
     @Test
     void 북마크_인사담당자_가져오기() {
-        assertEquals(hr, bookmark.getHr());
+        assertThat(hr).isEqualTo(bookmark.getHr());
     }
 
     @Test
     void 북마크_학생_가져오기() {
-        assertEquals(student, bookmark.getStudent());
+        assertThat(student).isEqualTo(bookmark.getStudent());
     }
 
     @Test
     void 북마크_회사명_가져오기() {
-        assertEquals(companyName, bookmark.getCompanyName());
+        assertThat(companyName).isEqualTo(bookmark.getCompanyName());
     }
 
 }

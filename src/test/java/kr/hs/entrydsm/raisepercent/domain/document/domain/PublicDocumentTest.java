@@ -3,17 +3,18 @@ package kr.hs.entrydsm.raisepercent.domain.document.domain;
 import kr.hs.entrydsm.raisepercent.global.entity.DocumentContentId;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class PublicDocumentTest {
 
-    private static final DocumentContentId contentId = DocumentContentId.builder()
+    private final DocumentContentId contentId = DocumentContentId.builder()
             .build();
 
-    private static final String content = "Test content";
+    private final String content = "Test content";
 
-    private static final PublicDocument publicDocument = PublicDocument.builder()
+    private final PublicDocument publicDocument = PublicDocument.builder()
             .id(contentId)
             .content(content)
             .build();
@@ -27,12 +28,12 @@ class PublicDocumentTest {
 
     @Test
     void 공개문서_아이디_가져오기() {
-        assertEquals(contentId, publicDocument.getId());
+        assertThat(contentId).isEqualTo(publicDocument.getId());
     }
 
     @Test
     void 공개문서_내용_가져오기() {
-        assertEquals(content, publicDocument.getContent());
+        assertThat(content).isEqualTo(publicDocument.getContent());
     }
 
 }

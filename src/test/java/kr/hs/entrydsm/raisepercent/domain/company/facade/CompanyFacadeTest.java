@@ -6,40 +6,51 @@ import kr.hs.entrydsm.raisepercent.domain.company.exception.CompanyNotFoundExcep
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
+@ExtendWith(MockitoExtension.class)
 class CompanyFacadeTest {
 
-    private static final CompanyRepository companyRepository = mock(CompanyRepository.class);
-    private static final CompanyFacade companyFacade = new CompanyFacade(companyRepository);
+    @Mock
+    private CompanyRepository companyRepository;
+
+    @InjectMocks
+    private CompanyFacade companyFacade;
 
     @Test
     public void 회사_가져오기(){
+        //given
         String name = "google";
 
         Company company = Company.builder()
                 .name(name)
                 .build();
 
-        when(companyRepository.findByName(name))
-                .thenReturn(Optional.of(company));
+        given(companyRepository.findByName(name))
+                .willReturn(Optional.of(company));
 
+        //when then
         assertEquals(company,companyFacade.getCompany(name));
     }
 
     @Test
     public void 회사_예외(){
+        //given
         String name = "google";
 
-        when(companyRepository.findByName(name))
-                .thenReturn(Optional.empty());
+        given(companyRepository.findByName(name))
+                .willReturn(Optional.empty());
 
+        //when then
         assertThrows(CompanyNotFoundException.class, () -> companyFacade.getCompany(name));
     }
 

@@ -10,30 +10,38 @@ import kr.hs.entrydsm.raisepercent.domain.teacher.facade.TeacherFacade;
 import kr.hs.entrydsm.raisepercent.domain.teacher.code.presentation.dto.request.VerifyTeacherRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
+@ExtendWith(MockitoExtension.class)
 class CodeVerificationServiceTest {
 
-    private static final String codeId = "TEACHERVERIFICATIONCODE";
+    private final String codeId = "TEACHERVERIFICATIONCODE";
 
-    private static final String codeValue = "codeValue";
+    private final String codeValue = "codeValue";
 
-    private static final Code code = Code.builder().value(codeValue).build();
+    private final Code code = Code.builder().value(codeValue).build();
 
-    private static final TeacherFacade teacherFacade = mock(TeacherFacade.class);
+    @Mock
+    private TeacherFacade teacherFacade;
 
-    private static final CodeRepository codeRepository = mock(CodeRepository.class);
+    @Mock
+    private CodeRepository codeRepository;
 
-    private static final VerifyTeacherRequest request = mock(VerifyTeacherRequest.class);
+    @InjectMocks
+    private CodeVerificationService service;
 
-    private static final CodeVerificationService service = new CodeVerificationService(teacherFacade, codeRepository);
+    @Mock
+    private VerifyTeacherRequest request;
 
     @BeforeEach
     void setup() {
@@ -44,37 +52,41 @@ class CodeVerificationServiceTest {
     void 선생님_인증() {
         Teacher teacher = Teacher.builder().build();
 
-        when(teacherFacade.getCurrentTeacher())
-                .thenReturn(teacher);
+        given(teacherFacade.getCurrentTeacher())
+                .willReturn(teacher);
 
-        when(codeRepository.findById(codeId))
-                .thenReturn(Optional.of(code));
+        given(codeRepository.findById(codeId))
+                .willReturn(Optional.of(code));
 
-        when(request.getCode())
-                .thenReturn(codeValue);
+        given(request.getCode())
+                .willReturn(codeValue);
 
         service.execute(request);
 
-        assertEquals(codeValue, request.getCode());
-        assertEquals(teacher.getRole(), Role.TEACHER);
+        assertThat(codeValue).isEqualTo(request.getCode());
+        assertThat(teacher.getRole()).isEqualTo(Role.TEACHER);
     }
 
     @Test
     void 코드_존재하지_않음() {
-        when(codeRepository.findById(codeId))
-                .thenReturn(Optional.empty());
+        //given
+        given(codeRepository.findById(codeId))
+                .willReturn(Optional.empty());
 
+        //when then
         assertThrows(CodeNotFoundException.class, () -> service.execute(request));
     }
 
     @Test
     void 코드_일치하지_않음() {
-        when(codeRepository.findById(codeId))
-                .thenReturn(Optional.of(code));
+        //given
+        given(codeRepository.findById(codeId))
+                .willReturn(Optional.of(code));
 
-        when(request.getCode())
-                .thenReturn("Invalid Code");
+        given(request.getCode())
+                .willReturn("Invalid Code");
 
+        //when then
         assertThrows(CodeNotMatchException.class, () -> service.execute(request));
     }
 

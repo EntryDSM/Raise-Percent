@@ -7,31 +7,46 @@ import kr.hs.entrydsm.raisepercent.domain.teacher.facade.TeacherFacade;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class CreateFeedbackServiceTest {
 
-    private static final TeacherFacade teacherFacade = mock(TeacherFacade.class);
+    @Mock
+    private TeacherFacade teacherFacade;
 
-    private static final DocumentFacade documentFacade = mock(DocumentFacade.class);
+    @Mock
+    private DocumentFacade documentFacade;
 
-    private static final FeedbackRepository feedbackRepository = mock(FeedbackRepository.class);
+    @Mock
+    private FeedbackRepository feedbackRepository;
 
-    private static final CreateFeedbackRequest request = mock(CreateFeedbackRequest.class);
+    @Mock
+    private CreateFeedbackRequest request;
 
-    private static final CreateFeedbackService service = new CreateFeedbackService(teacherFacade, documentFacade, feedbackRepository);
+    @InjectMocks
+    private CreateFeedbackService service;
 
     @Test
     void 피드백_작성하기() {
+        //given
         String id = String.valueOf(UUID.randomUUID());
         String content = "test content";
 
-        when(request.getContent())
-                .thenReturn(content);
+        given(request.getContent())
+                .willReturn(content);
 
+        //when
         service.execute(id, request);
 
-        verify(feedbackRepository, times(1)).save((any()));
+        //then
+        then(feedbackRepository).should(times(1)).save(any());
     }
 }

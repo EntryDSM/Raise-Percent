@@ -2,12 +2,10 @@ package kr.hs.entrydsm.raisepercent.domain.document.service;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,28 +21,39 @@ import kr.hs.entrydsm.raisepercent.global.entity.DocumentContentId;
 import kr.hs.entrydsm.raisepercent.global.exception.DocumentNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.exception.InvalidRoleException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 class SubmitDocumentServiceTest {
 
-	private static final LocalDocumentRepository localDocumentRepository = mock(LocalDocumentRepository.class);
+	@Mock
+	private LocalDocumentRepository localDocumentRepository;
 
-	private static final StayDocumentRepository stayDocumentRepository = mock(StayDocumentRepository.class);
+	@Mock
+	private StayDocumentRepository stayDocumentRepository;
 
-	private static final SubmittedDocumentRepository submittedDocumentRepository = mock(SubmittedDocumentRepository.class);
+	@Mock
+	private SubmittedDocumentRepository submittedDocumentRepository;
 
-	private static final DocumentFacade documentFacade = mock(DocumentFacade.class);
+	@Mock
+	private DocumentFacade documentFacade;
 
-	private static final StudentFacade studentFacade = mock(StudentFacade.class);
+	@Mock
+	private StudentFacade studentFacade;
 
-	private static final SubmitDocumentService service = new SubmitDocumentService(localDocumentRepository, stayDocumentRepository, submittedDocumentRepository, documentFacade, studentFacade);
+	@InjectMocks
+	private SubmitDocumentService service;
 
-	private static final UUID uuid = UUID.randomUUID();
+	private final UUID uuid = UUID.randomUUID();
 
-	private static final Document document = UpdateDocumentServiceTest.document;
+	private final Document document = UpdateDocumentServiceTest.document;
 
-	private static final Student student = UpdateDocumentServiceTest.student;
+	private final Student student = UpdateDocumentServiceTest.student;
 
-	private static final LocalDocument localDocument = LocalDocument.builder()
+	private final LocalDocument localDocument = LocalDocument.builder()
 		.id(DocumentContentId.builder()
 			.page(1)
 			.document(document)
@@ -54,43 +63,48 @@ class SubmitDocumentServiceTest {
 
 	@Test
 	void 문서_제출() {
+		//given
+		given(documentFacade.getDocument(uuid))
+			.willReturn(document);
+		given(studentFacade.getCurrentStudent())
+			.willReturn(student);
+		given(localDocumentRepository.findByIdDocumentId(uuid))
+			.willReturn(List.of(localDocument));
 
-		when(documentFacade.getDocument(uuid))
-			.thenReturn(document);
-		when(studentFacade.getCurrentStudent())
-			.thenReturn(student);
-		when(localDocumentRepository.findByIdDocumentId(uuid))
-			.thenReturn(List.of(localDocument));
-
+		//when
 		service.execute(uuid.toString());
 
-		verify(localDocumentRepository, atLeast(1)).findByIdDocumentId(uuid);
-		verify(stayDocumentRepository, times(1)).saveAll(any());
-		verify(submittedDocumentRepository, times(1)).save(any());
+		//then
+		then(localDocumentRepository).should(atLeast(1)).findByIdDocumentId(uuid);
+		then(stayDocumentRepository).should(times(1)).saveAll(any());
+		then(submittedDocumentRepository).should(times(1)).save(any());
 	}
 
 	@Test
 	void 권한없음() {
+		//given
 		Student student = Student.builder().build();
 
-		when(documentFacade.getDocument(uuid))
-			.thenReturn(document);
-		when(studentFacade.getCurrentStudent())
-			.thenReturn(student);
+		given(documentFacade.getDocument(uuid))
+			.willReturn(document);
+		given(studentFacade.getCurrentStudent())
+			.willReturn(student);
 
+		//when then
 		assertThrows(InvalidRoleException.class, () -> service.execute(uuid.toString()));
 	}
 
 	@Test
 	void 문서_비어있음() {
+		//given
+		given(documentFacade.getDocument(uuid))
+			.willReturn(document);
+		given(studentFacade.getCurrentStudent())
+			.willReturn(student);
+		given(localDocumentRepository.findByIdDocumentId(uuid))
+			.willReturn(List.of());
 
-		when(documentFacade.getDocument(uuid))
-			.thenReturn(document);
-		when(studentFacade.getCurrentStudent())
-			.thenReturn(student);
-		when(localDocumentRepository.findByIdDocumentId(uuid))
-			.thenReturn(List.of());
-
+		//when then
 		assertThrows(DocumentNotFoundException.class, () -> service.execute(uuid.toString()));
 	}
 

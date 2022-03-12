@@ -7,24 +7,29 @@ import kr.hs.entrydsm.raisepercent.domain.company.facade.CompanyFacade;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class ChangeRankServiceTest {
 
-    private static final CompanyFacade companyFacade = mock(CompanyFacade.class);
+    @Mock
+    private CompanyFacade companyFacade;
 
-    private static final CompanyRepository companyRepository = mock(CompanyRepository.class);
+    @Mock
+    private CompanyRepository companyRepository;
 
-    private static final ChangeRankService changeRankService = new ChangeRankService(
-            companyRepository,
-            companyFacade
-    );
+    @InjectMocks
+    private ChangeRankService changeRankService;
 
     Company company = Company.builder().build();
 
@@ -40,34 +45,35 @@ public class ChangeRankServiceTest {
 
     @Test
     public void 회사_랭크_변경하기(){
+        //given
         String juniorCompanyName = "naver";
         String seniorCompanyName = "google";
 
-        when(companyRepository.findByName(anyString()))
-                .thenReturn(Optional.of(company));
+        given(companyRepository.findByName(anyString()))
+                .willReturn(Optional.of(company));
 
-        when(companyRepository.findByName(juniorCompanyName))
-                .thenReturn(Optional.of(junior));
+        given(companyRepository.findByName(juniorCompanyName))
+                .willReturn(Optional.of(junior));
 
-        when(companyRepository.findByName(seniorCompanyName))
-                .thenReturn(Optional.of(senior));
+        given(companyRepository.findByName(seniorCompanyName))
+                .willReturn(Optional.of(senior));
 
-        when(companyFacade.getCompany(anyString()))
-                .thenReturn(company);
+        given(companyFacade.getCompany(anyString()))
+                .willReturn(company);
 
-        when(companyFacade.getCompany(juniorCompanyName))
-                .thenReturn(junior);
+        given(companyFacade.getCompany(juniorCompanyName))
+                .willReturn(junior);
 
-        when(companyFacade.getCompany(seniorCompanyName))
-                .thenReturn(senior);
+        given(companyFacade.getCompany(seniorCompanyName))
+                .willReturn(senior);
 
+        //when
         changeRankService.execute(juniorCompanyName);
-
         changeRankService.execute(seniorCompanyName);
 
-        assertEquals(Rank.JUNIOR,senior.getRankValue());
-
-        assertEquals(Rank.SENIOR,junior.getRankValue());
+        //then
+        assertThat(Rank.JUNIOR).isEqualTo(senior.getRankValue());
+        assertThat(Rank.SENIOR).isEqualTo(junior.getRankValue());
     }
 
 }

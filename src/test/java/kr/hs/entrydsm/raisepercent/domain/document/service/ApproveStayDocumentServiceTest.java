@@ -9,28 +9,37 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
+@ExtendWith(MockitoExtension.class)
 class ApproveStayDocumentServiceTest {
 
-    private static final DocumentFacade documentFacade = mock(DocumentFacade.class);
+    @Mock
+    private DocumentFacade documentFacade;
 
-    private static final StayDocumentRepository stayDocumentRepository = mock(StayDocumentRepository.class);
+    @Mock
+    private StayDocumentRepository stayDocumentRepository;
 
-    private static final PublicDocumentRepository publicDocumentRepository = mock(PublicDocumentRepository.class);
+    @Mock
+    private PublicDocumentRepository publicDocumentRepository;
 
-    private static final ApproveStayDocumentService service = new ApproveStayDocumentService(documentFacade, stayDocumentRepository, publicDocumentRepository);
+    @InjectMocks
+    private ApproveStayDocumentService service;
 
     @Test
     void 대기문서_승인_성공() {
+        //given
         List<StayDocument> stayDocumentList = List.of(StayDocument.builder().build());
 
         given(stayDocumentRepository.findByIdDocumentId(any()))
@@ -38,15 +47,17 @@ class ApproveStayDocumentServiceTest {
 
         willDoNothing().given(documentFacade).assertNotEmpty(stayDocumentList);
 
+        //when
         service.execute("123e4567-e89b-12d3-a456-426614174000");
 
-        verify(publicDocumentRepository, times(1)).saveAll(any());
-
-        verify(stayDocumentRepository, times(1)).deleteAll(any());
+        //then
+        then(publicDocumentRepository).should(times(1)).saveAll(any());
+        then(stayDocumentRepository).should(times(1)).deleteAll(any());
     }
 
     @Test
     void 문서_존재하지_않음_예외() {
+        //given
         List<StayDocument> documentList = new ArrayList<>();
 
         given(stayDocumentRepository.findByIdDocumentId(any()))
@@ -54,6 +65,7 @@ class ApproveStayDocumentServiceTest {
 
         willThrow(DocumentNotFoundException.class).given(documentFacade).assertNotEmpty(documentList);
 
+        //when then
         assertThrows(DocumentNotFoundException.class, () -> service.execute("123e4567-e89b-12d3-a456-426614174000"));
     }
 

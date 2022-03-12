@@ -7,31 +7,40 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class ShowTagListServiceTest {
 
-    private static final TagRepository tagRepository = mock(TagRepository.class);
+    @Mock
+    private TagRepository tagRepository;
 
-    private static final ShowTagListService service = new ShowTagListService(tagRepository);
+    @InjectMocks
+    private ShowTagListService service;
 
     @Test
     void 태그_리스트_불러오기() {
+        //given
         String name = "test";
         List<Tag> arrayList = new ArrayList<>();
 
-        when(tagRepository.findAllByNameContaining(name))
-                .thenReturn(arrayList);
+        given(tagRepository.findAllByNameContaining(name))
+                .willReturn(arrayList);
 
+        //when
         ShowTagListResponse response = service.execute(name);
 
+        //then
         assertThat(arrayList).isEqualTo(response.getTagList());
 
-        verify(tagRepository, times(1)).findAllByNameContaining(name);
+        then(tagRepository).should(times(1)).findAllByNameContaining(name);
     }
 }
