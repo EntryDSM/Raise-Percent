@@ -5,6 +5,7 @@ import kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.request.UpdateIn
 import kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.response.NotificationListResponse;
 import kr.hs.entrydsm.raisepercent.domain.user.service.CheckNotificationService;
 import kr.hs.entrydsm.raisepercent.domain.user.service.QueryNotificationListService;
+import kr.hs.entrydsm.raisepercent.domain.student.service.QueryUserAuthLinkService;
 import kr.hs.entrydsm.raisepercent.domain.user.service.UpdateDeviceTokenService;
 import kr.hs.entrydsm.raisepercent.domain.user.service.UpdateInformationService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ public class UserController {
     private final UpdateDeviceTokenService updateDeviceTokenService;
     private final QueryNotificationListService queryNotificationListService;
     private final CheckNotificationService checkNotificationService;
+    private final QueryUserAuthLinkService queryUserAuthLinkService;
 
     @PatchMapping("/information")
     @ResponseStatus(HttpStatus.NO_CONTENT)

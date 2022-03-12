@@ -8,9 +8,11 @@ import kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.response.Prof
 import kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.response.TokenResponse;
 import kr.hs.entrydsm.raisepercent.domain.student.service.QueryBookmarkService;
 import kr.hs.entrydsm.raisepercent.domain.student.service.QueryStudentProfileService;
+import kr.hs.entrydsm.raisepercent.domain.student.service.QueryUserAuthLinkService;
 import kr.hs.entrydsm.raisepercent.domain.student.service.RegisterTagService;
 import kr.hs.entrydsm.raisepercent.domain.student.service.UpdatePositionService;
 import kr.hs.entrydsm.raisepercent.domain.student.service.StudentAuthService;
+import kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.response.UserAuthLinkResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +37,7 @@ public class StudentController {
     private final UpdatePositionService updatePositionService;
     private final QueryBookmarkService queryBookmarkService;
     private final StudentAuthService studentAuthService;
+    private final QueryUserAuthLinkService queryUserAuthLinkService;
 
     @GetMapping("/{student-email}")
     public ProfileResponse queryStudentProfile(@PathVariable("student-email") String email) {
@@ -57,9 +60,15 @@ public class StudentController {
     public BookmarkListResponse queryBookmark() {
         return queryBookmarkService.execute();
     }
-
+  
     @PostMapping("/auth")
     public ResponseEntity<TokenResponse> userAuth(@RequestBody @Valid CodeRequest request) {
         return studentAuthService.execute(request.getCode());
     }
+  
+    @GetMapping("/auth")
+    public UserAuthLinkResponse queryUserAuthLink() {
+        return queryUserAuthLinkService.execute();
+    }
+
 }

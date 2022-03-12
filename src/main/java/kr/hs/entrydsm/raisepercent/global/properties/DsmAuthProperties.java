@@ -15,4 +15,3 @@ public class DsmAuthProperties {
     private final String clientSecret;
     private final String redirectUrl;
 }
-

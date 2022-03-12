@@ -1,6 +1,7 @@
 package kr.hs.entrydsm.raisepercent.domain.notice.domain;
 
 import kr.hs.entrydsm.raisepercent.domain.notice.domain.types.Scope;
+import kr.hs.entrydsm.raisepercent.domain.notice.presentation.dto.request.UpdateNoticeRequest;
 import kr.hs.entrydsm.raisepercent.domain.teacher.domain.Teacher;
 import kr.hs.entrydsm.raisepercent.global.entity.BaseUUIDTimeEntity;
 import lombok.AccessLevel;
@@ -44,6 +45,11 @@ public class Notice extends BaseUUIDTimeEntity {
 
     public void updateContent(String content) {
         this.content = content;
+    }
+
+    public void updateTitleAndContent(UpdateNoticeRequest updateNoticeRequest) {
+        this.title = updateNoticeRequest.getTitle();
+        this.content = updateNoticeRequest.getContent();
     }
 
 }
