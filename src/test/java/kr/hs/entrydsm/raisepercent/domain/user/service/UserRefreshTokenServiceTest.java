@@ -67,6 +67,9 @@ class UserRefreshTokenServiceTest {
                 .token(refreshToken)
                 .build();
 
+        when(jwtTokenProvider.isRefreshToken(refreshToken))
+                .thenReturn(true);
+
         when(studentRepository.findById(email))
                 .thenReturn(Optional.of(student));
 
@@ -105,6 +108,9 @@ class UserRefreshTokenServiceTest {
                 .token(refreshToken)
                 .build();
 
+        when(jwtTokenProvider.isRefreshToken(refreshToken))
+                .thenReturn(true);
+
         when(teacherRepository.findById(email))
                 .thenReturn(Optional.of(teacher));
 
@@ -142,6 +148,9 @@ class UserRefreshTokenServiceTest {
                 .email(email)
                 .token(refreshToken)
                 .build();
+
+        when(jwtTokenProvider.isRefreshToken(refreshToken))
+                .thenReturn(true);
 
         when(hrRepository.findById(email))
                 .thenReturn(Optional.of(hr));
@@ -194,6 +203,17 @@ class UserRefreshTokenServiceTest {
                 .thenReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () -> service.execute(token));
+    }
+
+
+    @Test
+    void 토큰_타입_예외() {
+        String token = "refreshToken";
+
+        when(jwtTokenProvider.isRefreshToken(token))
+                .thenReturn(false);
+
+        assertThrows(InvalidTokenException.class, () -> service.execute(token));
     }
 
 }
