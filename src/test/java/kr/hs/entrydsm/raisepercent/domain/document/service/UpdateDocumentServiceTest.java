@@ -2,13 +2,11 @@ package kr.hs.entrydsm.raisepercent.domain.document.service;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.Document;
@@ -20,20 +18,27 @@ import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.request.Upda
 import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
 import kr.hs.entrydsm.raisepercent.domain.student.facade.StudentFacade;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
-import kr.hs.entrydsm.raisepercent.global.exception.DocumentNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.exception.InvalidRoleException;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.util.ReflectionTestUtils;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 class UpdateDocumentServiceTest {
 
-	private static final LocalDocumentRepository localDocumentRepository = mock(LocalDocumentRepository.class);
+	@Mock
+	private LocalDocumentRepository localDocumentRepository;
 
-	private static final DocumentFacade documentFacade = mock(DocumentFacade.class);
+	@Mock
+	private DocumentFacade documentFacade;
 
-	private static final StudentFacade studentFacade = mock(StudentFacade.class);
+	@Mock
+	private StudentFacade studentFacade;
 
-	private static final UpdateDocumentService service = new UpdateDocumentService(localDocumentRepository, documentFacade, studentFacade);
+	@InjectMocks
+	private UpdateDocumentService service;
 
 	private static final String email = "test@nate.com";
 
@@ -63,35 +68,39 @@ class UpdateDocumentServiceTest {
 
 	@Test
 	void 문서_수정() {
-
-		final String content = "test";
-		final Integer page = 1;
+		//given
+		String content = "test";
+		Integer page = 1;
 
 		setField(pageRequest, "content", content);
 		setField(pageRequest, "page", page);
 		setField(request, "pages", List.of(pageRequest));
 
-		when(documentFacade.getDocument(uuid))
-			.thenReturn(document);
-		when(studentFacade.getCurrentStudent())
-			.thenReturn(student);
+		given(documentFacade.getDocument(uuid))
+			.willReturn(document);
+		given(studentFacade.getCurrentStudent())
+			.willReturn(student);
 
+		//when
 		service.execute(uuid, request);
 
-		verify(localDocumentRepository, times(1)).deleteByIdDocumentId(uuid);
-		verify(localDocumentRepository, times(1)).saveAll(any());
+		//then
+		then(localDocumentRepository).should(times(1)).deleteByIdDocumentId(uuid);
+		then(localDocumentRepository).should(times(1)).saveAll(any());
 
 	}
 
 	@Test
 	void 문서_수정_권한_없음() {
+		//given
 		Student student = Student.builder().build();
 
-		when(documentFacade.getDocument(uuid))
-			.thenReturn(document);
-		when(studentFacade.getCurrentStudent())
-			.thenReturn(student);
+		given(documentFacade.getDocument(uuid))
+			.willReturn(document);
+		given(studentFacade.getCurrentStudent())
+			.willReturn(student);
 
+		//when then
 		assertThrows(InvalidRoleException.class, () -> service.execute(uuid, request));
 	}
 }

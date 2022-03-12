@@ -3,7 +3,6 @@ package kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.UUID;
-import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.response.CreateDocumentResponse;
 import org.junit.jupiter.api.Test;
 
 class CreateDocumentResponseTest {

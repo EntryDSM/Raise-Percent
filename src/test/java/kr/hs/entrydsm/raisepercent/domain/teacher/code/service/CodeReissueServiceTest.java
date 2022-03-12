@@ -4,58 +4,73 @@ import kr.hs.entrydsm.raisepercent.domain.teacher.code.domain.Code;
 import kr.hs.entrydsm.raisepercent.domain.teacher.code.domain.repositories.CodeRepository;
 import kr.hs.entrydsm.raisepercent.domain.teacher.code.facade.CodeFacade;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 
+@ExtendWith(MockitoExtension.class)
 class CodeReissueServiceTest {
 
-    private static final String codeId = "asfdasfdasdfsadf";
+    private final String codeId = "asfdasfdasdfsadf";
 
-    private static final String codeValue = "asfsadfsdfsdafdsfsdafsadf";
+    private final String codeValue = "asfsadfsdfsdafdsfsdafsadf";
 
-    private static final CodeFacade codeFacade = mock(CodeFacade.class);
+    @Mock
+    private CodeFacade codeFacade;
 
-    private static final CodeRepository codeRepository = mock(CodeRepository.class);
+    @Mock
+    private CodeRepository codeRepository;
 
-    private static final CodeReissueService codeReissueService = new CodeReissueService(codeFacade, codeRepository);
+    @InjectMocks
+    private CodeReissueService codeReissueService;
 
     @Test
     void 코드_재발급() {
+        //given
         ReflectionTestUtils.setField(codeReissueService, "id", codeId);
         Code code = Code.builder().value(codeValue).build();
 
-        when(codeFacade.getRandomCode())
-                .thenReturn(codeValue);
+        given(codeFacade.getRandomCode())
+                .willReturn(codeValue);
 
-        when(codeRepository.findById(codeId))
-                .thenReturn(Optional.of(code));
+        given(codeRepository.findById(codeId))
+                .willReturn(Optional.of(code));
 
-        when(codeRepository.save(any()))
-                .thenReturn(code);
+        given(codeRepository.save(any()))
+                .willReturn(code);
 
+        //when
         String retCode = codeReissueService.execute();
 
-        assertEquals(codeValue, retCode);
+        //then
+        assertThat(codeValue).isEqualTo(retCode);
     }
 
     @Test
     void 코드_생성() {
-        when(codeFacade.getRandomCode())
-                .thenReturn(codeValue);
+        //given
+        given(codeFacade.getRandomCode())
+                .willReturn(codeValue);
 
-        when(codeRepository.findById(codeId))
-                .thenReturn(Optional.empty());
+        given(codeRepository.findById(any()))
+                .willReturn(Optional.empty());
 
-        when(codeRepository.save(any()))
-                .thenReturn(Code.builder().value(codeValue).build());
+        given(codeRepository.save(any()))
+                .willReturn(Code.builder().value(codeValue).build());
 
+        //when
         String retCode = codeReissueService.execute();
 
-        assertEquals(codeValue, retCode);
+        //then
+        assertThat(codeValue).isEqualTo(retCode);
     }
 
 }

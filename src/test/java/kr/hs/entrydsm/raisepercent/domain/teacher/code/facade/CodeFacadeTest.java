@@ -2,18 +2,18 @@ package kr.hs.entrydsm.raisepercent.domain.teacher.code.facade;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class CodeFacadeTest {
 
-    private static final CodeFacade codeFacade = new CodeFacade();
+    private final CodeFacade codeFacade = new CodeFacade();
 
     @Test
     void 코드_생성() {
         int num = 5;
         String code = codeFacade.getRandomCode();
 
-        assertEquals(code.length(), num);
+        assertThat(code.length()).isEqualTo(num);
     }
 
 }

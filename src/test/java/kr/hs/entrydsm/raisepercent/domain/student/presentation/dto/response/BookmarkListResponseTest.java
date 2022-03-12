@@ -5,17 +5,17 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class BookmarkListResponseTest {
 
-    private static final List<BookmarkElement> elements = new ArrayList<>();
+    private final List<BookmarkElement> elements = new ArrayList<>();
 
-    private static final BookmarkListResponse response = new BookmarkListResponse(elements);
+    private final BookmarkListResponse response = new BookmarkListResponse(elements);
 
     @Test
     void 리스트_가져오기() {
-        assertEquals(elements, response.getCompanyList());
+        assertThat(elements).isEqualTo(response.getCompanyList());
     }
 
 }

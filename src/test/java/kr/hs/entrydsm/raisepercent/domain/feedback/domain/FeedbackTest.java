@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -42,29 +43,29 @@ class FeedbackTest {
     @Test
     @Order(0)
     void 피드백_내용_가져오기() {
-        assertEquals(content, feedback.getContent());
+        assertThat(content).isEqualTo(feedback.getContent());
     }
 
     @Test
     void 피드백_읽음여부_가져오기() {
-        assertEquals(isWatch, feedback.isWatch());
+        assertThat(isWatch).isEqualTo(feedback.isWatch());
     }
 
     @Test
     void 피드백_문서_가져오기() {
-        assertEquals(document, feedback.getDocument());
+        assertThat(document).isEqualTo(feedback.getDocument());
     }
 
     @Test
     void 피드백_선생님_가져오기() {
-        assertEquals(teacher, feedback.getTeacher());
+        assertThat(teacher).isEqualTo(feedback.getTeacher());
     }
 
     @Test
     void 피드백_내용_수정() {
         String content = "Updated content";
         feedback.updateContent(content);
-        assertEquals(content, feedback.getContent());
+        assertThat(content).isEqualTo(feedback.getContent());
     }
 
 }

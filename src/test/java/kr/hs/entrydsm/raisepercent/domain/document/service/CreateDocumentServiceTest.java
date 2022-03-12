@@ -1,10 +1,9 @@
 package kr.hs.entrydsm.raisepercent.domain.document.service;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import kr.hs.entrydsm.raisepercent.domain.document.domain.Document;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.repositories.DocumentRepository;
@@ -13,33 +12,45 @@ import kr.hs.entrydsm.raisepercent.domain.document.presentation.dto.request.Crea
 import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
 import kr.hs.entrydsm.raisepercent.domain.student.facade.StudentFacade;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 class CreateDocumentServiceTest {
 
-	private static final DocumentRepository documentRepository = mock(DocumentRepository.class);
+	@Mock
+	private DocumentRepository documentRepository;
 
-	private static final StudentFacade studentFacade = mock(StudentFacade.class);
+	@Mock
+	private StudentFacade studentFacade;
 
-	private static final CreateDocumentRequest request = mock(CreateDocumentRequest.class);
+	@Mock
+	private CreateDocumentRequest request;
 
-	private static final CreateDocumentService service = new CreateDocumentService(documentRepository, studentFacade);
+	@InjectMocks
+	private CreateDocumentService service;
 
 	@Test
 	void 문서_생성() {
-		final DocumentType documentType = DocumentType.PORTFOLIO;
+		//given
+		DocumentType documentType = DocumentType.PORTFOLIO;
 
 		Student student = Student.builder().build();
 
-		when(studentFacade.getCurrentStudent())
-			.thenReturn(student);
-		when(request.getDocumentType())
-			.thenReturn(documentType);
-		when(documentRepository.save(any()))
-			.thenReturn(Document.builder().build());
+		given(studentFacade.getCurrentStudent())
+			.willReturn(student);
+		given(request.getDocumentType())
+			.willReturn(documentType);
+		given(documentRepository.save(any()))
+			.willReturn(Document.builder().build());
 
+		//when
 		service.execute(request);
 
-		verify(documentRepository, times(1)).save(any());
+		//then
+		then(documentRepository).should(times(1)).save(any());
 	}
 
 }

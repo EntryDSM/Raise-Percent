@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -37,23 +37,24 @@ class HrTest {
 
     @Test
     void 인사담당자_유저_가져오기() {
-        assertEquals(user, hr.getUser());
+        assertThat(user).isEqualTo(hr.getUser());
     }
 
     @Test
     void 인사담당자_회사_가져오기() {
-        assertEquals(company, hr.getCompany());
+        assertThat(company).isEqualTo(hr.getCompany());
     }
 
     @Test
     @Order(1)
     void 인사담당자_주니어등급_변환() {
-        assertEquals(Type.JUNIOR, hr.queryType());
+        assertThat(Type.JUNIOR).isEqualTo(hr.queryType());
     }
 
     @Test
     @Order(2)
     void 인사담당자_시니어등급_변환() {
+        //given
         User user = User.builder()
                 .build();
         Company company = Company.builder()
@@ -63,7 +64,9 @@ class HrTest {
                 .user(user)
                 .company(company)
                 .build();
-        assertEquals(Type.SENIOR, hr.queryType());
+
+        //when then
+        assertThat(Type.SENIOR).isEqualTo(hr.queryType());
     }
 
 }

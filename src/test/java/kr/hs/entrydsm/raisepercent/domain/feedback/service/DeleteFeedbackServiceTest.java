@@ -7,32 +7,42 @@ import kr.hs.entrydsm.raisepercent.global.util.UUIDUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class DeleteFeedbackServiceTest {
 
-    private static final FeedbackFacade feedbackFacade = mock(FeedbackFacade.class);
+    @Mock
+    private FeedbackFacade feedbackFacade;
 
-    private static final FeedbackRepository feedbackRepository = mock(FeedbackRepository.class);
+    @Mock
+    private FeedbackRepository feedbackRepository;
 
-    private static final DeleteFeedbackService service = new DeleteFeedbackService(feedbackFacade, feedbackRepository);
+    @InjectMocks
+    private DeleteFeedbackService service;
 
     @Test
     void 피드백_삭제하기() {
+        //given
         String id = String.valueOf(UUID.randomUUID());
 
         Feedback feedback = Feedback.builder().build();
 
-        when(feedbackFacade.getFeedback(UUIDUtil.convertToUUID(id)))
-                .thenReturn(feedback);
+        given(feedbackFacade.getFeedback(UUIDUtil.convertToUUID(id)))
+                .willReturn(feedback);
 
+        //when
         service.execute(id);
 
-        verify(feedbackRepository, times(1)).delete(any());
+        //then
+        then(feedbackRepository).should(times(1)).delete(any());
     }
 }

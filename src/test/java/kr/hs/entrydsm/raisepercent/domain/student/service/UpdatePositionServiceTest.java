@@ -4,26 +4,33 @@ import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
 import kr.hs.entrydsm.raisepercent.domain.student.facade.StudentFacade;
 import kr.hs.entrydsm.raisepercent.domain.student.presentation.dto.request.UpdatePositionRequest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
+@ExtendWith(MockitoExtension.class)
 class UpdatePositionServiceTest {
 
-    private static final StudentFacade studentFacade = mock(StudentFacade.class);
+    @Mock
+    private StudentFacade studentFacade;
 
-    private static final UpdatePositionRequest request = mock(UpdatePositionRequest.class);
+    @Mock
+    private UpdatePositionRequest request;
 
-    private static final UpdatePositionService service = new UpdatePositionService(studentFacade);
+    @InjectMocks
+    private UpdatePositionService service;
 
     @Test
     void 분야_수정() {
         Student student = Student.builder().build();
 
-        when(studentFacade.getCurrentStudent())
-                .thenReturn(student);
-        when(request.getPositionName())
-                .thenReturn("BACKEND");
+        given(studentFacade.getCurrentStudent())
+                .willReturn(student);
+        given(request.getPositionName())
+                .willReturn("BACKEND");
 
         service.execute(request);
     }

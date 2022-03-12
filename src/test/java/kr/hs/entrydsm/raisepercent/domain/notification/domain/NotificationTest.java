@@ -7,30 +7,33 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class NotificationTest {
 
-    private static final String title = "Test title";
+    private final String title = "Test title";
 
-    private static final String content = "Test content";
+    private final String content = "Test content";
 
-    private static final boolean isWatch = false;
+    private final boolean isWatch = false;
 
-    private static final String icon = "Test icon";
+    private final String icon = "Test icon";
 
-    private static final Type type = Type.DOCUMENT;
+    private final Type type = Type.DOCUMENT;
 
-    private static final String value = "Test value";
+    private final String value = "Test value";
 
-    private static final User sender = User.builder()
+    private final User sender = User.builder()
             .build();
 
-    private static final User receiver = User.builder()
+    private final User receiver = User.builder()
             .build();
 
-    private static final Notification notification = Notification.builder()
+    private final Notification notification = Notification.builder()
             .title(title)
             .content(content)
             .isWatch(isWatch)
@@ -58,43 +61,43 @@ class NotificationTest {
 
     @Test
     void 알림_이름_가져오기() {
-        assertEquals(title, notification.getTitle());
+        assertThat(title).isEqualTo(notification.getTitle());
     }
 
     @Test
     void 알림_내용_가져오기() {
-        assertEquals(content, notification.getContent());
+        assertThat(content).isEqualTo(notification.getContent());
     }
 
     @Order(0)
     @Test
     void 알림_읽음여부_가져오기() {
-        assertEquals(isWatch, notification.isWatch());
+        assertThat(isWatch).isEqualTo(notification.isWatch());
     }
 
     @Test
     void 알림_아이콘_가져오기() {
-        assertEquals(icon, notification.getIcon());
+        assertThat(icon).isEqualTo(notification.getIcon());
     }
 
     @Test
     void 알림_종류_가져오기() {
-        assertEquals(type, notification.getDocumentType());
+        assertThat(type).isEqualTo(notification.getDocumentType());
     }
 
     @Test
     void 알림_값_가져오기() {
-        assertEquals(value, notification.getValue());
+        assertThat(value).isEqualTo(notification.getValue());
     }
 
     @Test
     void 알림_송신자_가져오기() {
-        assertEquals(sender, notification.getSender());
+        assertThat(sender).isEqualTo(notification.getSender());
     }
 
     @Test
     void 알림_수신자_가져오기() {
-        assertEquals(receiver, notification.getReceiver());
+        assertThat(receiver).isEqualTo(notification.getReceiver());
     }
 
     @Order(1)

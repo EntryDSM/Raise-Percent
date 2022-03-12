@@ -5,37 +5,48 @@ import kr.hs.entrydsm.raisepercent.domain.notification.domain.repositories.Notif
 import kr.hs.entrydsm.raisepercent.domain.notification.domain.types.Type;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.UUID;
 
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class NotificationFacadeTest {
 
-    private static final NotificationRepository notificationRepository = mock(NotificationRepository.class);
+    @Mock
+    private NotificationRepository notificationRepository;
 
-    private static final Notification notification = mock(Notification.class);
+    @Mock
+    private Notification notification;
 
-    private static final NotificationFacade notificationFacade = new NotificationFacade(notificationRepository);
+    @InjectMocks
+    private NotificationFacade notificationFacade;
 
     @Test
     void 알림_원소_가져오기() {
+        //given
         User receiver = User.builder().build();
         Pageable pageable = PageRequest.of(5, 5);
 
         List<Notification> notificationList = List.of(notification);
 
-        when(notification.getId())
-                .thenReturn(UUID.randomUUID());
-        when(notification.getDocumentType())
-                .thenReturn(Type.COMPANY);
-        when(notificationRepository.findByReceiver(receiver, pageable))
-                .thenReturn(notificationList);
+        given(notification.getId())
+                .willReturn(UUID.randomUUID());
+        given(notification.getDocumentType())
+                .willReturn(Type.COMPANY);
+        given(notificationRepository.findByReceiver(receiver, pageable))
+                .willReturn(notificationList);
 
+        //when
         notificationFacade.queryNotificationElement(receiver, pageable);
     }
 

@@ -1,11 +1,9 @@
 package kr.hs.entrydsm.raisepercent.domain.document.service;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.UUID;
 import kr.hs.entrydsm.raisepercent.domain.document.domain.Document;
@@ -15,45 +13,58 @@ import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
 import kr.hs.entrydsm.raisepercent.domain.student.facade.StudentFacade;
 import kr.hs.entrydsm.raisepercent.global.exception.InvalidRoleException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 class DeletePublicDocumentServiceTest {
 
-	private static final PublicDocumentRepository publicDocumentRepository = mock(PublicDocumentRepository.class);
+	@Mock
+	private PublicDocumentRepository publicDocumentRepository;
 
-	private static final DocumentFacade documentFacade = mock(DocumentFacade.class);
+	@Mock
+	private DocumentFacade documentFacade;
 
-	private static final StudentFacade studentFacade = mock(StudentFacade.class);
+	@Mock
+	private StudentFacade studentFacade;
 
-	private static final DeletePublicDocumentService service = new DeletePublicDocumentService(publicDocumentRepository, documentFacade, studentFacade);
+	@InjectMocks
+	private DeletePublicDocumentService service;
 
-	private static final UUID uuid = UUID.randomUUID();
+	private final UUID uuid = UUID.randomUUID();
 
-	private static final Document document = UpdateDocumentServiceTest.document;
+	private final Document document = UpdateDocumentServiceTest.document;
 
-	private static final Student studnet = UpdateDocumentServiceTest.student;
+	private final Student studnet = UpdateDocumentServiceTest.student;
 
 	@Test
 	void 공개문서_삭제() {
+		//given
+		given(documentFacade.getDocument(uuid))
+			.willReturn(document);
+		given(studentFacade.getCurrentStudent())
+			.willReturn(studnet);
 
-		when(documentFacade.getDocument(uuid))
-			.thenReturn(document);
-		when(studentFacade.getCurrentStudent())
-			.thenReturn(studnet);
-
+		//when
 		service.execute(uuid.toString());
 
-		verify(publicDocumentRepository, times(1)).deleteByIdDocument(document);
+		//then
+		then(publicDocumentRepository).should(times(1)).deleteByIdDocument(document);
 	}
 
 	@Test
 	void 권한없음() {
+		//given
 		Student student = Student.builder().build();
 
-		when(documentFacade.getDocument(uuid))
-			.thenReturn(document);
-		when(studentFacade.getCurrentStudent())
-			.thenReturn(student);
+		given(documentFacade.getDocument(uuid))
+			.willReturn(document);
+		given(studentFacade.getCurrentStudent())
+			.willReturn(student);
 
+		//when then
 		assertThrows(InvalidRoleException.class, () -> service.execute(uuid.toString()));
 	}
 }

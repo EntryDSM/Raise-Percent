@@ -5,68 +5,81 @@ import kr.hs.entrydsm.raisepercent.domain.user.exception.InvalidTypeException;
 import kr.hs.entrydsm.raisepercent.domain.user.facade.UserFacade;
 import kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.request.UpdateDeviceTokenRequest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
+@ExtendWith(MockitoExtension.class)
 class UpdateDeviceTokenServiceTest {
 
-    public static final UserFacade userFacade = mock(UserFacade.class);
+    @Mock
+    private UserFacade userFacade;
 
-    public static final UpdateDeviceTokenRequest request = mock(UpdateDeviceTokenRequest.class);
+    @InjectMocks
+    private UpdateDeviceTokenService service;
 
-    public static final UpdateDeviceTokenService service = new UpdateDeviceTokenService(userFacade);
+    @Mock
+    private UpdateDeviceTokenRequest request;
 
     @Test
     void 웹_디바이스토큰_수정() {
+        //given
         String type = "web";
         String deviceToken = "webtoken";
         User user = User.builder().build();
 
-        when(userFacade.getCurrentUser())
-                .thenReturn(user);
-        when(request.getType())
-                .thenReturn(type);
-        when(request.getDeviceToken())
-                .thenReturn(deviceToken);
+        given(userFacade.getCurrentUser())
+                .willReturn(user);
+        given(request.getType())
+                .willReturn(type);
+        given(request.getDeviceToken())
+                .willReturn(deviceToken);
 
+        //when
         service.execute(request);
 
-        assertEquals(deviceToken, user.getWebDeviceToken());
+        //then
+        assertThat(deviceToken).isEqualTo(user.getWebDeviceToken());
     }
 
     @Test
     void 모바일_디바이스토큰_수정() {
+        //given
         String type = "mobile";
         String deviceToken = "mobiletoken";
         User user = User.builder().build();
 
-        when(userFacade.getCurrentUser())
-                .thenReturn(user);
-        when(request.getType())
-                .thenReturn(type);
-        when(request.getDeviceToken())
-                .thenReturn(deviceToken);
+        given(userFacade.getCurrentUser())
+                .willReturn(user);
+        given(request.getType())
+                .willReturn(type);
+        given(request.getDeviceToken())
+                .willReturn(deviceToken);
 
+        //when
         service.execute(request);
 
-        assertEquals(deviceToken, user.getMobileDeviceToken());
+        //then
+        assertThat(deviceToken).isEqualTo(user.getMobileDeviceToken());
     }
 
     @Test
     void 디바이스토큰_수정_예외() {
+        //given
         String type = "test";
-        String deviceToken = "mobiletoken";
         User user = User.builder().build();
 
-        when(userFacade.getCurrentUser())
-                .thenReturn(user);
-        when(request.getType())
-                .thenReturn(type);
-        when(request.getDeviceToken())
-                .thenReturn(deviceToken);
+        given(userFacade.getCurrentUser())
+                .willReturn(user);
+        given(request.getType())
+                .willReturn(type).getMock();
 
+        //when then
         assertThrows(InvalidTypeException.class, () -> service.execute(request));
     }
 

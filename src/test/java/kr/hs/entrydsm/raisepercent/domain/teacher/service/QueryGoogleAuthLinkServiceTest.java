@@ -4,21 +4,21 @@ import kr.hs.entrydsm.raisepercent.global.properties.AuthProperties;
 import kr.hs.entrydsm.raisepercent.global.util.auth.service.QueryGoogleAuthLinkService;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class QueryGoogleAuthLinkServiceTest {
 
-    private static final String baseUrl = "http://github.com";
+    private final String baseUrl = "http://github.com";
 
-    private static final String clientId = "asdfass1";
+    private final String clientId = "asdfass1";
 
-    private static final String clientSecret = "asdf12134as";
+    private final String clientSecret = "asdf12134as";
 
-    private static final String redirectUrl = "https://www.google.co.kr";
+    private final String redirectUrl = "https://www.google.co.kr";
 
-    private static final AuthProperties authProperties = new AuthProperties(baseUrl, clientId, clientSecret, redirectUrl);
+    private final AuthProperties authProperties = new AuthProperties(baseUrl, clientId, clientSecret, redirectUrl);
 
-    private static final QueryGoogleAuthLinkService queryGoogleAuthLinkService = new QueryGoogleAuthLinkService(authProperties);
+    private final QueryGoogleAuthLinkService queryGoogleAuthLinkService = new QueryGoogleAuthLinkService(authProperties);
 
     @Test
     void 구글_로그인_링크_가져오기() {
@@ -30,7 +30,7 @@ class QueryGoogleAuthLinkServiceTest {
                 clientId,
                 redirectUrl);
 
-        assertEquals(link, formatStr);
+        assertThat(link).isEqualTo(formatStr);
     }
 
 }

@@ -5,37 +5,47 @@ import kr.hs.entrydsm.raisepercent.domain.notice.presentation.dto.request.Regist
 import kr.hs.entrydsm.raisepercent.domain.teacher.domain.Teacher;
 import kr.hs.entrydsm.raisepercent.domain.teacher.facade.TeacherFacade;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-
+@ExtendWith(MockitoExtension.class)
 class RegistrationNoticeServiceTest {
 
-    private static final TeacherFacade teacherFacade = mock(TeacherFacade.class);
+    @Mock
+    private TeacherFacade teacherFacade;
 
-    private static final NoticeRepository noticeRepository = mock(NoticeRepository.class);
+    @Mock
+    private NoticeRepository noticeRepository;
 
-    private static final RegistrationNoticeService service = new RegistrationNoticeService(teacherFacade, noticeRepository);
+    @InjectMocks
+    private RegistrationNoticeService service;
 
-    private static final RegistrationNoticeRequest request = mock(RegistrationNoticeRequest.class);
+    @Mock
+    private RegistrationNoticeRequest request;
 
     @Test
     void 공지사항_등록() {
+        //given
         Teacher teacher = Teacher.builder().build();
 
-        when(teacherFacade.getCurrentTeacher())
-                .thenReturn(teacher);
+        given(teacherFacade.getCurrentTeacher())
+                .willReturn(teacher);
 
-        when(request.getScope())
-                .thenReturn("STUDENT");
+        given(request.getScope())
+                .willReturn("STUDENT");
 
+        //when
         service.execute(request);
 
-        verify(noticeRepository, times(1)).save(any());
+        //then
+        then(noticeRepository).should(times(1)).save(any());
     }
 
 }

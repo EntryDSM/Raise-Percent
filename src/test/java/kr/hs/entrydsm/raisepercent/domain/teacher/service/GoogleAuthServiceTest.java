@@ -14,98 +14,121 @@ import kr.hs.entrydsm.raisepercent.infrastructure.feign.client.GoogleInfo;
 import kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.request.GoogleCodeRequest;
 import kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.response.GoogleInfoResponse;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.times;
 
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class GoogleAuthServiceTest {
 
-    private static final String baseUrl = "https://www.google.com";
+    @Mock
+    private CodeRequest codeRequest;
 
-    private static final String clientId = "asdfass1";
+    @Mock
+    private kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.response.TokenResponse tokenResponse;
 
-    private static final String clientSecret = "asdf12134as";
+    @Mock
+    private GoogleAuth googleAuth;
 
-    private static final String redirectUrl = "https://localhost:3000/callback";
+    @Mock
+    private GoogleInfo googleInfo;
 
-    private static final CodeRequest codeRequest = mock(CodeRequest.class);
+    @Mock
+    private AuthProperties authProperties;
 
-    private static final kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.response.TokenResponse tokenResponse =
-            mock(kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.response.TokenResponse.class);
+    @Mock
+    private UserRepository userRepository;
 
-    private static final GoogleAuth googleAuth = mock(GoogleAuth.class);
+    @Mock
+    private JwtTokenProvider jwtTokenProvider;
 
-    private static final GoogleInfo googleInfo = mock(GoogleInfo.class);
+    @Mock
+    private TeacherRepository teacherRepository;
 
-    private static final AuthProperties authProperties = new AuthProperties(baseUrl, clientId, clientSecret, redirectUrl);
+    @Mock
+    private JwtProperties jwtProperties;
 
-    private static final UserRepository userRepository = mock(UserRepository.class);
+    @Mock
+    private RefreshTokenRepository refreshTokenRepository;
 
-    private static final JwtTokenProvider jwtTokenProvider = mock(JwtTokenProvider.class);
-
-    private static final TeacherRepository teacherRepository = mock(TeacherRepository.class);
-
-    private static final JwtProperties jwtProperties = mock(JwtProperties.class);
-
-    private static final RefreshTokenRepository refreshTokenRepository = mock(RefreshTokenRepository.class);
-
-    private static final GoogleAuthService googleAuthService = new GoogleAuthService(
-            googleAuth,
-            googleInfo,
-            authProperties,
-            userRepository,
-            jwtTokenProvider,
-            teacherRepository,
-            jwtProperties,
-            refreshTokenRepository
-    );
+    @InjectMocks
+    private GoogleAuthService googleAuthService;
 
     @Test
     void 선생님_구글_로그인() {
+        //given
         String code = "code";
         String accessToken = "accessToken";
         String refreshToken = "refreshToken";
         String googleAccessToken = "googleAccessToken";
 
-        when(tokenResponse.getAccessToken())
-                .thenReturn(googleAccessToken);
+        String baseUrl = "https://www.google.com";
+        String clientId = "asdfass1";
+        String clientSecret = "asdf12134as";
+        String redirectUrl = "https://localhost:3000/callback";
 
-        when(googleAuth.googleAuth(any(GoogleCodeRequest.class)))
-                .thenReturn(tokenResponse);
+        given(authProperties.getBaseUrl())
+               .willReturn(baseUrl);
 
-        when(googleInfo.googleInfo(googleAccessToken))
-                .thenReturn(new GoogleInfoResponse());
+        given(authProperties.getClientId())
+                .willReturn(clientId);
 
-        when(jwtTokenProvider.generateAccessToken(any(), any()))
-                .thenReturn(accessToken);
+        given(authProperties.getClientSecret())
+                .willReturn(clientSecret);
 
-        when(jwtTokenProvider.generateRefreshToken(any(), any()))
-                .thenReturn(refreshToken);
+        given(authProperties.getRedirectUrl())
+                .willReturn(redirectUrl);
 
-        when(teacherRepository.findById(any()))
-                .thenReturn(Optional.empty());
+        given(tokenResponse.getAccessToken())
+                .willReturn(googleAccessToken);
 
-        when(codeRequest.getCode())
-                .thenReturn(code);
+        given(googleAuth.googleAuth(any(GoogleCodeRequest.class)))
+                .willReturn(tokenResponse);
 
+        given(googleInfo.googleInfo(googleAccessToken))
+                .willReturn(new GoogleInfoResponse());
+
+        given(jwtTokenProvider.generateAccessToken(any(), any()))
+                .willReturn(accessToken);
+
+        given(jwtTokenProvider.generateRefreshToken(any(), any()))
+                .willReturn(refreshToken);
+
+        given(teacherRepository.findById(any()))
+                .willReturn(Optional.empty());
+
+        given(codeRequest.getCode())
+                .willReturn(code);
+
+        //when
         ResponseEntity<TokenResponse> response = googleAuthService.execute(codeRequest);
 
-        assertEquals(response.getBody().getAccessToken(), accessToken);
-        assertEquals(response.getBody().getRefreshToken(), refreshToken);
+        //then
+        assertThat(response.getBody().getAccessToken()).isEqualTo(accessToken);
+        assertThat(response.getBody().getRefreshToken()).isEqualTo(refreshToken);
 
-        verify(teacherRepository, times(1)).save(any());
+        then(teacherRepository).should(times(1)).save(any());
     }
 
     @Test
     void 선생님_구글_회원가입() {
         Teacher teacher = Teacher.builder().build();
 
-        when(teacherRepository.findById(any()))
-                .thenReturn(Optional.of(teacher));
+        given(teacherRepository.findById(any()))
+                .willReturn(Optional.of(teacher));
     }
 
 }

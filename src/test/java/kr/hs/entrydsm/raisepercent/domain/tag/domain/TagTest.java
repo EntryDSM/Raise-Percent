@@ -2,14 +2,14 @@ package kr.hs.entrydsm.raisepercent.domain.tag.domain;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class TagTest {
 
-    private static final String name = "Test tag";
+    private final String name = "Test tag";
 
-    private static final Tag tag = Tag.builder()
+    private final Tag tag = Tag.builder()
             .name(name)
             .build();
 
@@ -22,7 +22,7 @@ class TagTest {
 
     @Test
     void 태그_이름_가져오기() {
-        assertEquals(name, tag.getName());
+        assertThat(name).isEqualTo(tag.getName());
     }
 
 
