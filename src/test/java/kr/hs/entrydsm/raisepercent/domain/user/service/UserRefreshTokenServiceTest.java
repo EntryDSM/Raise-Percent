@@ -246,6 +246,81 @@ class UserRefreshTokenServiceTest {
     }
 
     @Test
+    void 학생_예외() {
+        String email = "test@test.com";
+        String token = "refreshToken";
+
+        RefreshToken getRefreshToken = RefreshToken.builder()
+                .email(email)
+                .token(token)
+                .build();
+
+        given(jwtTokenProvider.isRefreshToken(token))
+                .willReturn(true);
+
+        given(refreshTokenRepository.findByToken(token))
+                .willReturn(Optional.of(getRefreshToken));
+
+        given(jwtTokenProvider.getRole(token))
+                .willReturn(TokenRole.STUDENT);
+
+        given(studentRepository.findById(email))
+                .willReturn(Optional.empty());
+
+        assertThrows(UserNotFoundException.class, () -> service.execute(token));
+    }
+
+    @Test
+    void 선생님_예외() {
+        String email = "test@test.com";
+        String token = "refreshToken";
+
+        RefreshToken getRefreshToken = RefreshToken.builder()
+                .email(email)
+                .token(token)
+                .build();
+
+        given(jwtTokenProvider.isRefreshToken(token))
+                .willReturn(true);
+
+        given(refreshTokenRepository.findByToken(token))
+                .willReturn(Optional.of(getRefreshToken));
+
+        given(jwtTokenProvider.getRole(token))
+                .willReturn(TokenRole.TEACHER);
+
+        given(teacherRepository.findById(email))
+                .willReturn(Optional.empty());
+
+        assertThrows(UserNotFoundException.class, () -> service.execute(token));
+    }
+
+    @Test
+    void 회사_예외() {
+        String email = "test@test.com";
+        String token = "refreshToken";
+
+        RefreshToken getRefreshToken = RefreshToken.builder()
+                .email(email)
+                .token(token)
+                .build();
+
+        given(jwtTokenProvider.isRefreshToken(token))
+                .willReturn(true);
+
+        given(refreshTokenRepository.findByToken(token))
+                .willReturn(Optional.of(getRefreshToken));
+
+        given(jwtTokenProvider.getRole(token))
+                .willReturn(TokenRole.HR_MANAGER);
+
+        given(hrRepository.findById(email))
+                .willReturn(Optional.empty());
+
+        assertThrows(UserNotFoundException.class, () -> service.execute(token));
+    }
+
+    @Test
     void 유저_예외() {
         String email = "test@test.com";
         String token = "refreshToken";
@@ -264,19 +339,12 @@ class UserRefreshTokenServiceTest {
         given(jwtTokenProvider.getRole(token))
                 .willReturn(TokenRole.USER);
 
-        given(studentRepository.findById(email))
-                .willReturn(Optional.empty());
-
-        given(teacherRepository.findById(email))
-                .willReturn(Optional.empty());
-
-        given(hrRepository.findById(email))
-                .willReturn(Optional.empty());
-
         given(userRepository.findById(email))
                 .willReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () -> service.execute(token));
     }
+
+
 
 }
