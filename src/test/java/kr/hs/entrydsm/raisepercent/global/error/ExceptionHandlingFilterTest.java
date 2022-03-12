@@ -17,10 +17,11 @@ import static org.mockito.Mockito.mock;
 
 class ExceptionHandlingFilterTest {
 
-    private static final ExceptionHandlingFilter filter = new ExceptionHandlingFilter();
+    private final ExceptionHandlingFilter filter = new ExceptionHandlingFilter();
 
     @Test
     void 필터_예외작동_테스트() throws IOException, ServletException {
+        //given
         ErrorCode errorCode = ErrorCode.BAD_REQUEST;
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -30,20 +31,24 @@ class ExceptionHandlingFilterTest {
                 .when(filterChain)
                 .doFilter(request, response);
 
-
+        //when
         filter.doFilterInternal(request, response, filterChain);
 
+        //then
         assertEquals(errorCode.getStatus(), response.getStatus());
     }
 
     @Test
     void 필터_작동_테스트() throws IOException, ServletException {
+        //given
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
         FilterChain filterChain = mock(FilterChain.class);
 
+        //when
         filter.doFilterInternal(request, response, filterChain);
 
+        //then
         assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 

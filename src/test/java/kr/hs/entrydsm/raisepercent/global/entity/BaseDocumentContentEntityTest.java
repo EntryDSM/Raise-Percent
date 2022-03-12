@@ -2,17 +2,17 @@ package kr.hs.entrydsm.raisepercent.global.entity;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class BaseDocumentContentEntityTest {
 
-    private static final DocumentContentId documentContentid = DocumentContentId.builder()
+    private final DocumentContentId documentContentid = DocumentContentId.builder()
             .build();
 
-    private static final String content = "Test content";
+    private final String content = "Test content";
 
-    private static final BaseDocumentContentEntity baseDocumentContentEntity = BaseDocumentContentEntity.builder()
+    private final BaseDocumentContentEntity baseDocumentContentEntity = BaseDocumentContentEntity.builder()
             .id(documentContentid)
             .content(content)
             .build();
@@ -26,12 +26,12 @@ class BaseDocumentContentEntityTest {
 
     @Test
     void 기본문서내용_아이디_가져오기() {
-        assertEquals(documentContentid, baseDocumentContentEntity.getId());
+        assertThat(documentContentid).isEqualTo(baseDocumentContentEntity.getId());
     }
 
     @Test
     void 기본문서내용_내용_가져오기() {
-        assertEquals(content, baseDocumentContentEntity.getContent());
+        assertThat(content).isEqualTo(baseDocumentContentEntity.getContent());
     }
 
 }
