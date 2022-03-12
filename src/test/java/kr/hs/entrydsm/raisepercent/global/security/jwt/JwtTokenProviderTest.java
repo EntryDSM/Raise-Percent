@@ -1,6 +1,9 @@
 package kr.hs.entrydsm.raisepercent.global.security.jwt;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import kr.hs.entrydsm.raisepercent.global.exception.ExpiredTokenException;
+import kr.hs.entrydsm.raisepercent.global.exception.InvalidRoleException;
 import kr.hs.entrydsm.raisepercent.global.exception.InvalidTokenException;
 import kr.hs.entrydsm.raisepercent.global.properties.JwtProperties;
 import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetails;
@@ -12,8 +15,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -43,7 +52,7 @@ class JwtTokenProviderTest {
         Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
 
         assertEquals(email, authentication.getName());
-        for(GrantedAuthority authority : authentication.getAuthorities()) {
+        for (GrantedAuthority authority : authentication.getAuthorities()) {
             assertEquals(role.name(), authority.getAuthority());
         }
 
@@ -105,6 +114,23 @@ class JwtTokenProviderTest {
                 .thenReturn(bearerToken);
 
         assertEquals(testToken, jwtTokenProvider.resolveToken(request));
+    }
+
+    @Test
+    void 권한_가져오기_예외() {
+        String email = "test@test.com";
+
+        given(jwtProperties.getSecretKey())
+                .willReturn("secret_key");
+
+        String token = Jwts.builder()
+                .setSubject(email)
+                .setHeaderParam("typ", "refresh")
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
+                .setIssuedAt(new Date())
+                .compact();
+
+        assertThrows(InvalidRoleException.class, () -> jwtTokenProvider.getRole(token));
     }
 
     @Test
