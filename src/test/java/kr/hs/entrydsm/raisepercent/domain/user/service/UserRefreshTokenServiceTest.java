@@ -9,11 +9,13 @@ import kr.hs.entrydsm.raisepercent.domain.teacher.domain.repositories.TeacherRep
 import kr.hs.entrydsm.raisepercent.domain.user.domain.RefreshToken;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.User;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.repositories.RefreshTokenRepository;
+import kr.hs.entrydsm.raisepercent.domain.user.domain.repositories.UserRepository;
 import kr.hs.entrydsm.raisepercent.global.exception.InvalidTokenException;
 import kr.hs.entrydsm.raisepercent.global.exception.UserNotFoundException;
 import kr.hs.entrydsm.raisepercent.global.properties.JwtProperties;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.JwtTokenProvider;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.dto.TokenResponse;
+import kr.hs.entrydsm.raisepercent.global.security.jwt.type.TokenRole;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -37,6 +39,8 @@ class UserRefreshTokenServiceTest {
 
     private static final HrRepository hrRepository = mock(HrRepository.class);
 
+    private static final UserRepository userRepository = mock(UserRepository.class);
+
     private static final JwtProperties jwtProperties = mock(JwtProperties.class);
 
     private static final UserRefreshTokenService service = new UserRefreshTokenService(
@@ -45,6 +49,7 @@ class UserRefreshTokenServiceTest {
             studentRepository,
             teacherRepository,
             hrRepository,
+            userRepository,
             jwtProperties
     );
 
@@ -71,11 +76,14 @@ class UserRefreshTokenServiceTest {
         given(jwtTokenProvider.isRefreshToken(refreshToken))
                 .willReturn(true);
 
-        given(studentRepository.findById(email))
-                .willReturn(Optional.of(student));
-
         given(refreshTokenRepository.findByToken(refreshToken))
                 .willReturn(Optional.of(getRefreshToken));
+
+        given(jwtTokenProvider.getRole(refreshToken))
+                .willReturn(TokenRole.STUDENT);
+
+        given(studentRepository.findById(email))
+                .willReturn(Optional.of(student));
 
         given(jwtTokenProvider.generateAccessToken(any(), any()))
                 .willReturn(newAccessToken);
@@ -112,11 +120,14 @@ class UserRefreshTokenServiceTest {
         given(jwtTokenProvider.isRefreshToken(refreshToken))
                 .willReturn(true);
 
-        given(teacherRepository.findById(email))
-                .willReturn(Optional.of(teacher));
-
         given(refreshTokenRepository.findByToken(refreshToken))
                 .willReturn(Optional.of(getRefreshToken));
+
+        given(jwtTokenProvider.getRole(refreshToken))
+                .willReturn(TokenRole.TEACHER);
+
+        given(teacherRepository.findById(email))
+                .willReturn(Optional.of(teacher));
 
         given(jwtTokenProvider.generateAccessToken(any(), any()))
                 .willReturn(newAccessToken);
@@ -153,11 +164,14 @@ class UserRefreshTokenServiceTest {
         given(jwtTokenProvider.isRefreshToken(refreshToken))
                 .willReturn(true);
 
-        given(hrRepository.findById(email))
-                .willReturn(Optional.of(hr));
-
         given(refreshTokenRepository.findByToken(refreshToken))
                 .willReturn(Optional.of(getRefreshToken));
+
+        given(jwtTokenProvider.getRole(refreshToken))
+                .willReturn(TokenRole.HR_MANAGER);
+
+        given(hrRepository.findById(email))
+                .willReturn(Optional.of(hr));
 
         given(jwtTokenProvider.generateAccessToken(any(), any()))
                 .willReturn(newAccessToken);
@@ -169,6 +183,56 @@ class UserRefreshTokenServiceTest {
 
         assertThat(response.getAccessToken()).isEqualTo(newAccessToken);
         assertThat(response.getRefreshToken()).isEqualTo(newRefreshToken);
+    }
+
+    @Test
+    void 유저_토큰_재발급() {
+        String email = "user@test.com";
+        String refreshToken = "refreshToken";
+        String newAccessToken = "newAccessToken";
+        String newRefreshToken = "newRefreshToken";
+
+        User user = User.builder()
+                .email(email)
+                .build();
+
+        RefreshToken getRefreshToken = RefreshToken.builder()
+                .email(email)
+                .token(refreshToken)
+                .build();
+
+        given(jwtTokenProvider.isRefreshToken(refreshToken))
+                .willReturn(true);
+
+        given(refreshTokenRepository.findByToken(refreshToken))
+                .willReturn(Optional.of(getRefreshToken));
+
+        given(userRepository.findById(email))
+                .willReturn(Optional.of(user));
+
+        given(jwtTokenProvider.getRole(refreshToken))
+                .willReturn(TokenRole.USER);
+
+        given(jwtTokenProvider.generateAccessToken(any(), any()))
+                .willReturn(newAccessToken);
+
+        given(jwtTokenProvider.generateRefreshToken(any(), any()))
+                .willReturn(newRefreshToken);
+
+        TokenResponse response = service.execute(refreshToken);
+
+        assertThat(response.getAccessToken()).isEqualTo(newAccessToken);
+        assertThat(response.getRefreshToken()).isEqualTo(newRefreshToken);
+    }
+
+    @Test
+    void 토큰_타입_예외() {
+        String token = "refreshToken";
+
+        given(jwtTokenProvider.isRefreshToken(token))
+                .willReturn(false);
+
+        assertThrows(InvalidTokenException.class, () -> service.execute(token));
     }
 
     @Test
@@ -191,8 +255,14 @@ class UserRefreshTokenServiceTest {
                 .token(token)
                 .build();
 
+        given(jwtTokenProvider.isRefreshToken(token))
+                .willReturn(true);
+
         given(refreshTokenRepository.findByToken(token))
                 .willReturn(Optional.of(getRefreshToken));
+
+        given(jwtTokenProvider.getRole(token))
+                .willReturn(TokenRole.USER);
 
         given(studentRepository.findById(email))
                 .willReturn(Optional.empty());
@@ -203,18 +273,10 @@ class UserRefreshTokenServiceTest {
         given(hrRepository.findById(email))
                 .willReturn(Optional.empty());
 
+        given(userRepository.findById(email))
+                .willReturn(Optional.empty());
+
         assertThrows(UserNotFoundException.class, () -> service.execute(token));
-    }
-
-
-    @Test
-    void 토큰_타입_예외() {
-        String token = "refreshToken";
-
-        given(jwtTokenProvider.isRefreshToken(token))
-                .willReturn(false);
-
-        assertThrows(InvalidTokenException.class, () -> service.execute(token));
     }
 
 }
