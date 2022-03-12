@@ -67,8 +67,6 @@ public class UserRefreshTokenService {
                     return this.generateTokens(email, TokenRole.USER);
                 }
                 break;
-            default:
-                throw UserNotFoundException.EXCEPTION;
         }
         throw UserNotFoundException.EXCEPTION;
     }
