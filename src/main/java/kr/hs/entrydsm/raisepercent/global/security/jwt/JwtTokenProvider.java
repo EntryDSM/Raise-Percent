@@ -60,12 +60,12 @@ public class JwtTokenProvider {
     }
 
     public TokenRole getRole(String token) {
-        String role = getJws(token).getBody().get("role").toString();
+        Object role = getJws(token).getBody().get("role");
         if (role == null) {
             throw InvalidRoleException.EXCEPTION;
         }
 
-        return TokenRole.valueOf(role);
+        return TokenRole.valueOf(role.toString());
     }
 
     private Jws<Claims> getJws(String token) {
