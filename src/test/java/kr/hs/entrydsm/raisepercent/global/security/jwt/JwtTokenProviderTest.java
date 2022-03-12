@@ -21,7 +21,6 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -59,13 +58,9 @@ class JwtTokenProviderTest {
         String accessToken = jwtTokenProvider.generateAccessToken(email, role);
         Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
 
-        assertEquals(email, authentication.getName());
-        for (GrantedAuthority authority : authentication.getAuthorities()) {
-            assertEquals(role.name(), authority.getAuthority());
-          
         //then
         assertThat(email).isEqualTo(authentication.getName());
-        for(GrantedAuthority authority : authentication.getAuthorities()) {
+        for (GrantedAuthority authority : authentication.getAuthorities()) {
             assertThat(role.name()).isEqualTo(authority.getAuthority());
         }
         assertFalse(jwtTokenProvider.isRefreshToken(accessToken));
@@ -132,32 +127,15 @@ class JwtTokenProviderTest {
     }
 
     @Test
-    void 권한_가져오기_예외() {
-        String email = "test@test.com";
-
-        given(jwtProperties.getSecretKey())
-                .willReturn("secret_key");
-
-        String token = Jwts.builder()
-                .setSubject(email)
-                .setHeaderParam("typ", "refresh")
-                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
-                .setIssuedAt(new Date())
-                .compact();
-
-        assertThrows(InvalidRoleException.class, () -> jwtTokenProvider.getRole(token));
-    }
-
-    @Test
     void 인증_토큰_만료() {
         //given
         String email = "test@gmail.com";
         TokenRole role = TokenRole.STUDENT;
 
         given(jwtProperties.getSecretKey())
-            .willReturn("SECRETKEY");
+                .willReturn("SECRETKEY");
         given(jwtProperties.getAccessExp())
-            .willReturn(1L);
+                .willReturn(1L);
 
         //when
         String accessToken = jwtTokenProvider.generateAccessToken(email, role);
@@ -206,11 +184,28 @@ class JwtTokenProviderTest {
                 .willReturn(token);
         if (token != null) {
             given(jwtProperties.getPrefix())
-                .willReturn(prefix);
+                    .willReturn(prefix);
         }
 
         //when then
         assertNull(jwtTokenProvider.resolveToken(request));
+    }
+
+    @Test
+    void 권한_가져오기_예외() {
+        String email = "test@test.com";
+
+        given(jwtProperties.getSecretKey())
+                .willReturn("SECRETKEY");
+
+        String token = Jwts.builder()
+                .setSubject(email)
+                .setHeaderParam("typ", "refresh")
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
+                .setIssuedAt(new Date())
+                .compact();
+
+        assertThrows(InvalidRoleException.class, () -> jwtTokenProvider.getRole(token));
     }
 
 }
