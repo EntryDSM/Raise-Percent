@@ -8,28 +8,35 @@ import kr.hs.entrydsm.raisepercent.global.security.jwt.JwtTokenProvider;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.dto.TokenResponse;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.type.TokenRole;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class UserRefreshTokenServiceTest {
 
-    private static final RefreshTokenRepository refreshTokenRepository = mock(RefreshTokenRepository.class);
+    @Mock
+    private RefreshTokenRepository refreshTokenRepository;
 
-    private static final JwtTokenProvider jwtTokenProvider = mock(JwtTokenProvider.class);
+    @Mock
+    private JwtTokenProvider jwtTokenProvider;
 
-    private static final JwtProperties jwtProperties = mock(JwtProperties.class);
+    @Mock
+    private JwtProperties jwtProperties;
 
-    private static final UserRefreshTokenService service = new UserRefreshTokenService(
-            refreshTokenRepository,
-            jwtTokenProvider,
-            jwtProperties
-    );
+    @InjectMocks
+    private UserRefreshTokenService service;
 
     private static final String refreshToken = "refreshToken";
     private static final String newAccessToken = "newAccessToken";
