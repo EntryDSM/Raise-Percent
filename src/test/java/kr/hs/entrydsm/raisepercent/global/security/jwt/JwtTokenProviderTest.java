@@ -1,6 +1,9 @@
 package kr.hs.entrydsm.raisepercent.global.security.jwt;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import kr.hs.entrydsm.raisepercent.global.exception.ExpiredTokenException;
+import kr.hs.entrydsm.raisepercent.global.exception.InvalidRoleException;
 import kr.hs.entrydsm.raisepercent.global.exception.InvalidTokenException;
 import kr.hs.entrydsm.raisepercent.global.properties.JwtProperties;
 import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetails;
@@ -16,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -56,7 +60,7 @@ class JwtTokenProviderTest {
 
         //then
         assertThat(email).isEqualTo(authentication.getName());
-        for(GrantedAuthority authority : authentication.getAuthorities()) {
+        for (GrantedAuthority authority : authentication.getAuthorities()) {
             assertThat(role.name()).isEqualTo(authority.getAuthority());
         }
         assertFalse(jwtTokenProvider.isRefreshToken(accessToken));
@@ -129,9 +133,9 @@ class JwtTokenProviderTest {
         TokenRole role = TokenRole.STUDENT;
 
         given(jwtProperties.getSecretKey())
-            .willReturn("SECRETKEY");
+                .willReturn("SECRETKEY");
         given(jwtProperties.getAccessExp())
-            .willReturn(1L);
+                .willReturn(1L);
 
         //when
         String accessToken = jwtTokenProvider.generateAccessToken(email, role);
@@ -180,11 +184,28 @@ class JwtTokenProviderTest {
                 .willReturn(token);
         if (token != null) {
             given(jwtProperties.getPrefix())
-                .willReturn(prefix);
+                    .willReturn(prefix);
         }
 
         //when then
         assertNull(jwtTokenProvider.resolveToken(request));
+    }
+
+    @Test
+    void 권한_가져오기_예외() {
+        String email = "test@test.com";
+
+        given(jwtProperties.getSecretKey())
+                .willReturn("SECRETKEY");
+
+        String token = Jwts.builder()
+                .setSubject(email)
+                .setHeaderParam("typ", "refresh")
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
+                .setIssuedAt(new Date())
+                .compact();
+
+        assertThrows(InvalidRoleException.class, () -> jwtTokenProvider.getRole(token));
     }
 
 }

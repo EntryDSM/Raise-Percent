@@ -1,7 +1,12 @@
 package kr.hs.entrydsm.raisepercent.global.security.jwt;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import kr.hs.entrydsm.raisepercent.global.exception.ExpiredTokenException;
+import kr.hs.entrydsm.raisepercent.global.exception.InvalidRoleException;
 import kr.hs.entrydsm.raisepercent.global.exception.InvalidTokenException;
 import kr.hs.entrydsm.raisepercent.global.properties.JwtProperties;
 import kr.hs.entrydsm.raisepercent.global.security.auth.AuthDetailsService;
@@ -41,7 +46,7 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        if(isRefreshToken(token)) {
+        if (isRefreshToken(token)) {
             throw InvalidTokenException.EXCEPTION;
         }
         Claims claims = getJws(token).getBody();
@@ -52,6 +57,15 @@ public class JwtTokenProvider {
 
     public boolean isRefreshToken(String token) {
         return JwtProperties.REFRESH_TYPE.equals(getJws(token).getHeader().get("typ").toString());
+    }
+
+    public TokenRole getRole(String token) {
+        Object role = getJws(token).getBody().get("role");
+        if (role == null) {
+            throw InvalidRoleException.EXCEPTION;
+        }
+
+        return TokenRole.valueOf(role.toString());
     }
 
     private Jws<Claims> getJws(String token) {
