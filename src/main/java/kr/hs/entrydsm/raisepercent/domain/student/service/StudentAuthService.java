@@ -42,14 +42,16 @@ public class StudentAuthService {
         InformationResponse response = dsmAuth.getInformation(accessToken);
 
         if (studentRepository.findById(response.getEmail()).isEmpty()) {
-            studentRepository.save(Student.builder()
-                    .user(userRepository.save(User.builder()
-                            .email(response.getEmail())
-                            .name(response.getName())
+            studentRepository.save(
+                    Student.builder()
+                            .user(userRepository.save(User.builder()
+                                    .email(response.getEmail())
+                                    .name(response.getName())
+                                    .build()
+                            ))
+                            .number(response.getGcn())
                             .build()
-                    ))
-                    .number(response.getGcn())
-                    .build());
+            );
             status = 201;
         }
         String refreshToken = jwtTokenProvider.generateRefreshToken(response.getEmail(), TokenRole.STUDENT);
