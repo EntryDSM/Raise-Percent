@@ -23,6 +23,12 @@ auth:
     client-id: ${GOOGLE_CLIENT}
     client-secret: ${GOOGLE_SECRET}
     redirect-url: ${GOOGLE_REDIRECT_URL}
+  dsm:
+    format: ${DSM_FORMAT}
+    client-id: ${DSM_CLIENT}
+    client-secret: ${DSM_SECRET}
+    redirect-url: ${DSM_REDIRECT_URL}
+    request-url: ${DSM_REQUEST_URL}
 
 jwt:
   secret-key: ${JWT_SECRET}

@@ -10,10 +10,8 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @ConstructorBinding
 @ConfigurationProperties("auth.dsm")
 public class DsmAuthProperties {
-
     private final String format;
     private final String clientId;
     private final String clientSecret;
     private final String redirectUrl;
-
 }
