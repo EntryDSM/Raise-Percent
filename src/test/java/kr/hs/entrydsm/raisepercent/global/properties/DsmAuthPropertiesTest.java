@@ -3,9 +3,10 @@ package kr.hs.entrydsm.raisepercent.global.properties;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class DsmAuthPropertiesTest {
+
+    private static final String baseUrl = "baseUrl";
 
     private static final String format = "baseUrl%s%s";
 
@@ -15,7 +16,8 @@ class DsmAuthPropertiesTest {
 
     private static final String redirectUrl = "redirectUrl";
 
-    private static final DsmAuthProperties dsmAuthProperties = new DsmAuthProperties(format, clientId, clientSecret, redirectUrl);
+    private static final DsmAuthProperties dsmAuthProperties = new DsmAuthProperties(baseUrl, format, clientId,
+            clientSecret, redirectUrl);
 
     @Test
     void 기본_링크_가져오기() {
