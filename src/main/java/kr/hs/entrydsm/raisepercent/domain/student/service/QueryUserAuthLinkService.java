@@ -13,7 +13,7 @@ public class QueryUserAuthLinkService {
 
     public UserAuthLinkResponse execute() {
         return UserAuthLinkResponse.builder()
-                .link(String.format(dsmAuthProperties.getFormat(),
+                .link(dsmAuthProperties.getBaseUrl() + String.format(dsmAuthProperties.getFormat(),
                         dsmAuthProperties.getRedirectUrl(), dsmAuthProperties.getClientId()))
                 .build();
     }
