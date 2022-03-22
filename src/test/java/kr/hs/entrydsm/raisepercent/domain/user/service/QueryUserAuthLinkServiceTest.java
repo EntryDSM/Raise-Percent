@@ -26,7 +26,7 @@ class QueryUserAuthLinkServiceTest {
     @Test
     void 링크_가져오기() {
         assertThat(service.execute().getLink())
-                .isEqualTo(String.format(dsmAuthProperties.getFormat(),
+                .isEqualTo(dsmAuthProperties.getBaseUrl() + String.format(dsmAuthProperties.getFormat(),
                         dsmAuthProperties.getRedirectUrl(), dsmAuthProperties.getClientId()));
     }
 
