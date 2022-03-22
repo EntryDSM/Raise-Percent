@@ -39,7 +39,7 @@ public class StudentAuthService {
                 .clientSecret(dsmAuthProperties.getClientSecret())
                 .build()).getAccessToken();
 
-        InformationResponse response = dsmAuth.getInformation(accessToken);
+        InformationResponse response = dsmAuth.getInformation("Bearer " + accessToken);
 
         if (studentRepository.findById(response.getEmail()).isEmpty()) {
             studentRepository.save(
@@ -50,6 +50,7 @@ public class StudentAuthService {
                                     .build()
                             ))
                             .number(response.getGcn())
+                            .year(queryYear(response.getEmail()))
                             .build()
             );
             status = 201;
@@ -68,6 +69,10 @@ public class StudentAuthService {
                 .accessToken(jwtTokenProvider.generateAccessToken(response.getEmail(), TokenRole.STUDENT))
                 .refreshToken(refreshToken)
                 .email(response.getEmail()).build(), HttpStatus.valueOf(status));
+    }
+
+    private String queryYear(String email) {
+        return "20" + email.substring(0, 2);
     }
 
 }
