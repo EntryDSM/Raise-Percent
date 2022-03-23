@@ -8,6 +8,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class QueryUserAuthLinkServiceTest {
 
+    private static final String baseUrl = "baseUrl";
+
     private static final String format = "baseUrl%s%s";
 
     private static final String clientId = "entrydsm";
@@ -16,7 +18,7 @@ class QueryUserAuthLinkServiceTest {
 
     private static final String redirectUrl = "redirectUrl";
 
-    private static final DsmAuthProperties dsmAuthProperties = new DsmAuthProperties(format, clientId, clientSecret,
+    private static final DsmAuthProperties dsmAuthProperties = new DsmAuthProperties(baseUrl, format, clientId, clientSecret,
             redirectUrl);
 
     private static final QueryUserAuthLinkService service = new QueryUserAuthLinkService(dsmAuthProperties);
@@ -24,7 +26,7 @@ class QueryUserAuthLinkServiceTest {
     @Test
     void 링크_가져오기() {
         assertThat(service.execute().getLink())
-                .isEqualTo(String.format(dsmAuthProperties.getFormat(),
+                .isEqualTo(dsmAuthProperties.getBaseUrl() + String.format(dsmAuthProperties.getFormat(),
                         dsmAuthProperties.getRedirectUrl(), dsmAuthProperties.getClientId()));
     }
 

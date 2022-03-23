@@ -3,6 +3,8 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
+    hibernate:
+      ddl-auto: validate
 
   datasource:
     url: jdbc:mysql://${DB_URL}:3306/${DB_NAME}?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
@@ -24,6 +26,7 @@ auth:
     client-secret: ${GOOGLE_SECRET}
     redirect-url: ${GOOGLE_REDIRECT_URL}
   dsm:
+    base-url: ${DSM_BASE_URL}
     format: ${DSM_FORMAT}
     client-id: ${DSM_CLIENT}
     client-secret: ${DSM_SECRET}
