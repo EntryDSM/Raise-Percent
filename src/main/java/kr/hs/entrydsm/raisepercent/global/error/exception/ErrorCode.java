@@ -38,6 +38,7 @@ public enum ErrorCode {
     NOTIFICATION_NOT_FOUND(404, "NOTIFICATION-404-1", "Notification not found"),
 
     ALREADY_REGISTERED_TAG(409, "TAG-409-1", "Already registered tag."),
+    ALREADY_REGISTERED_BOOKMARK(409,"BOOKMARK-409-1","Already registered tag"),
 
     OTHER_EXPIRED_TOKEN(419, "OTHER-419-1", "Other server expired token");
 
