@@ -55,6 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/documents/public/{public-document-id}").hasRole("STUDENT")
                 .antMatchers(HttpMethod.POST, "/tags").hasRole("ROOT")
                 .antMatchers(HttpMethod.DELETE, "/tags/{tag-id}").hasRole("ROOT")
+                .antMatchers(HttpMethod.POST, "/bookmark/{student-email}").hasAnyRole("SENIOR","JUNIOR")
                 .anyRequest().authenticated()
                 .and().apply(new FilterConfig(jwtTokenProvider));
     }
