@@ -15,6 +15,6 @@ public interface BookmarkRepository extends CrudRepository<Bookmark, UUID> {
 
     List<Bookmark> findByStudent(Student student);
 
-    Optional<Bookmark> findByHrAndStudentEmail(Hr hr, String studentEmail);
+    Optional<Bookmark> findByHrAndStudent(Hr hr, Student student);
 
 }
