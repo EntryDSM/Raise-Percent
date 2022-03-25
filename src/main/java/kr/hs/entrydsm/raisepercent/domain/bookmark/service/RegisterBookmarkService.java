@@ -21,9 +21,8 @@ public class RegisterBookmarkService {
     public void execute(String studentEmail) {
         Student student = studentFacade.getStudent(studentEmail);
         Hr hr = hrFacade.getHr();
-        String companyName = hr.getCompany().getName();
 
-        if (bookmarkRepository.findByHrAndStudentEmail(hr,studentEmail).isPresent()) {
+        if (bookmarkRepository.findByHrAndStudent(hr,student).isPresent()) {
             throw AlreadyRegisteredBookmark.EXCEPTION;
         }
 
@@ -31,10 +30,9 @@ public class RegisterBookmarkService {
                 Bookmark.builder()
                         .student(student)
                         .hr(hr)
-                        .companyName(companyName)
+                        .companyName(hr.getCompany().getName())
                         .build()
         );
-
     }
 
 }
