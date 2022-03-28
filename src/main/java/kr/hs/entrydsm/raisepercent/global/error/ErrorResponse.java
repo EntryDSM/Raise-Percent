@@ -16,4 +16,12 @@ public class ErrorResponse {
         this.message = errorCode.getMessage();
     }
 
+    @Override
+    public String toString() {
+        return "{\n" +
+                "\t\"status\": " + status +
+                ",\t\"code\": \"" + code + '\"' +
+                ",\n\t\"message\": \"" + message + '\"' +
+                "\n}";
+    }
 }
