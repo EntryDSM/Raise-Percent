@@ -22,7 +22,7 @@ public class RegisterBookmarkService {
         Student student = studentFacade.getStudent(studentEmail);
         Hr hr = hrFacade.getHr();
 
-        if (bookmarkRepository.findByHrAndStudent(hr,student).isPresent()) {
+        if (bookmarkRepository.findByHrAndStudent(hr, student).isPresent()) {
             throw AlreadyRegisteredBookmarkException.EXCEPTION;
         }
 
