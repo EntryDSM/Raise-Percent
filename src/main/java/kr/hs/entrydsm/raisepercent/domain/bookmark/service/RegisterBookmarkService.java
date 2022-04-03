@@ -2,7 +2,7 @@ package kr.hs.entrydsm.raisepercent.domain.bookmark.service;
 
 import kr.hs.entrydsm.raisepercent.domain.bookmark.domain.Bookmark;
 import kr.hs.entrydsm.raisepercent.domain.bookmark.domain.repositories.BookmarkRepository;
-import kr.hs.entrydsm.raisepercent.domain.bookmark.exception.AlreadyRegisteredBookmark;
+import kr.hs.entrydsm.raisepercent.domain.bookmark.exception.AlreadyRegisteredBookmarkException;
 import kr.hs.entrydsm.raisepercent.domain.hr.domain.Hr;
 import kr.hs.entrydsm.raisepercent.domain.hr.facade.HrFacade;
 import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
@@ -23,7 +23,7 @@ public class RegisterBookmarkService {
         Hr hr = hrFacade.getHr();
 
         if (bookmarkRepository.findByHrAndStudent(hr,student).isPresent()) {
-            throw AlreadyRegisteredBookmark.EXCEPTION;
+            throw AlreadyRegisteredBookmarkException.EXCEPTION;
         }
 
         bookmarkRepository.save(
