@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RequiredArgsConstructor
-@RequestMapping("/bookmark")
+@RequestMapping("/bookmarks")
 @RestController
 public class BookmarkController {
 
