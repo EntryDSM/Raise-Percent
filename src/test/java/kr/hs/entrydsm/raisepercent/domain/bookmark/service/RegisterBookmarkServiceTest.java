@@ -3,6 +3,7 @@ package kr.hs.entrydsm.raisepercent.domain.bookmark.service;
 import kr.hs.entrydsm.raisepercent.domain.bookmark.domain.Bookmark;
 import kr.hs.entrydsm.raisepercent.domain.bookmark.domain.repositories.BookmarkRepository;
 import kr.hs.entrydsm.raisepercent.domain.bookmark.exception.AlreadyRegisteredBookmarkException;
+import kr.hs.entrydsm.raisepercent.domain.company.domain.Company;
 import kr.hs.entrydsm.raisepercent.domain.hr.domain.Hr;
 import kr.hs.entrydsm.raisepercent.domain.hr.facade.HrFacade;
 import kr.hs.entrydsm.raisepercent.domain.student.domain.Student;
@@ -35,12 +36,29 @@ public class RegisterBookmarkServiceTest {
     @Test
     public void 북마크_등록하기() {
         String studentEmail = "example@dsm.hs.kr";
-
-        Hr hr = hrFacade.getHr();
-        Bookmark bookmark = Bookmark.builder().build();
-        Student student = studentFacade.getStudent(studentEmail);
+        String companyName = "DSM";
+        Hr hr = Hr.builder()
+                .company(
+                        Company.builder()
+                                .name(companyName)
+                                .build()
+                )
+                .build();
+        Student student = Student.builder()
+                .user(
+                        User.builder()
+                                .email(studentEmail)
+                                .build()
+                )
+                .build();
 
         //given
+        given(hrFacade.getHr())
+                .willReturn(hr);
+
+        given(studentFacade.getStudent(studentEmail))
+                .willReturn(student);
+
         given(bookmarkRepository.findByHrAndStudent(hr, student))
                 .willReturn(Optional.empty());
 
@@ -48,8 +66,7 @@ public class RegisterBookmarkServiceTest {
         service.execute(studentEmail);
 
         //then
-        given(bookmarkRepository.findByHrAndStudent(hr, student))
-                .willReturn(Optional.of(bookmark));
+        then(bookmarkRepository).should(times(1)).save(any());
 
     }
 
