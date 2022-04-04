@@ -5,7 +5,7 @@ import kr.hs.entrydsm.raisepercent.global.error.exception.RaiseException;
 
 public class AlreadyRegisteredBookmarkException extends RaiseException {
 
-    public static final RaiseException  EXCEPTION =
+    public static final RaiseException EXCEPTION =
             new AlreadyRegisteredBookmarkException();
 
     private AlreadyRegisteredBookmarkException() {
