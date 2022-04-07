@@ -5,14 +5,12 @@ import kr.hs.entrydsm.raisepercent.domain.teacher.domain.repositories.TeacherRep
 import kr.hs.entrydsm.raisepercent.domain.user.domain.repositories.RefreshTokenRepository;
 import kr.hs.entrydsm.raisepercent.domain.user.domain.repositories.UserRepository;
 import kr.hs.entrydsm.raisepercent.domain.user.presentation.dto.request.CodeRequest;
-import kr.hs.entrydsm.raisepercent.global.properties.AuthProperties;
 import kr.hs.entrydsm.raisepercent.global.properties.JwtProperties;
+import kr.hs.entrydsm.raisepercent.global.security.auth.GoogleAuthService;
+import kr.hs.entrydsm.raisepercent.global.security.auth.dto.NameAndEmailDTO;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.JwtTokenProvider;
 import kr.hs.entrydsm.raisepercent.global.security.jwt.dto.TokenResponse;
-import kr.hs.entrydsm.raisepercent.infrastructure.feign.client.GoogleAuth;
-import kr.hs.entrydsm.raisepercent.infrastructure.feign.client.GoogleInfo;
-import kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.request.GoogleCodeRequest;
-import kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.response.GoogleInfoResponse;
+import kr.hs.entrydsm.raisepercent.global.security.jwt.type.TokenRole;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -32,22 +30,10 @@ import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-class GoogleAuthServiceTest {
+class TeacherGoogleAuthServiceTest {
 
     @Mock
     private CodeRequest codeRequest;
-
-    @Mock
-    private kr.hs.entrydsm.raisepercent.infrastructure.feign.dto.response.TokenResponse tokenResponse;
-
-    @Mock
-    private GoogleAuth googleAuth;
-
-    @Mock
-    private GoogleInfo googleInfo;
-
-    @Mock
-    private AuthProperties authProperties;
 
     @Mock
     private UserRepository userRepository;
@@ -59,13 +45,16 @@ class GoogleAuthServiceTest {
     private TeacherRepository teacherRepository;
 
     @Mock
+    private RefreshTokenRepository refreshTokenRepository;
+
+    @Mock
     private JwtProperties jwtProperties;
 
     @Mock
-    private RefreshTokenRepository refreshTokenRepository;
+    private GoogleAuthService googleAuthService;
 
     @InjectMocks
-    private GoogleAuthService googleAuthService;
+    private TeacherGoogleAuthService teacherGoogleAuthService;
 
     @Test
     void 선생님_구글_로그인() {
@@ -73,54 +62,44 @@ class GoogleAuthServiceTest {
         String code = "code";
         String accessToken = "accessToken";
         String refreshToken = "refreshToken";
-        String googleAccessToken = "googleAccessToken";
+        Long ttl = 1234L;
 
-        String baseUrl = "https://www.google.com";
-        String clientId = "asdfass1";
-        String clientSecret = "asdf12134as";
-        String redirectUrl = "https://localhost:3000/callback";
+        String name = "name";
+        String email = "email";
 
-        given(authProperties.getBaseUrl())
-               .willReturn(baseUrl);
-
-        given(authProperties.getClientId())
-                .willReturn(clientId);
-
-        given(authProperties.getClientSecret())
-                .willReturn(clientSecret);
-
-        given(authProperties.getRedirectUrl())
-                .willReturn(redirectUrl);
-
-        given(tokenResponse.getAccessToken())
-                .willReturn(googleAccessToken);
-
-        given(googleAuth.googleAuth(any(GoogleCodeRequest.class)))
-                .willReturn(tokenResponse);
-
-        given(googleInfo.googleInfo(googleAccessToken))
-                .willReturn(new GoogleInfoResponse());
-
-        given(jwtTokenProvider.generateAccessToken(any(), any()))
-                .willReturn(accessToken);
-
-        given(jwtTokenProvider.generateRefreshToken(any(), any()))
-                .willReturn(refreshToken);
-
-        given(teacherRepository.findById(any()))
-                .willReturn(Optional.empty());
+        NameAndEmailDTO nameAndEmailDTO = NameAndEmailDTO.builder()
+                .name(name)
+                .email(email)
+                .build();
 
         given(codeRequest.getCode())
                 .willReturn(code);
 
+        given(googleAuthService.execute(codeRequest))
+                .willReturn(nameAndEmailDTO);
+
+        given(teacherRepository.findById(email))
+                .willReturn(Optional.empty());
+
+        given(jwtTokenProvider.generateRefreshToken(email, TokenRole.TEACHER))
+                .willReturn(refreshToken);
+
+        given(jwtTokenProvider.generateAccessToken(email, TokenRole.TEACHER))
+                .willReturn(accessToken);
+
+        given(jwtProperties.getRefreshExp())
+                .willReturn(ttl);
+
         //when
-        ResponseEntity<TokenResponse> response = googleAuthService.execute(codeRequest);
+        ResponseEntity<TokenResponse> response = teacherGoogleAuthService.execute(codeRequest);
+
+        then(refreshTokenRepository).should(times(1)).save(any());
+        then(teacherRepository).should(times(1)).save(any());
+        then(userRepository).should(times(1)).save(any());
 
         //then
         assertThat(response.getBody().getAccessToken()).isEqualTo(accessToken);
         assertThat(response.getBody().getRefreshToken()).isEqualTo(refreshToken);
-
-        then(teacherRepository).should(times(1)).save(any());
     }
 
     @Test
